@@ -3,17 +3,26 @@ import {NextRequest, NextResponse} from "next/server";
 // type Data = {
 //     path:string
 // }
+/**
+ * Returns the parsed PDF pages in a JSON. Key is "pages" for an array of pages[]
+ * @param req NextRequest
+ * @constructor
+ */
+export async function POST(req:NextRequest){
 
-export async function POST(req:NextRequest, res:NextResponse){
-    // get the json data from the request body
     try{
-        // const data = await req.json();
-        // const path = data.path;
+        const req_data  = await req.json();
+        const path = req_data.path;
         const res = await fetch("http://127.0.0.1:8000/parse_pdf_pages",{
-            method:'POST'
-        });
+            method:'POST',
+            headers: {
+                    'Content-Type': 'application/json',
+                },
+            body:JSON.stringify({"path": path})
+        }
+        );
         const data = await res.json();
-        return NextResponse.json({sentences:data});
+        return NextResponse.json({pages:data});
     }
     catch (error:any){
         console.log(error.message);
