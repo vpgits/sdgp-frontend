@@ -9,11 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.38.4",
+    "@supabase/ssr": "^0.0.10",
+    "@supabase/supabase-js": "^2.38.5",
     "next": "14.0.2",
     "react": "^18",
     "react-dom": "^18",
-    "vercel": "^32.5.5"
+    "vercel": "^32.3.0"
   },
   "devDependencies": {
     "@types/node": "^20",
