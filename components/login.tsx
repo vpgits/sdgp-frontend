@@ -24,9 +24,8 @@ export default function Login() {
             email: 'superuser@sdgp',
             password: 'password'
         })
-        console.log(data, error);
         if (!error){
-            router.push('/profile')
+            router.push(`/profile/${data.user.id}`)
         }
     }
 
@@ -41,6 +40,6 @@ export default function Login() {
             <br></br>
             <button onClick={signOut}>Sign Out</button>
         </div>
-    )
+    );
 }
 

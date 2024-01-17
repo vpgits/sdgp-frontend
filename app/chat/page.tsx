@@ -6,7 +6,7 @@ export default async function Page(){
     const supabase = await CreateSupabaseServerClient();
 
     let { data: questions, error } = await supabase
-        .from('questions')
+        .from('chat')
         .select('*')
     return (
         <div>
