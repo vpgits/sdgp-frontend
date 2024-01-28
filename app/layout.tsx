@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ModeToggle } from "@/components/ModeToggle";
+import Header from "@/components/header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,8 +25,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ModeToggle />
-          {children}
+          <div className="h-screen w-screen flex flex-col">
+            <Header />
+            <div className="flex flex-col flex-auto overflow-auto">
+              {children}
+            </div>
+          </div>
         </ThemeProvider>
       </body>
     </html>
