@@ -28,7 +28,6 @@ export default async function Page() {
   if (error || !data?.user) {
     redirect("/");
   }
-  console.log(data);
 
   async function getDocuments() {
     const { data, error } = await supabase
