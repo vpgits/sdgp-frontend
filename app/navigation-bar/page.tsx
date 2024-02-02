@@ -19,12 +19,60 @@ export default function Component() {
         <Link className="text-sm font-medium hover:underline" href="#">
           Home
         </Link>
-        <Link className="text-sm font-medium hover:underline" href="#">
-          Activity
-        </Link>
+        <div className="group relative mt-[-0.2rem]">
+          <Link
+            className="text-sm font-medium hover:underline hover:text-green-300"
+            href="#"
+          >
+            Activity
+          </Link>
+          <div className="mt-2 hidden group-hover:block absolute left-0 bg-white shadow-md">
+            <Link
+              className="block text-sm font-medium hover:underline hover:text-green-300"
+              href="#"
+            >
+              Asia
+            </Link>
+            <Link
+              className="block text-sm font-medium hover:underline hover:text-green-300"
+              href="#"
+            >
+              Europe
+            </Link>
+            <Link
+              className="block text-sm font-medium hover:underline hover:text-green-300"
+              href="#"
+            >
+              America
+            </Link>
+          </div>
+        </div>
+
         <Link className="text-sm font-medium hover:underline" href="#">
           Account
         </Link>
+        <div className="group">
+          <div className="mt-2 hidden group-hover:block">
+            <Link
+              className="block text-sm font-medium hover:underline hover:text-green-300"
+              href="#"
+            >
+              Asia
+            </Link>
+            <Link
+              className="block text-sm font-medium hover:underline hover:text-green-300"
+              href="#"
+            >
+              Europe
+            </Link>
+            <Link
+              className="block text-sm font-medium hover:underline hover:text-green-300"
+              href="#"
+            >
+              America
+            </Link>
+          </div>
+        </div>
         <Link className="text-sm font-medium hover:underline" href="#">
           About
         </Link>
@@ -35,21 +83,40 @@ export default function Component() {
       <Button className="hidden md:inline-flex">Subscribe </Button>
       <Sheet>
         <SheetTrigger asChild>
-        <Button className="inline-block md:hidden" size="icon" variant="outline">
-  <MenuIcon className="h-6 w-6" />
-</Button>
-
+          <Button
+            className="inline-block md:hidden"
+            size="icon"
+            variant="outline"
+          >
+            <MenuIcon className="h-6 w-6" />
+          </Button>
         </SheetTrigger>
         <SheetContent side="right">
           <div className="grid gap-4 p-4">
             <Link className="text-lg font-medium hover:underline" href="#">
               Home
             </Link>
+            <div>
+              <div>
+                <Link className="text-lg font-medium hover:underline hover:text-green-300" href="#">
+                  Activites
+                </Link>
+              </div>
+              <div className="mt-2 ml-5">
+                <Link className="block text-lg font-medium hover:underline hover:text-green-300" href="#">
+                  Asia
+                </Link>
+                <Link className="block text-lg font-medium hover:underline hover:text-green-300" href="#">
+                  Europe
+                </Link>
+                <Link className="block text-lg font-medium hover:underline hover:text-green-300" href="#">
+                  America
+                </Link>
+              </div>
+            </div>
+            
             <Link className="text-lg font-medium hover:underline" href="#">
-            Activity
-            </Link>
-            <Link className="text-lg font-medium hover:underline" href="#">
-              Account
+              Tours
             </Link>
             <Link className="text-lg font-medium hover:underline" href="#">
               About
