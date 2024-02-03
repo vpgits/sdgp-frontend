@@ -82,7 +82,7 @@ export default function Header() {
           <Sheet>
             <SheetTrigger asChild>
               <Button
-                className="inline-block md:hidden"
+                className="md:hidden"
                 size="icon"
                 variant="outline"
               >
