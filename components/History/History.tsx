@@ -1,11 +1,12 @@
+
 import React from 'react'
 import { Button } from '../ui/button'
 
-export default function Notificationpage() {
+export default function Historypage() {
   return (
     <div className="flex flex-col">
     <header className="flex items-center justify-between px-6 py-4 border-b">
-      <h1 className="text-2xl font-bold">Notifications</h1>
+      <h1 className="text-2xl font-bold">History</h1>
       <Button variant="outline">Mark All as Read</Button>
     </header>
     <main className="flex-1 overflow-y-auto p-6">
