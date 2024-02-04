@@ -23,7 +23,9 @@ export default function Dashboard() {
           <Button className="h-32 w-32 hover:bg-white hover:text-black hover:shadow-lg">
             <LuBrainCircuit size={60} />
           </Button>
-          <p className="text-gray-700 text-2xl">PDF to Quiz</p>
+          <p className="text-gray-700 text-2xl">
+          <Link href="/documents">PDF to Quiz</Link>
+          </p>
         </div>
 
         <div className="button text-center space-y-4">
@@ -54,7 +56,7 @@ export default function Dashboard() {
             <IoIosNotifications size={60} />
           </Button>
           <p className="text-gray-700 text-2xl">
-            <Link href="/Notification-page">Notification</Link>
+            <Link href="/notification-page">Notification</Link>
           </p>
         </div>
       </div>

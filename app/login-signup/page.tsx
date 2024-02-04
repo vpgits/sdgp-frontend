@@ -1,5 +1,6 @@
 // Code: Login and signup page
-import SignupLogin from "@/components/login-signup/signupLogin";
+import SignupLogin from "@/components/login-signup/Signup";
+
 
 export default function Page() {
   return (

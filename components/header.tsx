@@ -14,7 +14,7 @@ export default function Header() {
           <h1 className="ml-2 text-lg font-semibold">Quizme</h1>
         </Link>
         <nav className="hidden md:flex flex-auto items-center justify-center gap-4">
-          <Link className="text-sm font-medium hover:underline" href="#">
+          <Link className="text-sm font-medium hover:underline" href="/dashboard">
             Home
           </Link>
 
@@ -77,7 +77,7 @@ export default function Header() {
             Contact
           </Link>
         </nav>
-        <Button className="hidden md:inline-flex">Subscribe </Button>
+        <Button className="hidden md:inline-flex"><Link href="subscription-page">Subscribe</Link> </Button>
         <div className="flex flex-end">
           <Sheet>
             <SheetTrigger asChild>
@@ -91,7 +91,7 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent side="right">
               <div className="grid gap-4 p-4">
-                <Link className="text-lg font-medium hover:underline" href="#">
+                <Link className="text-lg font-medium hover:underline" href="/dashboard">
                   Home
                 </Link>
                 <div>
