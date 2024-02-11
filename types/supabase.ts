@@ -137,6 +137,7 @@ export interface Database {
             question: string;
             correct_answer: string;
             incorrect_answers: string[];
+            userAnswer: string;
           } | null;
           document_id: string | null;
           id: number;
