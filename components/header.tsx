@@ -7,8 +7,8 @@ import { GlobeIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 
 export default function Header() {
   return (
-    <div className="flex flex-row justify-center p-5 mx-2  ">
-      <div className="w-10/12 flex flex-auto items-center justify-between ">
+    <div className="flex flex-row justify-center p-5 mx-2">
+      <div className="w-10/12 flex flex-auto items-center justify-between">
         <Link className="flex justify-start" href="#">
           <GlobeIcon className="h-6 w-6" />
           <h1 className="ml-2 text-lg font-semibold">Quizme</h1>
@@ -18,62 +18,32 @@ export default function Header() {
             Home
           </Link>
 
-          <Link
-            className="text-sm font-medium hover:underline hover:text-green-300"
-            href="#"
-          >
-            Activity
-          </Link>
-          <div className="mt-2 hidden group-hover:block absolute left-0 bg-white shadow-md">
-            <Link
-              className="block text-sm font-medium hover:underline hover:text-green-300"
-              href="#"
-            >
-              Asia
-            </Link>
-            <Link
-              className="block text-sm font-medium hover:underline hover:text-green-300"
-              href="#"
-            >
-              Europe
-            </Link>
-            <Link
-              className="block text-sm font-medium hover:underline hover:text-green-300"
-              href="#"
-            >
-              America
-            </Link>
+          {/* Activity Dropdown */}
+          <div className="relative group">
+            <button className="text-sm font-medium hover:underline ">
+              Activity
+            </button>
+            <div className="absolute hidden group-hover:block bg-white shadow-md py-2 px-4 top-full mt-1">
+              <Link className="block text-sm font-medium hover:underline " href="#">
+                Asia
+              </Link>
+              <Link className="block text-sm font-medium hover:underline " href="#">
+                Europe
+              </Link>
+              <Link className="block text-sm font-medium hover:underline " href="#">
+                America
+              </Link>
+            </div>
           </div>
+          {/* End of Activity Dropdown */}
 
           <Link className="text-sm font-medium hover:underline" href="#">
             Account
           </Link>
-
-          <div className="mt-2 hidden group-hover:block">
-            <Link
-              className="block text-sm font-medium hover:underline hover:text-green-300"
-              href="#"
-            >
-              Asia
-            </Link>
-            <Link
-              className="block text-sm font-medium hover:underline hover:text-green-300"
-              href="#"
-            >
-              Europe
-            </Link>
-            <Link
-              className="block text-sm font-medium hover:underline hover:text-green-300"
-              href="#"
-            >
-              America
-            </Link>
-          </div>
-
           <Link className="text-sm font-medium hover:underline" href="#">
             About
           </Link>
-          <Link className="text-sm font-medium hover:underline" href="#">
+          <Link className="text-sm font-medium hover:underline" href="ContactPage">
             Contact
           </Link>
         </nav>
