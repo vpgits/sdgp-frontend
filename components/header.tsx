@@ -7,14 +7,17 @@ import { GlobeIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 
 export default function Header() {
   return (
-    <div className="flex flex-row justify-center p-5 mx-2">
+    <div className="flex items-center justify-center p-5">
       <div className="w-10/12 flex flex-auto items-center justify-between">
         <Link className="flex justify-start" href="#">
           <GlobeIcon className="h-6 w-6" />
           <h1 className="ml-2 text-lg font-semibold">Quizme</h1>
         </Link>
         <nav className="hidden md:flex flex-auto items-center justify-center gap-4">
-          <Link className="text-sm font-medium hover:underline" href="/dashboard">
+          <Link
+            className="text-sm font-medium hover:underline"
+            href="/dashboard"
+          >
             Home
           </Link>
 
@@ -24,13 +27,22 @@ export default function Header() {
               Activity
             </button>
             <div className="absolute hidden group-hover:block bg-white shadow-md py-2 px-4 top-full mt-1">
-              <Link className="block text-sm font-medium hover:underline " href="#">
+              <Link
+                className="block text-sm font-medium hover:underline "
+                href="#"
+              >
                 Asia
               </Link>
-              <Link className="block text-sm font-medium hover:underline " href="#">
+              <Link
+                className="block text-sm font-medium hover:underline "
+                href="#"
+              >
                 Europe
               </Link>
-              <Link className="block text-sm font-medium hover:underline " href="#">
+              <Link
+                className="block text-sm font-medium hover:underline "
+                href="#"
+              >
                 America
               </Link>
             </div>
@@ -43,25 +55,29 @@ export default function Header() {
           <Link className="text-sm font-medium hover:underline" href="#">
             About
           </Link>
-          <Link className="text-sm font-medium hover:underline" href="ContactPage">
+          <Link
+            className="text-sm font-medium hover:underline"
+            href="ContactPage"
+          >
             Contact
           </Link>
         </nav>
-        <Button className="hidden md:inline-flex"><Link href="subscription-page">Subscribe</Link> </Button>
+        <Button className="hidden md:inline-flex">
+          <Link href="subscription-page">Subscribe</Link>{" "}
+        </Button>
         <div className="flex flex-end">
           <Sheet>
             <SheetTrigger asChild>
-              <Button
-                className="md:hidden"
-                size="icon"
-                variant="outline"
-              >
+              <Button className="md:hidden" size="icon" variant="outline">
                 <HamburgerMenuIcon className="h-6 w-6" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right">
               <div className="grid gap-4 p-4">
-                <Link className="text-lg font-medium hover:underline" href="/dashboard">
+                <Link
+                  className="text-lg font-medium hover:underline"
+                  href="/dashboard"
+                >
                   Home
                 </Link>
                 <div>
