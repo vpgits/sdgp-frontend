@@ -1,16 +1,10 @@
-import { login, signup } from "./action";
+// Code: Login and signup page
+import SignupLogin from "@/components/login-signup/Signup";
 
-export default function Home() {
+export default function Page() {
   return (
-    <div className="w-full flex items-center flex-auto justify-center">
-      <form>
-        <label htmlFor="email">Email:</label>
-        <input id="email" name="email" type="email" required />
-        <label htmlFor="password">Password:</label>
-        <input id="password" name="password" type="password" required />
-        <button formAction={login}>Log in</button>
-        <button formAction={signup}>Sign up</button>
-      </form>
+    <div className="flex flex-col items-center justify-center h-full">
+      <SignupLogin />
     </div>
   );
 }
