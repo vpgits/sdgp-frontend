@@ -1,19 +1,20 @@
 import React from 'react';
 import Image from 'next/image';
-import logo from '../public/logow.png';
+import logo from '../public/logo-max.png';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-8 mt-20">
+    <footer className=" bg-indigo-950 text-white py-8 mt-20">
       <div className="sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mx-auto">
-        <Image
+        
+      {/* <div className='mt-10'><hr /></div> */}
+      <div className='flex flex-auto justify-center flex-row'> 
+      <Image
           src={logo}
           alt="logo"
           className="w-full h-auto mx-auto max-w-20 md:max-w-40 lg:max-w-48 xl:max-w-64"
         />
       </div>
-      <div className='mt-10'><hr /></div>
-      
       <div className="container mx-auto ">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="space-y-4 ">
@@ -39,6 +40,7 @@ const Footer = () => {
         <div className="mt-8">
          
         </div>
+      </div>
       </div>
     </footer>
   );
