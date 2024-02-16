@@ -57,20 +57,21 @@ export function CustomTableRow(props: { document: Document }) {
 
   const handleQuiz = async (documentId: string) => {
     let quizId;
-    try {
-      const quizUrl = new URL(`api/documents/quiz`, window.location.origin);
-      quizUrl.search = new URLSearchParams({ documentId }).toString();
+    // try {
+    //   const quizUrl = new URL(`api/documents/quiz`, window.location.origin);
+    //   quizUrl.search = new URLSearchParams({ documentId }).toString();
 
-      const response = await fetch(quizUrl.toString());
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      quizId = data.quizId;
-    } catch (error: any) {
-      throw new Error(error.message);
-    }
-    router.push(`/quiz/${quizId}`);
+    //   const response = await fetch(quizUrl.toString());
+    //   if (!response.ok) {
+    //     throw new Error(`HTTP error! status: ${response.status}`);
+    //   }
+    //   const data = await response.json();
+    //   quizId = data.quizId;
+    // } catch (error: any) {
+    //   throw new Error(error.message);
+    // }
+    // router.push(`/quiz/${quizId}`);
+    router.push(`/documents/${documentId}/quiz`);
   };
   const handleProcess = async (documentId: string) => {
     setIsProcessing(true);

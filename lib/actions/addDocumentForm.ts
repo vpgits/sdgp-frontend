@@ -11,7 +11,7 @@ export default async function create(formData: FormData) {
   const supabase = await createClient(cookieStore);
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    redirect("/");
+    redirect("/login");
   }
 
   const file = formData.get("file") as File;
