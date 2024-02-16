@@ -11,6 +11,7 @@ type Document = {
   id: string;
   title: string;
   inserted_at: string;
+  file_type: string;
 };
 
 export function generateMetadata() {
@@ -32,7 +33,7 @@ export default async function Page() {
   async function getDocuments() {
     const { data, error } = await supabase
       .from("documents")
-      .select("title, inserted_at, id")
+      .select("title, inserted_at, id, file_type")
       .order("inserted_at", { ascending: false });
 
     if (error) {

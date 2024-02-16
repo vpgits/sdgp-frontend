@@ -20,7 +20,7 @@ export async function GET(request: Request) {
     access_token = data?.session?.access_token;
     refresh_token = data?.session?.refresh_token;
   }
-  try {
+  try  {
     const url = new URL(request.url);
     const queryParams = new URLSearchParams(url.search);
     const documentId = queryParams.get("documentId");
@@ -29,6 +29,18 @@ export async function GET(request: Request) {
     headers.append("Authorization", access_token || "");
     headers.append("Refresh-Token", refresh_token || "");
 
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/preprocess/`,
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({
+          path: `${userId}/${documentId}`,
+          user_id: userId,
+          document_id: documentId,
+        }),
+      }
+    );
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_ENDPOINT_URL}/preprocess/`,
       {
@@ -44,7 +56,7 @@ export async function GET(request: Request) {
     const data = await res.json();
     const taskId = data.task_id;
     return new NextResponse(JSON.stringify({ taskId }));
-  } catch (error: any) {
+  } catch (error:  any) {
     throw new Error("Error getting documents " + error.message);
   }
 }

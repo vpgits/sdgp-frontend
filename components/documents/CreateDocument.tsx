@@ -19,7 +19,7 @@ import { revalidatePath } from "next/cache";
 import { SubmitButton } from "./AlertDemo";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
-import { create } from "@/lib/actions/addDocumentForm";
+import create from "@/lib/actions/addDocumentForm";
 
 export default async function Component() {
   const cookieStore = cookies();
@@ -31,7 +31,7 @@ export default async function Component() {
 
   return (
     <div className="w-full max-w-md flex flex-col  ">
-      <Card className="w-full max-w-md mx-6">
+      <Card className=" mx-6">
         <CardHeader>
           <CardTitle>Upload Document</CardTitle>
           <CardDescription>Choose a file and give it a name.</CardDescription>
@@ -52,7 +52,7 @@ export default async function Component() {
               <Input
                 id="file"
                 type="file"
-                accept="application/pdf"
+                accept=".pdf,.docx,.pptx"
                 name="file"
                 required
               />
