@@ -27,7 +27,9 @@ export async function GET(request: NextRequest) {
     headers.append("Authorization", access_token || "");
     headers.append("Refresh-Token", refresh_token || "");
 
-    const res = await fetch(`http://localhost:8000/quiz/status/${documentId}`);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/status/${documentId}`
+    );
     const data = await res.json();
     const taskId = data.task_id;
     return new Response(JSON.stringify({ taskId }));
