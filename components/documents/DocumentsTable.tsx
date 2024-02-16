@@ -39,8 +39,8 @@ export default function DocumentsTable({ documentData }: Props) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((document: Document) => (
-            <CustomTableRow document={document} />
+          {data.map((document: Document, index) => (
+            <CustomTableRow document={document} key={index} />
           ))}
         </TableBody>
       </Table>

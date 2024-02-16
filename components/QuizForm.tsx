@@ -143,7 +143,7 @@ export default function QuizForm(props: { quizData: any }) {
       }
       return () => clearInterval(interval);
     }
-  }, [time]);
+  }, [time, form, submitted]);
 
   return (
     <>
@@ -206,7 +206,7 @@ export function ShadCNMCQComponent({
         () => Math.random() - 0.5
       )
     );
-  }, []);
+  }, [field.correct_answer, field.incorrect_answers]);
 
   return (
     <div key={field.id} className="my-5">

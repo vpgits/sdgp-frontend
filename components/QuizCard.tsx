@@ -31,7 +31,7 @@ export default function QuizCard({ questionData }: Props) {
 
     // Set the shuffled answers to the state
     setAnswerArray(shuffledAnswers);
-  }, []);
+  }, [questionData.data.correct_answer, questionData.data.incorrect_answers]);
 
   useEffect(() => {
     if (start) {
@@ -49,7 +49,7 @@ export default function QuizCard({ questionData }: Props) {
 
       return () => clearInterval(intervalId);
     }
-  }, [start, timer]);
+  }, [start, timer, questionData.data.correct_answer, select]);
 
   if (answerArray) {
     return (
@@ -65,8 +65,8 @@ export default function QuizCard({ questionData }: Props) {
                   <Button onClick={() => setStart(true)}>Start</Button>
                 )}
                 {start &&
-                  answerArray.map((answer) => (
-                    <Card
+                  answerArray.map((answer, index) => (
+                    <Card key={index}
                       className={`w-full m-2 p-2  border-2  text-justify   rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus: cursor-pointer ${
                         answer === select
                           ? "dark:border-white border-black"
@@ -79,8 +79,8 @@ export default function QuizCard({ questionData }: Props) {
                   ))}
                 {timer === 0 &&
                   !start &&
-                  answerArray.map((answer) => (
-                    <Card
+                  answerArray.map((answer, index) => (
+                    <Card key={index}
                       className={`w-full m-2 p-2 border-2 text-justify rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 ${
                         answer === questionData.data.correct_answer
                           ? "border-green-600 dark:border-green-500 dark:bg-gray-800"

@@ -118,7 +118,7 @@ export default function Page() {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [taskId, toastMessage, quizId]);
+  }, [taskId, toastMessage, quizId, isRapidGenerating, router]);
 
   useEffect(() => {
     if (!isGenerating) return;
@@ -147,7 +147,7 @@ export default function Page() {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [taskId, toastMessage, quizId]);
+  }, [taskId, toastMessage, quizId, isGenerating, router]);
 
   useEffect(() => {
     const documentId = window.location.pathname.split("/")[2];
@@ -155,7 +155,7 @@ export default function Page() {
       router.push("/documents");
     }
     setDocumentId(documentId);
-  }, []);
+  }, [router]);
 
   return (
     <>
@@ -235,7 +235,8 @@ export default function Page() {
               <CardHeader>
                 <CardTitle>Create Quiz</CardTitle>
                 <CardDescription>
-                  This is a rapid quiz, you'll get a random number of questions
+                  This is a rapid quiz, you&apos;ll get a random number of
+                  questions
                 </CardDescription>
               </CardHeader>
               <CardContent>

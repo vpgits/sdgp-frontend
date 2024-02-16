@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     headers.append("Refresh-Token", refresh_token || "");
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/status/${documentId}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/status/${taskId}`
     );
     const data = await res.json();
     return new Response(JSON.stringify({ data }));
