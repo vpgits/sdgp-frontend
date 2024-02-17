@@ -24,6 +24,7 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "@supabase/ssr": "^0.0.10",
     "@supabase/supabase-js": "^2.38.5",
+    "@vercel/analytics": "^1.2.0",
     "@vercel/fun": "^1.1.1",
     "@vercel/node": "^3.0.1",
     "class-variance-authority": "^0.7.0",
