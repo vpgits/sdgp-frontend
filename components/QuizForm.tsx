@@ -172,6 +172,9 @@ export default function QuizForm(props: { quizData: any }) {
           <Button type="reset" disabled={formState.isSubmitted}>
             Clear All
           </Button>
+          <Button disabled={!formState.isSubmitted} onClick={() => window.print()}>
+            Download
+          </Button>
         </div>
       </form>
     </>
