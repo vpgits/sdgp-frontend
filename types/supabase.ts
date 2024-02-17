@@ -133,12 +133,7 @@ export interface Database {
       questions: {
         Row: {
           created_at: string;
-          data: {
-            question: string;
-            correct_answer: string;
-            incorrect_answers: string[];
-            userAnswer: string;
-          } | null;
+          data: Json | null;
           document_id: string | null;
           id: number;
           key_point: number | null;

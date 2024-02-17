@@ -35,6 +35,10 @@ type modifiedQuizData = {
   incorrect_answers: string[];
 }[];
 
+type quizData = {
+  defaultValues: modifiedQuizData;
+};
+
 type fieldType = FieldArrayWithId<
   {
     defaultValues: modifiedQuizData;
@@ -101,12 +105,13 @@ type fieldType = FieldArrayWithId<
 //   ],
 // };
 
-export default function QuizForm(props: { quizData: any }) {
-  const { quizData } = props;
-  console.log(quizData);
+export default function QuizForm(props: { quizData: quizData }) {
+  const { quizData } = props || {};
   const [mark, setMark] = useState<number>(0);
   const [submitted, setSubmitted] = useState<boolean>(false);
-  const [time, setTime] = useState<number>(5 * quizData.defaultValues.length);
+  const [time, setTime] = useState<number>(
+    5 * (quizData?.defaultValues?.length || 0)
+  );
 
   const form = useForm<z.infer<typeof zodMCQSchema>>({
     resolver: zodResolver(zodMCQSchema),
