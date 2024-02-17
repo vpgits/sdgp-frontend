@@ -25,11 +25,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="h-screen w-screen flex flex-col">
-            <Header />
-            <div className="flex flex-col flex-auto overflow-auto h-full w-full">
-              {children}
-            </div>
+          <div className="flex flex-auto flex-col h-screen">
+          <Header />
+          <div className="h-full">{children}</div>
           </div>
         </ThemeProvider>
       </body>

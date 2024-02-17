@@ -5,6 +5,7 @@ import { QuestionData } from "@/types/supabase";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "./ui/button";
+import { Progress } from "./ui/progress";
 
 const zodMCQSchema = z.object({
   defaultValues: z.array(
@@ -105,7 +106,7 @@ export default function QuizForm(props: { quizData: any }) {
   console.log(quizData);
   const [mark, setMark] = useState<number>(0);
   const [submitted, setSubmitted] = useState<boolean>(false);
-  const [time, setTime] = useState<number>(2 * quizData.defaultValues.length);
+  const [time, setTime] = useState<number>(5 * quizData.defaultValues.length);
 
   const form = useForm<z.infer<typeof zodMCQSchema>>({
     resolver: zodResolver(zodMCQSchema),
@@ -146,16 +147,24 @@ export default function QuizForm(props: { quizData: any }) {
 
   return (
     <>
-      <div className="z-10 top-0 sticky w-full text-center bg-white dark:bg-slate-950 pb-2 mx-5">
-        <h1>QuizForm</h1>
-        <h1>
-          <span className="gap-x-10">
-            {formState.isSubmitted ? `Score: ${mark}` : ""}
-            Time: {time}s{" "}
-          </span>
-        </h1>
+      <div className="z-10 top-0 sticky w-full text-center bg-white dark:bg-slate-950 py-2">
+        <div className="flex flex-auto items-center justify-center gap-x-10 gap-y-2 flex-col">
+          <h1 className="">
+            <span className="gap-x-10 x-5">
+              <p>{formState.isSubmitted ? `Score: ${mark}` : ""}</p>
+              <p>Time: {time}s </p>
+            </span>
+          </h1>
+          <Progress
+            value={100 - (100 * time) / (5 * quizData.defaultValues.length)}
+            max={100}
+            className={`w-1/2 ${
+              time < 10 ? (time == 0 ? "hidden" : "bg-red-500") : "bg-green-500"
+            }`}
+          />
+        </div>
       </div>
-      <form onSubmit={handleSubmit(handleSubmitQuiz)}>
+      <form onSubmit={handleSubmit(handleSubmitQuiz)} className="pb-5">
         {fields.map((field, index) => (
           <div className="flex flex-auto flex-col mx-10" key={field.id}>
             <ShadCNMCQComponent
