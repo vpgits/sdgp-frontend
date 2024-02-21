@@ -21,16 +21,17 @@ export async function GET(request: NextRequest) {
     const url = new URL(request.url);
 
     const queryParams = new URLSearchParams(url.search);
-    const documentId = queryParams.get("documentId");
+    const taskId = queryParams.get("taskId");
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("Authorization", access_token || "");
     headers.append("Refresh-Token", refresh_token || "");
 
-    const res = await fetch(`http://localhost:8000/quiz/status/${documentId}`);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/${taskId}`
+    );
     const data = await res.json();
-    const taskId = data.task_id;
-    return new Response(JSON.stringify({ taskId }));
+    return new Response(JSON.stringify({ data }));
   } catch (error: any) {
     throw new Error("Error getting quiz info " + error.message);
   }

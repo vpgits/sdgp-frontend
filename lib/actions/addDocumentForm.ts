@@ -4,24 +4,37 @@ import { createClient } from "@/utils/supabase/actions";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { fileTypeFromBuffer } from "file-type";
 
 export default async function create(formData: FormData) {
   const cookieStore = cookies();
   const supabase = await createClient(cookieStore);
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    redirect("/");
+    redirect("/login");
   }
 
   const file = formData.get("file") as File;
-  if (file.type !== "application/pdf") throw new Error("File must be a PDF");
+  const fileBuffer = await file.arrayBuffer();
+  const detectedFileType = await fileTypeFromBuffer(fileBuffer);
+
+  if (
+    !detectedFileType ||
+    !["pdf", "docx", "pptx"].includes(detectedFileType.ext)
+  ) {
+    throw new Error(
+      "Invalid file type. Only PDF, DOCX, and PPTX files are allowed."
+    );
+  }
   const userId = data?.user?.id;
   let fileUUID = "";
   try {
     {
       const { data, error } = await supabase
         .from("documents")
-        .insert([{ title: formData.get("fileName") }])
+        .insert([
+          { title: formData.get("fileName"), file_type: detectedFileType.ext },
+        ])
         .select();
       if (error)
         throw new Error(
@@ -31,7 +44,7 @@ export default async function create(formData: FormData) {
         fileUUID = data[0].id;
       }
     }
-    const fileName = `${userId}/${fileUUID}.pdf`;
+    const fileName = `${userId}/${fileUUID}.${detectedFileType.ext}`;
     {
       const { data, error } = await supabase.storage
         .from("pdf")

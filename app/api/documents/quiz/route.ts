@@ -2,7 +2,7 @@ import { createClient } from "@/utils/supabase/actions";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function POST(request: Request) {
   let userId, access_token, refresh_token, quizId;
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
@@ -21,15 +21,20 @@ export async function GET(request: NextRequest) {
     access_token = data?.session?.access_token;
     refresh_token = data?.session?.refresh_token;
   }
-
+  const body = await request.json();
+  const { documentId, numOfQuestions, remarks } = body;
   try {
-    const url = new URL(request.url);
-    const queryParams = new URLSearchParams(url.search);
-    const documentId = queryParams.get("documentId");
     {
       const { data, error } = await supabase
         .from("quiz")
-        .insert([{ document_id: documentId, user_id: userId }])
+        .insert([
+          {
+            document_id: documentId,
+            user_id: userId,
+            num_of_questions: numOfQuestions,
+            remarks: remarks,
+          },
+        ])
         .select();
       if (error) {
         return new NextResponse(JSON.stringify({ error }));
@@ -42,7 +47,7 @@ export async function GET(request: NextRequest) {
     headers.append("Authorization", access_token || "");
     headers.append("Refresh-Token", refresh_token || "");
 
-    const res = await fetch(`http://localhost:8000/quiz/`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT_URL}/quiz/`, {
       method: "POST",
       headers: headers,
       body: JSON.stringify({
@@ -57,14 +62,8 @@ export async function GET(request: NextRequest) {
         .update({ task_id: taskId })
         .eq("id", quizId);
     }
-    return new NextResponse(JSON.stringify({ quizId }));
+    return new NextResponse(JSON.stringify({ taskId, quizId }));
   } catch (error: any) {
     throw new Error("Error getting documents " + error.message);
   }
-  return NextResponse.json({
-    status: 200,
-    body: {
-      message: "Hello from the quiz route",
-    },
-  });
 }
