@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     refresh_token = data?.session?.refresh_token;
   }
   const body = await request.json();
-  const { documentId} = body;
+  const { documentId } = body;
   try {
     {
       const { data, error } = await supabase
@@ -45,13 +45,16 @@ export async function POST(request: Request) {
     headers.append("Authorization", access_token || "");
     headers.append("Refresh-Token", refresh_token || "");
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT_URL}/rapid-quiz/`, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify({
-        quiz_id: quizId,
-      }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/rapid-quiz/`,
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({
+          quiz_id: quizId,
+        }),
+      }
+    );
     const data = await res.json();
     const taskId = data.task_id;
     {

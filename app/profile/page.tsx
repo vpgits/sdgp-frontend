@@ -5,6 +5,14 @@ import { cookies } from "next/headers";
 
 export const revalidate = 0;
 
+export function generateMetadata() {
+  return {
+    title: "Profile | Quizzifyme",
+    description: "Profile",
+  };
+
+}
+
 export default async function Page() {
   const cookieStore = cookies();
   const supabase = await createClient(cookieStore);

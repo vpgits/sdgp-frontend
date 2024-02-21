@@ -21,7 +21,7 @@ const ButtonAsChild = () => {
 const Footer = () => {
   return (
     <>
-      <footer className="text-sm  bg-indigo-950 text-white flex flex-auto flex-col md:flex-row items-center justify-evenly mt-5 md:mt-20">
+      <footer className="text-sm bg-slate-900 text-white flex flex-auto flex-col md:flex-row items-center justify-evenly mt-5 md:mt-20">
         <div className="space-y-4  md:w-1/3 m-10 ">
           <h3 className="text-lg font-semibold mt-10 text-center">
             {" "}
@@ -99,7 +99,7 @@ const Footer = () => {
           </div>
         </div>
       </footer>
-      <p className=" bg-indigo-950 text-xs font-semibold text-white p-5 flex flex-auto flex-col md:flex-row items-center justify-evenly ">
+      <p className=" bg-slate-900 text-xs font-semibold text-white p-5 flex flex-auto flex-col md:flex-row items-center justify-evenly ">
         Copyright © 2024 Quizifyme
       </p>
     </>

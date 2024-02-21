@@ -1,11 +1,16 @@
 // pages/index.tsx
 import Image from "next/image";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import landingimage from "../public/landing.png";
 import Footer from "@/components/footer";
 import Feedback from "@/components/Feedback";
 import Faq from "@/components/Faq";
+
+export function generateMetadata() {
+  return {
+    title: "QuizzifyMe | Home",
+    description: "Elevate your learning experience with QuizzifyMe",
+  };
+}
 
 export default function Home() {
   return (
@@ -24,7 +29,7 @@ export default function Home() {
           <div className="flex flex-auto justify-end">
             <Image src={landingimage} alt="landing" className="w-9/12" />
           </div>
-          <p className=" text-lg text-center  md:text-2xl font md:my-20 mt-10 lg:mt-40">
+          <p className=" text-lg text-center dark:text-gray-300 text-gray-800   md:text-2xl font md:my-20 mt-10 lg:mt-40">
             A generative AI based solution for a personalised and inventive
             approach to learning, based on a solution that offers a personalised
             learning experience for anyone seeking support.

@@ -13,8 +13,8 @@ export default async function Header() {
   const { data } = await supabase.auth.getUser();
   const loggedIn = data?.user !== null;
   return (
-    <div className="fixed w-full bg-white dark:bg-black top-0 rounded-ful">
-      <div className="flex items-center justify-center p-5">
+    <div className="fixed w-full  top-0 rounded-ful ">
+      <div className="flex items-center justify-center px-5 py-4   dark:bg-slate-950 text-black bg-white dark:text-white ">
         <div className="w-10/12 flex flex-auto items-center justify-between">
           <Link className="flex justify-start" href="/">
             <GlobeIcon className="h-6 w-6" />

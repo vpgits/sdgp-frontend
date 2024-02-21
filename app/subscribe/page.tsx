@@ -1,8 +1,28 @@
+import { Button } from "@/components/ui/button";
+import {
+  CardTitle,
+  CardDescription,
+  CardHeader,
+  CardContent,
+  CardFooter,
+  Card,
+} from "@/components/ui/card";
+import {
+  CollapsibleTrigger,
+  CollapsibleContent,
+  Collapsible,
+} from "@/components/ui/collapsible";
+import { JSX, SVGProps } from "react";
 
-import { Button } from "@/components/ui/button"
-import { CardTitle, CardDescription, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
-import { CollapsibleTrigger, CollapsibleContent, Collapsible } from "@/components/ui/collapsible"
-import { JSX, SVGProps } from "react"
+export function generateMetadata() {
+  return {
+    title: "Subscribe | Quizzifyme",
+    description:
+      "Get access to premium features and enhance your productivity.",
+    image: "/images/subscribe.png",
+    url: "https://quizzifyme.com/subscribe",
+  };
+}
 
 export default function Component() {
   return (
@@ -93,7 +113,8 @@ export default function Component() {
                 <ChevronDownIcon className="h-4 w-4" />
               </CollapsibleTrigger>
               <CollapsibleContent className="px-4 py-2">
-                Our 14-day free trial gives you full access to all our features. No credit card required.
+                Our 14-day free trial gives you full access to all our features.
+                No credit card required.
               </CollapsibleContent>
             </Collapsible>
             <Collapsible className="border border-gray-200 rounded-md dark:border-gray-800">
@@ -102,7 +123,8 @@ export default function Component() {
                 <ChevronDownIcon className="h-4 w-4" />
               </CollapsibleTrigger>
               <CollapsibleContent className="px-4 py-2">
-                Yes, you can cancel your subscription at any time. No questions asked.
+                Yes, you can cancel your subscription at any time. No questions
+                asked.
               </CollapsibleContent>
             </Collapsible>
             <Collapsible className="border border-gray-200 rounded-md dark:border-gray-800">
@@ -118,10 +140,12 @@ export default function Component() {
         </div>
       </section>
     </>
-  )
+  );
 }
 
-function ChevronDownIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
+function ChevronDownIcon(
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+) {
   return (
     <svg
       {...props}
@@ -137,5 +161,5 @@ function ChevronDownIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement
     >
       <path d="m6 9 6 6 6-6" />
     </svg>
-  )
+  );
 }

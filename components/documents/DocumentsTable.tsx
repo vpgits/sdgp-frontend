@@ -125,7 +125,7 @@ export function CustomTableRow(props: { document: Document }) {
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [isProcessing, toastMessage]);
+  }, [isProcessing, toastMessage, taskId]);
 
   return (
     <TableRow key={document.id} className="">

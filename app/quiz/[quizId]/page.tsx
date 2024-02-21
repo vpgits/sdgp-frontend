@@ -23,6 +23,14 @@ type questionData = {
   incorrect_answers: string[];
 };
 
+export function generateMetadata(){
+  return {
+    title: "Quiz | Quizzifyme",
+    description: "Quiz",
+  };
+
+}
+
 export default async function Page({ params }: { params: Props }) {
   const { quizId } = params;
 
