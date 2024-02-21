@@ -24,7 +24,7 @@ export default function Home() {
           <div className="flex flex-auto justify-end">
             <Image src={landingimage} alt="landing" className="w-9/12" />
           </div>
-          <p className=" text-lg text-center  md:text-2xl font-light md:my-20 mt-10 lg:mt-40">
+          <p className=" text-lg text-center  md:text-2xl font md:my-20 mt-10 lg:mt-40">
             A generative AI based solution for a personalised and inventive
             approach to learning, based on a solution that offers a personalised
             learning experience for anyone seeking support.
