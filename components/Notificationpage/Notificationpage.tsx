@@ -9,13 +9,16 @@ export default function Notificationpage(params: {
 
   return (
     <div className="flex flex-col">
-      <header className="flex items-center justify-between px-6 py-4 border-b">
-        <h1 className="text-2xl font-bold">Notifications</h1>
-        <Button variant="outline">Mark All as Read</Button>
-      </header>
       <main className="flex-1 overflow-y-auto p-6">
-        {notifications.map((notification) => (
-          <div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
+        <div className="flex flex-auto justify-between my-2">
+          <h1 className="text-2xl font-bold">Notifications</h1>
+          <Button variant="outline">Mark All as Read</Button>
+        </div>
+        {notifications.map((notification, index) => (
+          <div
+            className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
+            key={index}
+          >
             <span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-blue-500" />
             <div className="grid gap-1">
               <p className="text-sm font-medium">{notification.title}</p>
