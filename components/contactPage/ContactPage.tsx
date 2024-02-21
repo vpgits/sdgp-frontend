@@ -1,142 +1,144 @@
-"use client"
+"use client";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { JSX, SVGProps } from "react";
-import emailjs from '@emailjs/browser';
-import React, { useRef } from 'react';
-import { Toaster, toast } from 'sonner'
-
-
-
-
+import emailjs from "@emailjs/browser";
+import React, { useRef } from "react";
+import { Toaster, toast } from "sonner";
 
 export default function ContactPage() {
-        const form = useRef<HTMLFormElement>(null);
-      
-        const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
-          e.preventDefault();
+  const form = useRef<HTMLFormElement>(null);
 
-          emailjs
-        .sendForm('service_nygg8dn', 'template_669da1x', form.current!, {
-          publicKey: 'fzQtHeLDFDWj-PBfK',
-        })
-        .then(
-          () => {
-            console.log('SUCCESS!');
-            toast.success('Email Sent Successfully');
-          },
-          (error) => {
-            console.log('FAILED...', error.text);
-            toast.error('Email Failed to Send');
-          },
-        ).finally(
-            () => {
-                form.current!.reset();
-            }
-            
-        )
-        ;
-        
+  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    };
+    emailjs
+      .sendForm("service_nygg8dn", "template_669da1x", form.current!, {
+        publicKey: "fzQtHeLDFDWj-PBfK",
+      })
+      .then(
+        () => {
+          console.log("SUCCESS!");
+          toast.success("Email Sent Successfully");
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+          toast.error("Email Failed to Send");
+        }
+      )
+      .finally(() => {
+        form.current!.reset();
+      });
+  };
   return (
     <>
-    <Toaster />
-    <div className="container grid max-w-6xl gap-10 px-4 py-10 md:grid-cols-2 md:py-16 lg:gap-16 md:gap-12">
-    
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold">Contact Us</h1>
-          <p className="text-gray-500 dark:text-gray-400">
-            We&apos;ll get back to you as soon as possible.
-          </p>
-        </div>
-        <form ref={form} onSubmit={sendEmail} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" name="user_name" placeholder="Enter your name" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" name="user_email" placeholder="Enter your email" />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="subject">Subject</Label>
-            <Input id="subject" name="user_subject" placeholder="Enter your subject" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="message">Message</Label>
-            <Textarea
-              className="min-h-[150px]" name="message"
-              id="message"
-              placeholder="Enter your message"
-            />
-          </div>
-          <Button type="submit">Send message</Button>
-        </form>
-      </div>
-      <div className="space-y-4">
+      <Toaster />
+      <div className="container grid max-w-6xl gap-10 px-4 py-10 md:grid-cols-2 md:py-16 lg:gap-16 md:gap-12">
         <div className="space-y-4">
           <div className="space-y-2">
-            <h3 className="text-2xl font-bold">Contact Information</h3>
+            <h1 className="text-3xl font-bold">Contact Us</h1>
             <p className="text-gray-500 dark:text-gray-400">
-              Reach out to us using the information below.
+              We&apos;ll get back to you as soon as possible.
             </p>
+          </div>
+          <form ref={form} onSubmit={sendEmail} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  name="user_name"
+                  placeholder="Enter your name"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  name="user_email"
+                  placeholder="Enter your email"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="subject">Subject</Label>
+              <Input
+                id="subject"
+                name="user_subject"
+                placeholder="Enter your subject"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="message">Message</Label>
+              <Textarea
+                className="min-h-[150px]"
+                name="message"
+                id="message"
+                placeholder="Enter your message"
+              />
+            </div>
+            <Button type="submit">Send message</Button>
+          </form>
+        </div>
+        <div className="space-y-4">
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <h3 className="text-2xl font-bold">Contact Information</h3>
+              <p className="text-gray-500 dark:text-gray-400">
+                Reach out to us using the information below.
+              </p>
+            </div>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4">
+                <PhoneIcon className="w-6 h-6 flex-shrink-0" />
+                <div className="space-y-1">
+                  <h4 className="font-semibold">Call us</h4>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Contact our support team: (123) bambal b
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <MailIcon className="w-6 h-6 flex-shrink-0" />
+                <div className="space-y-1">
+                  <h4 className="font-semibold">Email</h4>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Email us your questions: quizzifyme.cs06@gmail.com
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <MapPinIcon className="w-6 h-6 flex-shrink-0" />
+                <div className="space-y-1">
+                  <h4 className="font-semibold">Headquarters</h4>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    123 Street, PALITHA, HELL
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="space-y-4">
-            <div className="flex items-center space-x-4">
-              <PhoneIcon className="w-6 h-6 flex-shrink-0" />
-              <div className="space-y-1">
-                <h4 className="font-semibold">Call us</h4>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Contact our support team: (123) bambal b
-                </p>
-              </div>
+            <div className="space-y-2">
+              <h3 className="text-2xl font-bold">Follow us on Social Media</h3>
+              <p className="text-gray-500 dark:text-gray-400">
+                Stay updated with our latest news and announcements.
+              </p>
             </div>
             <div className="flex items-center space-x-4">
-              <MailIcon className="w-6 h-6 flex-shrink-0" />
-              <div className="space-y-1">
-                <h4 className="font-semibold">Email</h4>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Email us your questions: HELLINFO@hell.com
-                </p>
-              </div>
+              <TwitterIcon className="w-8 h-8" />
+              <FacebookIcon className="w-8 h-8" />
+              <InstagramIcon className="w-8 h-8" />
+              <LinkedinIcon className="w-8 h-8" />
             </div>
-            <div className="flex items-center space-x-4">
-              <MapPinIcon className="w-6 h-6 flex-shrink-0" />
-              <div className="space-y-1">
-                <h4 className="font-semibold">Headquarters</h4>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  123 Street, PALITHA, HELL
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <h3 className="text-2xl font-bold">Follow us on Social Media</h3>
-            <p className="text-gray-500 dark:text-gray-400">
-              Stay updated with our latest news and announcements.
-            </p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <TwitterIcon className="w-8 h-8" />
-            <FacebookIcon className="w-8 h-8" />
-            <InstagramIcon className="w-8 h-8" />
-            <LinkedinIcon className="w-8 h-8" />
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 }
-
 
 function FacebookIcon(
   props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>

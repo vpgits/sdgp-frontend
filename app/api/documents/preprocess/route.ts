@@ -16,7 +16,6 @@ export async function GET(request: Request) {
   }
   {
     const { data, error } = await supabase.auth.getSession();
-    console.log(data);
     access_token = data?.session?.access_token;
     refresh_token = data?.session?.refresh_token;
   }

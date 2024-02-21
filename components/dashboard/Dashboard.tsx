@@ -53,7 +53,7 @@ export default function Dashboard() {
           <p className="text-gray-700 text-2xl  dark:text-white">Game</p>
         </div>
 
-        <Link href="/notification-page">
+        <Link href="/notifications">
           <div className="button text-center space-y-4">
             <Button className="h-32 w-32 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
               <IoIosNotifications size={60} />
