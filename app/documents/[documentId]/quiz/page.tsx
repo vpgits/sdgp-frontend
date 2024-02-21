@@ -130,8 +130,6 @@ export default function Page() {
         const { data } = await response.json();
         const task_status = data.task_status;
         const task_result = data.task_result;
-        console.log(task_result);
-        console.log(task_result.status);
         if (task_result.status !== toastMessage) {
           setToastMessage(task_result.status);
           toast(task_result.status);

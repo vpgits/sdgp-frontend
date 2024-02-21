@@ -10,7 +10,7 @@ import Faq from "@/components/Faq";
 export default function Home() {
   return (
     <>
-      <main className="flex flex-col m-5 items-center">
+      <main className="flex flex-col mt-12 m-5 md:m-5 items-center">
         <div className="flex flex-auto flex-col m-2 md:m-10 lg:flex-row">
           <div>
             <h1 className="text-4xl sm:text-3xl md:text-4xl lg:text-4xl mb-3">
@@ -43,11 +43,11 @@ export default function Home() {
             </Button>
           </div> */}
         </div>
+        <Feedback />
+        {/* <div className='ml-20 mt-20 w-1/2'> */}
+        <Faq />
+        {/* </div> */}
       </main>
-      <Feedback />
-      {/* <div className='ml-20 mt-20 w-1/2'> */}
-      <Faq />
-      {/* </div> */}
       <Footer />
     </>
   );

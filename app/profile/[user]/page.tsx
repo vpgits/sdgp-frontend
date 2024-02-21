@@ -9,7 +9,7 @@ export default async function Page() {
   const cookieStore = cookies();
   const supabase = await createClient(cookieStore);
   let { data: user, error } = await supabase.from("user").select();
-  console.log(user, error);
+  // console.log(user, error);
   if (user === null) {
     redirect("/login");
   } else {
