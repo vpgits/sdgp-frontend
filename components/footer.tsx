@@ -20,8 +20,8 @@ const ButtonAsChild = () => {
 const Footer = () => {
   return (
     <>
-    <footer className=" bg-indigo-950 text-white p-5 flex flex-auto flex-col md:flex-row items-center justify-evenly mt-20">
-      <div className="space-y-4  w-1/3 ">
+    <footer className="text-sm  bg-indigo-800 text-white flex flex-auto flex-col md:flex-row items-center justify-evenly mt-5 md:mt-20">
+      <div className="space-y-4  md:w-1/3 m-10 ">
         <h3 className="text-lg font-semibold mt-10 text-center"> <Image
         src={logo}
         alt="logo"
@@ -95,7 +95,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-    <p className=" bg-indigo-950 text-white p-5 flex flex-auto flex-col md:flex-row items-center justify-evenly font-thin">Copyright © 2024 Quizifyme</p>
+    <p className=" bg-indigo-800 text-xs font-semibold text-white p-5 flex flex-auto flex-col md:flex-row items-center justify-evenly ">Copyright © 2024 Quizifyme</p>
     </>
   );
 };

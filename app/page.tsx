@@ -1,25 +1,36 @@
 // pages/index.tsx
-import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import landingimage from '../public/landing.png';
-import Footer from '@/components/footer';
-import Feedback from '@/components/Feedback';
-import Faq from '@/components/Faq'; 
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import landingimage from "../public/landing.png";
+import Footer from "@/components/footer";
+import Feedback from "@/components/Feedback";
+import Faq from "@/components/Faq";
 
 export default function Home() {
   return (
     <>
-      <main className="flex flex-col md:flex-row items-center">
-        <div className="md:w-1/2 ml-10 md:ml-20 lg:ml-30 mt-20">
-          <h1 className="italic text-4xl sm:text-4xl md:text-5xl lg:text-7xl font-playfair leading-tight mb-3">
-            The Best Way To Showcase Your Skills
-          </h1>
-
-          <p className="text-xl mt-10 md:text-2xl font-light md:mt-20">
-            <strong>- Free 30 Days Trial -</strong>
+      <main className="flex flex-col m-5 items-center">
+        <div className="flex flex-auto flex-col m-2 md:m-10 lg:flex-row">
+          <div>
+            <h1 className="text-4xl sm:text-3xl md:text-4xl lg:text-4xl mb-3">
+              Elevate Your Learning Experience:
+            </h1>
+            <h2 className="text-xl sm:text-xl md:text-2xl lg:text-2xl">
+              {" "}
+              Where AI Meets Fun and Learning!
+            </h2>
+          </div>
+          <div className="flex flex-auto justify-end">
+            <Image src={landingimage} alt="landing" className="w-9/12" />
+          </div>
+          <p className=" text-lg text-center  md:text-2xl font-light md:my-20 mt-10 lg:mt-40">
+            A generative AI based solution for a personalised and inventive
+            approach to learning, based on a solution that offers a personalised
+            learning experience for anyone seeking support.
           </p>
-          <div className="buttons mt-10 md:mt-20">
+
+          {/* <div className="buttons mt-10 md:mt-20">
             <Button className="bg-blue-500 mr-2">
               <Link href="#buy" className="text-white">
                 Try For Free
@@ -30,20 +41,13 @@ export default function Home() {
                 Buy Premium
               </Link>
             </Button>
-          </div>
-        </div>
-        <div className="md:w-2/3 mb-3 md:mb-0 md:pr-4">
-          <Image
-            src={landingimage}
-            alt="landing"
-            className="w-full md:w-2/3 lg:w-4/5"
-          />
+          </div> */}
         </div>
       </main>
       <Feedback />
-      <div className='ml-20 mt-20 w-1/2'>
-        <Faq /> 
-      </div>
+      {/* <div className='ml-20 mt-20 w-1/2'> */}
+      <Faq />
+      {/* </div> */}
       <Footer />
     </>
   );
