@@ -1,20 +1,21 @@
 // pages/index.tsx
-
-import Image from "next/image";
-import Link from "next/link";
-
-import landingimage from "../public/landing.png";
-import Footer from "@/components/footer";
-import { Button } from "@/components/ui/button";
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import landingimage from '../public/landing.png';
+import Footer from '@/components/footer';
+import Feedback from '@/components/Feedback';
+import Faq from '@/components/Faq'; 
 
 export default function Home() {
   return (
     <>
-      <main className="flex flex-col md:flex-row items-center pb-20">
-        <div className="md:w-1/2  ml-20 mt-20">
-          <h1 className="text-5xl xs:text-center  md:text-5xl lg:text-7xl font-inter leading-tight mb-3">
+      <main className="flex flex-col md:flex-row items-center">
+        <div className="md:w-1/2 ml-10 md:ml-20 lg:ml-30 mt-20">
+          <h1 className="italic text-4xl sm:text-4xl md:text-5xl lg:text-7xl font-playfair leading-tight mb-3">
             The Best Way To Showcase Your Skills
           </h1>
+
           <p className="text-xl mt-10 md:text-2xl font-light md:mt-20">
             <strong>- Free 30 Days Trial -</strong>
           </p>
@@ -24,9 +25,8 @@ export default function Home() {
                 Try For Free
               </Link>
             </Button>
-            <Button>
-              {/*className="border border-blue-500 text-blue-500 xl:ml-20"*/}
-              <Link href="#buy" className="dark:text-black text-white">
+            <Button className="border border-blue-500 text-blue-500 xl:ml-20">
+              <Link href="#buy" className="text-blue-500">
                 Buy Premium
               </Link>
             </Button>
@@ -40,6 +40,10 @@ export default function Home() {
           />
         </div>
       </main>
+      <Feedback />
+      <div className='ml-20 mt-20 w-1/2'>
+        <Faq /> 
+      </div>
       <Footer />
     </>
   );
