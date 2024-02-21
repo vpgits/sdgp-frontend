@@ -9,8 +9,8 @@ import { IoLogoGameControllerB, IoIosNotifications } from "react-icons/io";
 export default function Dashboard() {
   return (
     <div className="flex flex-col items-center justify-center p-4 space-y-8 h-full">
-      <h1 className="text-6xl font-bold mb-28 md:text-9xl">Quiz Dashboard</h1>
-      <div className="grid grid-cols-2 gap-20 md:grid-cols-6 font-semibold">
+      <h1 className="text-6xl font-bold md:mb-28 md:text-9xl">Quiz Dashboard</h1>
+      <div className="grid grid-cols-2 gap-15 md:grid-cols-6 font-semibold">
         <div className="button text-center space-y-4">
           <Button className="h-32 w-32 hover:bg-white hover:text-black hover:shadow-lg dark:hover:bg-black dark:hover:text-white dark:bg-white">
             <FaFileWord size={60} />

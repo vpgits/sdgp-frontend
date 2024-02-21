@@ -64,7 +64,7 @@ export default async function Header() {
             </Link>
             <Link
               className="text-sm font-medium hover:underline"
-              href="ContactPage"
+              href="/contact-us"
             >
               Contact Us
             </Link>
