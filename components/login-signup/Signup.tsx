@@ -12,7 +12,7 @@ export default function SignupLogin() {
   const [login, setLogin] = useState(true);
   return (
     <div className="flex flex-auto items-center justify-center h-full">
-      <div className="mx-24">
+      <div className="lg:mx-24">
         {login ? (
           <div className="min-h-full flex items-center ">
             <div className="mx-auto w-[350px] space-y-6">
@@ -61,23 +61,20 @@ export default function SignupLogin() {
               </form>
 
               <div className="mt-4 text-center text-sm">
-                Don't have an account?
+                Don&apos;t have an account?
                 <p
                   className="hover:cursor-pointer underline"
                   onClick={() => {
                     setLogin(false);
                   }}
                 >
-                  <a href="#signup">Sign up</a>
+                  Sign up
                 </p>
               </div>
             </div>
           </div>
         ) : (
-          <div
-            id="signup"
-            className="flex items-center justify-center py-12 mr-24"
-          >
+          <div className="flex items-center justify-center py-12 lg:mr-24">
             <div className="mx-auto w-[350px] space-y-6">
               <form action={signup}>
                 <div className="space-y-2 text-center">

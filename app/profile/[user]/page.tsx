@@ -3,7 +3,6 @@ import Profile from "@/components/Profile";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 
-
 export const revalidate = 0;
 
 export default async function Page() {
