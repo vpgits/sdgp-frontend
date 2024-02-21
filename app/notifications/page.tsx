@@ -1,10 +1,10 @@
-import Historypage from "@/components/History/History";
+import Notificationpage from "@/components/Notificationpage/Notificationpage";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { Tables,Database } from "@/types/supabase";
+import { Tables, Database } from "@/types/supabase";
 export default async function Page() {
   const cookieStore = cookies();
   const supabase = createClient<Database>(cookieStore);
@@ -14,11 +14,11 @@ export default async function Page() {
     redirect("/");
   }
 
-  async function getHistory() {
+  async function getNotification() {
     const { data, error } = await supabase
-      .from("quiz")
+      .from("notification")
       .select("*")
-      .order("updated_at", { ascending: false });
+      .order("created_at", { ascending: false });
 
     if (error) {
       console.log(error);
@@ -26,15 +26,9 @@ export default async function Page() {
     return data!;
   }
 
+  const notificationData: Tables<"notification">[] = await getNotification();
 
-  const historyData:Tables<"quiz">[] = await getHistory();
-  console.log(historyData)
-  
+  revalidatePath("/notification-page");
 
-  revalidatePath("/History-page");
-
-  return (
-    <Historypage historyData={historyData}/>
-  )
+  return <Notificationpage notificationData={notificationData} />;
 }
-

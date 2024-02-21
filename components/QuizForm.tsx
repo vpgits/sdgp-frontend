@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { FieldArrayWithId, useFieldArray, useForm } from "react-hook-form";
-import { QuestionData } from "@/types/supabase";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "./ui/button";
