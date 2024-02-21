@@ -27,7 +27,12 @@ export default function Home() {
             </h2>
           </div>
           <div className="flex flex-auto justify-end">
-            <Image src={landingimage} alt="landing" className="w-9/12" />
+            <Image
+              src={landingimage}
+              alt="landing"
+              className="w-9/12"
+              priority
+            />
           </div>
           <p className=" text-lg text-center dark:text-gray-300 text-gray-800   md:text-2xl font md:my-20 mt-10 lg:mt-40">
             A generative AI based solution for a personalised and inventive
