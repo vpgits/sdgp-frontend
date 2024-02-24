@@ -6,7 +6,6 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/actions";
 
-
 export async function Login(formData: FormData) {
   //formData: FormData
   const cookieStore = cookies();
@@ -52,7 +51,7 @@ export async function signup(formData: FormData) {
   }
 
   // revalidatePath("/login-signup", "layout");
-  redirect("/login-signup");
+  redirect("/login");
 }
 
 export async function logout() {

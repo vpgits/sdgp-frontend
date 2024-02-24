@@ -19,12 +19,15 @@ export async function GET(request: Request) {
   let refresh_token = sessionData?.session?.refresh_token;
   try {
     const url = new URL(request.url);
+    console.log(url);
     const queryParams = new URLSearchParams(url.search);
+    console.log(queryParams);
     const taskId = queryParams.get("taskId");
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Authorization", access_token || "");
-    headers.append("Refresh-Token", refresh_token || "");
+    console.log(taskId);
+    // const headers = new Headers();
+    // headers.append("Content-Type", "application/json");
+    // headers.append("Authorization", access_token || "");
+    // headers.append("Refresh-Token", refresh_token || "");
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/preprocess/${taskId}`
     );

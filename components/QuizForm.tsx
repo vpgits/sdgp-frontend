@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { FieldArrayWithId, useFieldArray, useForm } from "react-hook-form";
-import { QuestionData } from "@/types/supabase";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "./ui/button";
@@ -137,7 +136,7 @@ export default function QuizForm(props: { quizData: quizData }) {
   };
 
   useEffect(() => {
-    if (!submitted) {
+    if (!formState.isSubmitted) {
       const interval = setTimeout(() => {
         setTime((time) => time - 1);
       }, 1000);
@@ -152,7 +151,7 @@ export default function QuizForm(props: { quizData: quizData }) {
 
   return (
     <>
-      <div className="z-10 top-0 sticky w-full text-center bg-white dark:bg-slate-950 py-2">
+      <div className=" top-14 sticky w-full text-center bg-white dark:bg-slate-950 py-2">
         <div className="flex flex-auto items-center justify-center gap-x-10 gap-y-2 flex-col">
           <h1 className="">
             <span className="gap-x-10 x-5">

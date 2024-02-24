@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     headers.append("Authorization", access_token || "");
     headers.append("Refresh-Token", refresh_token || "");
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT_URL}/quiz/`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/`, {
       method: "POST",
       headers: headers,
       body: JSON.stringify({
