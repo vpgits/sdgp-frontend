@@ -1,202 +1,83 @@
-
 import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card"
 
 export default function Component() {
+  const participants = [
+    {
+      name: "Ella Johnson",
+      score: 1000
+    },
+    {
+      name: "Noah Williams",
+      score: 950
+    },
+    {
+      name: "Ava Brown",
+      score: 900
+    },
+    {
+      name: "Liam Jones",
+      score: 850
+    },
+    {
+      name: "Olivia Garcia",
+      score: 800
+    },
+    {
+      name: "Lucas Rodriguez",
+      score: 750
+    },
+    {
+      name: "Sophia Martinez",
+      score: 700
+    },
+    {
+      name: "Mia Hernandez",
+      score: 650
+    },
+    {
+      name: "Benjamin Lopez",
+      score: 600
+    },
+    {
+      name: "Charlotte Smith",
+      score: 550
+    }
+  ];
+
   return (
-    <div className="flex justify-center"> 
-    <Card className="w-full max-w-3xl border-4 p-4">
+    <div className="flex h-full justify-center items-center"> 
+    <Card className="w-full max-w-3xl border-4 p-4 m-4">
       <div className="flex justify-center">
-      <CardHeader className="pb-6">
+      <CardHeader className="text-center">
         <CardTitle>Quiz Leaderboard</CardTitle>
-        <CardDescription>Top scores of participants.</CardDescription>
+        <CardDescription className="text-gray-700 dark:text-gray-400">Top scores of participants.</CardDescription>
       </CardHeader>
       </div>
       <CardContent className="p-0">
         <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-4">
-            <div className="w-8">1</div>
-            <div className="flex items-center gap-4">
-              <img
-                alt="Avatar"
-                className="rounded-full"
-                height="40"
-                src="https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpghttps://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg"
-                style={{
-                  aspectRatio: "40/40",
-                  objectFit: "cover",
-                }}
-                width="40"
-              />
-              <div className="font-semibold">Ella Johnson</div>
+          {participants.map((participant, index) => (
+            <div className="flex items-center gap-4" key={index}>
+              <div className="w-8">{index + 1}</div>
+              <div className="flex items-center gap-4">
+                <img
+                  alt="Avatar"
+                  className="rounded-full"
+                  height="40"
+                  src="/placeholder.svg"
+                  style={{
+                    aspectRatio: "40/40",
+                    objectFit: "cover",
+                  }}
+                  width="40"
+                />
+                <div className="font-semibold">{participant.name}</div>
+              </div>
+              <div className="ml-auto font-semibold">{participant.score}</div>
             </div>
-            <div className="ml-auto font-semibold">1000</div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="w-8">2</div>
-            <div className="flex items-center gap-4">
-              <img
-                alt="Avatar"
-                className="rounded-full"
-                height="40"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "40/40",
-                  objectFit: "cover",
-                }}
-                width="40"
-              />
-              <div className="font-semibold">Noah Williams</div>
-            </div>
-            <div className="ml-auto font-semibold">950</div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="w-8">3</div>
-            <div className="flex items-center gap-4">
-              <img
-                alt="Avatar"
-                className="rounded-full"
-                height="40"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "40/40",
-                  objectFit: "cover",
-                }}
-                width="40"
-              />
-              <div className="font-semibold">Ava Brown</div>
-            </div>
-            <div className="ml-auto font-semibold">900</div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="w-8">4</div>
-            <div className="flex items-center gap-4">
-              <img
-                alt="Avatar"
-                className="rounded-full"
-                height="40"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "40/40",
-                  objectFit: "cover",
-                }}
-                width="40"
-              />
-              <div className="font-semibold">Liam Jones</div>
-            </div>
-            <div className="ml-auto font-semibold">850</div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="w-8">5</div>
-            <div className="flex items-center gap-4">
-              <img
-                alt="Avatar"
-                className="rounded-full"
-                height="40"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "40/40",
-                  objectFit: "cover",
-                }}
-                width="40"
-              />
-              <div className="font-semibold">Olivia Garcia</div>
-            </div>
-            <div className="ml-auto font-semibold">800</div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="w-8">6</div>
-            <div className="flex items-center gap-4">
-              <img
-                alt="Avatar"
-                className="rounded-full"
-                height="40"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "40/40",
-                  objectFit: "cover",
-                }}
-                width="40"
-              />
-              <div className="font-semibold">Lucas Rodriguez</div>
-            </div>
-            <div className="ml-auto font-semibold">750</div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="w-8">7</div>
-            <div className="flex items-center gap-4">
-              <img
-                alt="Avatar"
-                className="rounded-full"
-                height="40"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "40/40",
-                  objectFit: "cover",
-                }}
-                width="40"
-              />
-              <div className="font-semibold">Sophia Martinez</div>
-            </div>
-            <div className="ml-auto font-semibold">700</div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="w-8">8</div>
-            <div className="flex items-center gap-4">
-              <img
-                alt="Avatar"
-                className="rounded-full"
-                height="40"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "40/40",
-                  objectFit: "cover",
-                }}
-                width="40"
-              />
-              <div className="font-semibold">Mia Hernandez</div>
-            </div>
-            <div className="ml-auto font-semibold">650</div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="w-8">9</div>
-            <div className="flex items-center gap-4">
-              <img
-                alt="Avatar"
-                className="rounded-full"
-                height="40"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "40/40",
-                  objectFit: "cover",
-                }}
-                width="40"
-              />
-              <div className="font-semibold">Benjamin Lopez</div>
-            </div>
-            <div className="ml-auto font-semibold">600</div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="w-8">10</div>
-            <div className="flex items-center gap-4">
-              <img
-                alt="Avatar"
-                className="rounded-full"
-                height="40"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "40/40",
-                  objectFit: "cover",
-                }}
-                width="40"
-              />
-              <div className="font-semibold">Charlotte Smith</div>
-            </div>
-            <div className="ml-auto font-semibold">550</div>
-          </div>
+          ))}
         </div>
       </CardContent>
     </Card>
     </div>
   )
 }
-
