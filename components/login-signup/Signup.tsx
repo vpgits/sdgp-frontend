@@ -91,6 +91,7 @@ export default function SignupLogin() {
                       placeholder="John Doe"
                       required
                       type="text"
+                      name="name"
                     />
                   </div>
                   <div className="space-y-2">
