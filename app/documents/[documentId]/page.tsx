@@ -5,7 +5,6 @@ type Props = {
 };
 
 export default function page({ params }: Props) {
-  console.log(params);
   return (
     <div>
       <p>{params.documentId}</p>

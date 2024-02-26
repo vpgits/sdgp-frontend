@@ -5,10 +5,11 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { fileTypeFromBuffer } from "file-type";
+import { Database } from "@/types/supabase";
 
 export default async function create(formData: FormData) {
   const cookieStore = cookies();
-  const supabase = await createClient(cookieStore);
+  const supabase = await createClient<Database>(cookieStore);
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
     redirect("/login");
@@ -33,7 +34,7 @@ export default async function create(formData: FormData) {
       const { data, error } = await supabase
         .from("documents")
         .insert([
-          { title: formData.get("fileName"), file_type: detectedFileType.ext },
+          { title: formData.get("fileName")! as string, file_type: detectedFileType.ext! },
         ])
         .select();
       if (error)
@@ -48,11 +49,11 @@ export default async function create(formData: FormData) {
     {
       const { data, error } = await supabase.storage
         .from("pdf")
-        .upload(fileName, formData.get("file") as File);
+        .upload(fileName, formData.get("file")! as File);
       if (error) throw new Error("Unable to upload the file " + error.message);
     }
-  } catch (e) {
-    console.log(e);
+  } catch (e: any) {
+    throw new Error("Error getting documents " + e.message);
   }
   revalidatePath("/documents");
   redirect("/documents");
