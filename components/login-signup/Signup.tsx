@@ -7,6 +7,7 @@ import { useState } from "react";
 import Image from "next/image";
 import signupPic from "../../public/login-pic.png";
 import { signup, Login } from "@/app/login/action";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 export default function SignupLogin() {
   const [login, setLogin] = useState(true);
@@ -54,9 +55,22 @@ export default function SignupLogin() {
                   <Button className="w-full" type="submit">
                     Login
                   </Button>
-                  <Button className="w-full" variant="outline">
-                    Login with Google
-                  </Button>
+                  <GoogleOAuthProvider clientId="http://251594071758-lcn2jr190479a3t9ghci9gi74tl1c9r8.apps.googleusercontent.com">
+                    <GoogleLogin
+                      onSuccess={(credentialResponse) => {
+                        console.log(credentialResponse);
+                      }}
+                      onError={() => {
+                        console.log("Login Failed");
+                      }}
+                    />
+                    ;
+                    
+                  </GoogleOAuthProvider>
+                  {/* <Button className="w-full" variant="outline">
+                      Login with Google
+                    </Button> */}
+                  ;
                 </div>
               </form>
 
