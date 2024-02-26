@@ -29,7 +29,7 @@ export default function RootLayout({
         >
           <div className="flex flex-auto flex-col h-screen">
             <Header />
-            <div className="h-full mt-12">{children}</div>
+            <div className="h-full mt-20">{children}</div>
           </div>
         </ThemeProvider>
         <Analytics />
