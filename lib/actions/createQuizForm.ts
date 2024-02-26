@@ -1,11 +1,12 @@
 'use server'
+import { Database } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/actions";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function create(formData: FormData) {
   const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient<Database>(cookieStore);
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
     redirect("/login");

@@ -17,7 +17,7 @@ export default async function Generate() {
 
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    redirect("/");
+    redirect("/login");
   }
 
   async function getKeyPoints() {

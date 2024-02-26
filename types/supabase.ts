@@ -236,6 +236,7 @@ export type Database = {
           inserted_at: string
           num_of_questions: number | null
           remarks: string | null
+          results: Json | null
           updated_at: string
           user_id: string
         }
@@ -246,6 +247,7 @@ export type Database = {
           inserted_at?: string
           num_of_questions?: number | null
           remarks?: string | null
+          results?: Json | null
           updated_at?: string
           user_id: string
         }
@@ -256,6 +258,7 @@ export type Database = {
           inserted_at?: string
           num_of_questions?: number | null
           remarks?: string | null
+          results?: Json | null
           updated_at?: string
           user_id?: string
         }
@@ -282,21 +285,18 @@ export type Database = {
           email: string | null
           id: string
           name: string | null
-          username: string
         }
         Insert: {
           created_at?: string
           email?: string | null
           id: string
           name?: string | null
-          username: string
         }
         Update: {
           created_at?: string
           email?: string | null
           id?: string
           name?: string | null
-          username?: string
         }
         Relationships: [
           {
