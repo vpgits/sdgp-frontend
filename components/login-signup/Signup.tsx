@@ -55,7 +55,7 @@ export default function SignupLogin() {
                   <Button className="w-full" type="submit">
                     Login
                   </Button>
-                  <GoogleOAuthProvider clientId="http://251594071758-lcn2jr190479a3t9ghci9gi74tl1c9r8.apps.googleusercontent.com">
+                  <GoogleOAuthProvider clientId="251594071758-lcn2jr190479a3t9ghci9gi74tl1c9r8.apps.googleusercontent.com">
                     <GoogleLogin
                       onSuccess={(credentialResponse) => {
                         console.log(credentialResponse);
@@ -64,13 +64,13 @@ export default function SignupLogin() {
                         console.log("Login Failed");
                       }}
                     />
-                    ;
+                    
                     
                   </GoogleOAuthProvider>
                   {/* <Button className="w-full" variant="outline">
                       Login with Google
                     </Button> */}
-                  ;
+                  
                 </div>
               </form>
 
