@@ -71,7 +71,7 @@ export default function Chat(props: { quizData: quizData }) {
   return (
     <>
       <Drawer>
-        <DrawerTrigger className="rounded-full border dark:bg-white bg-slate-900 text-black dark:text-white h-14 w-14 fixed bottom-0 right-0 m-4 z-10 flex justify-center items-center transition-all duration-300">
+        <DrawerTrigger className="rounded-full border  dark:bg-white bg-black text-black dark:text-white h-14 w-14 fixed bottom-0 right-0 m-4 z-10 flex justify-center items-center transition-all duration-300">
           <IoChatbubbleEllipsesOutline
             onClick={() => {
               setChatting(true);
@@ -88,7 +88,7 @@ export default function Chat(props: { quizData: quizData }) {
             className="h-10 w-10 ease-in-out transition-all duration-300 dark:text-black text-white"
           />
         </DrawerTrigger>
-        <DrawerContent className="text-small md:text-base bottom-4  dark:bg-slate-900 bg-slate-200 rounded-lg h-5/6 m-5 top-10 ">
+        <DrawerContent className="text-small md:text-base bottom-4  dark:bg-slate-950 bg-slate-200 rounded-lg h-full m-5 top-10 ">
           <DrawerHeader className="max-h-72  ">
             <Questions
               quizData={quizData}
@@ -96,7 +96,7 @@ export default function Chat(props: { quizData: quizData }) {
               handleClearChat={setMessages}
             />
           </DrawerHeader>
-          <div className="overflow-y-scroll scrollbar-hide m-2">
+          <div className="overflow-y-scroll scroll mb-40 scrollbar-hide m-2">
             {messages
               .filter((message) => {
                 return message.role !== "system";
@@ -105,21 +105,18 @@ export default function Chat(props: { quizData: quizData }) {
                 <ChatBubble key={m.id} message={m.content} role={m.role} />
               ))}
           </div>
-          <DrawerFooter className="gap-y-5 p-2 scrollbar-hide">
+          <DrawerFooter className="gap-y-5 p-2 scrollbar-hide bottom-16 w-full  fixed">
             <form onSubmit={handleSubmit}>
-              <div className="w-full flex flex-auto justify-between gap-2">
+              <div className="w-full flex flex-auto justify-between items-center gap-2">
                 <input
                   value={input}
                   onChange={handleInputChange}
                   placeholder="Say something..."
-                  className="w-full p-2 border-2 border-black dark:border-white rounded-lg dark:bg-slate-600 bg-slate-300"
+                  className="w-full p-2 rounded-lg  "
                 />
-                <button
-                  className=" min-w-16 border-2 border-black dark:border-white rounded-lg dark:bg-slate-600 bg-slate-300"
-                  type="submit"
-                >
+                <Button className=" min-w-16 " type="submit">
                   Send
-                </button>
+                </Button>
               </div>
             </form>
           </DrawerFooter>
