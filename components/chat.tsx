@@ -72,12 +72,12 @@ export default function Chat(props: { quizData: quizData }) {
   return (
     <>
       <Drawer>
-        <DrawerTrigger className="rounded-full border dark:border-white border-black bg-slate-300 dark:bg-slate-600 h-14 w-14 fixed bottom-0 right-0 m-4 z-10 flex justify-center items-center transition-all duration-300">
+        <DrawerTrigger className="rounded-full border dark:bg-white bg-slate-900 text-black dark:text-white h-14 w-14 fixed bottom-0 right-0 m-4 z-10 flex justify-center items-center transition-all duration-300">
           <IoChatbubbleEllipsesOutline
             onClick={() => {
               setChatting(true);
             }}
-            className="h-10 w-10 ease-in-out transition-all duration-300"
+            className="h-10 w-10 ease-in-out transition-all duration-300 dark:text-black text-white"
           />
         </DrawerTrigger>
         <DrawerContent className="text-small md:text-base bottom-4  dark:bg-slate-900 bg-slate-200 rounded-lg h-5/6 m-5 top-10">
@@ -135,7 +135,7 @@ export function ChatBubble(props: { message: string; role: string }) {
       >
         {isUser ? "User: " : "Quizzifyme: "}
       </span>
-      <Markdown className={`mt-2 text-gray-400 w-full`}>
+      <Markdown className={`mt-2 dark:text-white text-black  `}>
         {props.message}
       </Markdown>
     </div>

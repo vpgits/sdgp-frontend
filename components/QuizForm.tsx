@@ -18,6 +18,7 @@ import { Button } from "./ui/button";
 import Chat from "./chat";
 import { handleFormUpload } from "@/utils/quiz/action";
 import { useTimer } from "react-timer-hook";
+import Link from "next/link";
 
 const zodMCQSchema = z.object({
   defaultValues: z.array(
@@ -117,7 +118,6 @@ type fieldType = FieldArrayWithId<
 //   ],
 // };
 
-
 export default function QuizForm(props: {
   quizData: quizData;
   quizId: string;
@@ -160,15 +160,20 @@ export default function QuizForm(props: {
 
   return (
     <>
-      <div className=" top-14 sticky w-full text-center bg-white dark:bg-slate-950 py-2">
+      <div className=" top-14 fixed w-full rounded-full text-center bg-white dark:bg-slate-950 py-1 flex flex-auto items-center justify-evenly">
         <Timer
           form={form}
           expiryTimestamp={time}
           handleSubmitQuiz={handleSubmitQuiz}
         />
-        <h2 className="text-2xl font-bold my-5">
+        <h2 className="text-2xl font-bold">
           {formState.isSubmitted ? `Your Score: ${mark}` : ""}
         </h2>
+        {formState.isSubmitted && (
+          <Link href={`/share/${quizId}`}>
+            <Button>Share</Button>
+          </Link>
+        )}
       </div>
 
       {submitted && <Chat quizData={userData!} />}
