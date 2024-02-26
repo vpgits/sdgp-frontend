@@ -39,20 +39,18 @@ export default function Chat(props: { quizData: quizData }) {
     handleInputChange,
     handleSubmit,
     setMessages,
+    error,
     reload,
     append,
   } = useChat({});
   const [chatting, setChatting] = useState(false);
+
   // ...messages.filter((m) => m.role !== "system"),
   const handleInitialChat = (index: number) => {
     setMessages([
+      ...messages,
       {
-        role: "system",
-        content: SystemPrompt,
-        id: "systemPrompt",
-      },
-      {
-        role: "system",
+        role: "user",
         content: `User needs help with a MCQ question. The question is ${
           quizData.defaultValues[index].question
         }. ${
@@ -68,6 +66,7 @@ export default function Chat(props: { quizData: quizData }) {
         id: "question",
       },
     ]);
+    reload();
   };
   return (
     <>
@@ -76,19 +75,28 @@ export default function Chat(props: { quizData: quizData }) {
           <IoChatbubbleEllipsesOutline
             onClick={() => {
               setChatting(true);
+              if (messages.length === 0) {
+                setMessages([
+                  {
+                    role: "system",
+                    content: SystemPrompt,
+                    id: "system",
+                  },
+                ]);
+              }
             }}
             className="h-10 w-10 ease-in-out transition-all duration-300 dark:text-black text-white"
           />
         </DrawerTrigger>
-        <DrawerContent className="text-small md:text-base bottom-4  dark:bg-slate-900 bg-slate-200 rounded-lg h-5/6 m-5 top-10">
-          <DrawerHeader className="max-h-72 ">
+        <DrawerContent className="text-small md:text-base bottom-4  dark:bg-slate-900 bg-slate-200 rounded-lg h-5/6 m-5 top-10 ">
+          <DrawerHeader className="max-h-72  ">
             <Questions
               quizData={quizData}
               handleInitialChat={handleInitialChat}
               handleClearChat={setMessages}
             />
           </DrawerHeader>
-          <div className="overflow-y-scroll m-2">
+          <div className="overflow-y-scroll scrollbar-hide m-2">
             {messages
               .filter((message) => {
                 return message.role !== "system";
@@ -97,7 +105,7 @@ export default function Chat(props: { quizData: quizData }) {
                 <ChatBubble key={m.id} message={m.content} role={m.role} />
               ))}
           </div>
-          <DrawerFooter className="gap-y-5 p-2">
+          <DrawerFooter className="gap-y-5 p-2 scrollbar-hide">
             <form onSubmit={handleSubmit}>
               <div className="w-full flex flex-auto justify-between gap-2">
                 <input
@@ -126,7 +134,7 @@ export function ChatBubble(props: { message: string; role: string }) {
 
   return (
     <div
-      className={`border p-4 m-4 flex flex-auto flex-col ${
+      className={`border rounded-lg p-4 m-4 flex flex-auto flex-col ${
         isUser ? "items-end" : "items-start"
       }`}
     >
@@ -182,7 +190,7 @@ export function Questions(props: {
   return (
     <>
       <DrawerTitle className="flex flex-auto justify-between m-2">
-        <h1 className="text-2xl">Chat with QuizzifyMe</h1>
+        <h2 className="text-2xl">Chat with QuizzifyMe</h2>
         <Button
           onClick={() => {
             reset({ defaultValues: quizData.defaultValues });
@@ -193,7 +201,7 @@ export function Questions(props: {
           + New Chat
         </Button>
       </DrawerTitle>
-      <form className="max-h-96 overflow-y-auto">
+      <form className="max-h-96 overflow-y-scroll scrollbar-hide">
         {fields.map((field, index) => (
           <div
             key={field.id}

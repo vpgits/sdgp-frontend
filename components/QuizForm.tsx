@@ -160,19 +160,20 @@ export default function QuizForm(props: {
 
   return (
     <>
-      <div className=" top-14 fixed w-full rounded-full text-center bg-white dark:bg-slate-950 py-1 flex flex-auto items-center justify-evenly">
+      <div className=" top-14 fixed w-full rounded-full text-center bg-white dark:bg-slate-950 py-1 flex flex-auto items-center justify-evenly gap-x-5">
         <Timer
           form={form}
           expiryTimestamp={time}
           handleSubmitQuiz={handleSubmitQuiz}
         />
-        <h2 className="text-2xl font-bold">
-          {formState.isSubmitted ? `Your Score: ${mark}` : ""}
-        </h2>
+
         {formState.isSubmitted && (
-          <Link href={`/share/${quizId}`}>
-            <Button>Share</Button>
-          </Link>
+          <>
+            <h2 className="text-2xl font-bold">Your Score: {mark}</h2>
+            <Link href={`/share/${quizId}`}>
+              <Button>Share</Button>
+            </Link>
+          </>
         )}
       </div>
 
@@ -303,7 +304,7 @@ export function Timer(props: {
     return;
   }
   return (
-    <div className="text-center mt-5 flex justify-center flex-col items-center">
+    <div className="text-center flex justify-center flex-col items-center">
       <span>
         {days !== 0 && <p>{`${days} ${days === 1 ? "Day" : "Days"}`}</p>}
         {hours !== 0 && <p>{`${hours} ${hours === 1 ? "Hour" : "Hours"}`}</p>}
