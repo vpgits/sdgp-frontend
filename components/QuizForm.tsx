@@ -34,10 +34,6 @@ const zodMCQSchema = z.object({
   ),
 });
 
-
-
-const pdref =useRef();
-
 type defaultValues = {
   id: string;
   question: string;
@@ -147,6 +143,33 @@ export default function QuizForm(props: {
     name: "defaultValues",
   });
 
+  //download button
+  const downloadPDF = () => {
+    const input = pdfRef.current;
+    html2canvas(input!).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4", true);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const imgX = (pdfWidth - imgWidth * ratio) / 2; // Fixed missing multiplication operator *
+      const imgY = 0;
+      pdf.addImage(
+        imgData,
+        "PNG",
+        imgX,
+        imgY,
+        imgWidth * ratio,
+        imgHeight * ratio
+      ); // Fixed missing multiplication operator *
+      pdf.save("invoice.pdf");
+    });
+  };
+
+  const pdfRef = useRef<HTMLFormElement | null>(null);
+
   const handleSubmitQuiz = async (data: any) => {
     if (data.defaultValues) {
       let score = 0;
@@ -162,25 +185,6 @@ export default function QuizForm(props: {
       handleFormUpload(data, quizId);
     }
     setSubmitted(true);
-  };
-
-  
-  //download button
-  const downloadPDF = () => {
-    const input = pdfRef.current; 
-    html2canvas(input).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4', true); 
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = canvas.width;
-      const imgHeight = canvas.height;
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-      const imgX = (pdfWidth - imgWidth * ratio) / 2; // Fixed missing multiplication operator *
-      const imgY = 30;
-      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio); // Fixed missing multiplication operator *
-      pdf.save('invoice.pdf');
-    });
   };
 
   return (
@@ -203,7 +207,11 @@ export default function QuizForm(props: {
       </div>
 
       {submitted && <Chat quizData={userData!} />}
-      <form onSubmit={handleSubmit(handleSubmitQuiz)} className="pb-5" ref={pdfRef}>
+      <form
+        onSubmit={handleSubmit(handleSubmitQuiz)}
+        className="pb-5"
+        ref={pdfRef}
+      >
         {fields.map((field, index) => (
           <div className="flex flex-auto flex-col mx-10" key={field.id}>
             <ShadCNMCQComponent
@@ -221,9 +229,7 @@ export default function QuizForm(props: {
             Clear All
           </Button>
           {/* <Button disabled={!formState.isSubmitted} onClick={() => window.print()}> */}
-          <Button onClick={downloadPDF}>
-            Download
-          </Button>
+          <Button onClick={downloadPDF}>Download</Button>
         </div>
       </form>
     </>
@@ -242,7 +248,6 @@ export function ShadCNMCQComponent({
   const { formState, register } = form;
   const [answers, setAnswers] = useState<string[]>([]);
   const [userAnswer, setUserAnswer] = useState<string>("");
-  
 
   useEffect(() => {
     setAnswers(
