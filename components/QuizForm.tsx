@@ -19,6 +19,8 @@ import Chat from "./chat";
 import { handleFormUpload } from "@/utils/quiz/action";
 import { useTimer } from "react-timer-hook";
 import Link from "next/link";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 const zodMCQSchema = z.object({
   defaultValues: z.array(
@@ -141,6 +143,23 @@ export default function QuizForm(props: {
     name: "defaultValues",
   });
 
+  //download button
+  const downloadPDF = () => {
+    const input = pdfRef.current;
+    html2canvas(input!, { scrollY: -window.scrollY }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/jpeg", 1.0); // Change format to JPEG for better compression
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "px",
+        format: [canvas.width, canvas.height],
+      });
+      pdf.addImage(imgData, "JPEG", 0, 0, canvas.width, canvas.height); // Use JPEG format
+      pdf.save(`${quizId}.pdf`); // Pass compression options
+    });
+  };
+
+  const pdfRef = useRef<HTMLFormElement | null>(null);
+
   const handleSubmitQuiz = async (data: any) => {
     if (data.defaultValues) {
       let score = 0;
@@ -170,17 +189,28 @@ export default function QuizForm(props: {
         {formState.isSubmitted && (
           <>
             <h2 className="text-2xl font-bold">Your Score: {mark}</h2>
-            <Link href={`/share/${quizId}`}>
-              <Button>Share</Button>
-            </Link>
+            <div className="flex gap-x-2 items-end">
+              {" "}
+              <Link href={`/share/${quizId}`}>
+                <Button>Share</Button>
+              </Link>
+              <Button onClick={downloadPDF}>Download</Button>
+            </div>
           </>
         )}
       </div>
 
       {submitted && <Chat quizData={userData!} />}
-      <form onSubmit={handleSubmit(handleSubmitQuiz)} className="pb-5">
+      <form
+        onSubmit={handleSubmit(handleSubmitQuiz)}
+        className="pb-5"
+        ref={pdfRef}
+      >
         {fields.map((field, index) => (
-          <div className="flex flex-auto flex-col mx-10" key={field.id}>
+          <div
+            className="flex flex-auto flex-col mx-16 px-5 dark:bg-slate-950"
+            key={field.id}
+          >
             <ShadCNMCQComponent
               field={field as any}
               index={index as number}
@@ -195,6 +225,7 @@ export default function QuizForm(props: {
           <Button type="reset" disabled={formState.isSubmitted}>
             Clear All
           </Button>
+          {/* <Button disabled={!formState.isSubmitted} onClick={() => window.print()}> */}
         </div>
       </form>
     </>
