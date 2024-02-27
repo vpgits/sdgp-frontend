@@ -1,6 +1,23 @@
 import React from "react";
 import Dashboard from "@/components/dashboard/Dashboard";
+import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/actions";
+import { redirect } from "next/navigation";
 
-export default function page() {
+export function generateMetadata() {
+  return {
+    title: "Dashboard | Quizzifyme",
+    description: "Dashboard",
+  };
+}
+
+export default async function Page() {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    redirect("/login");
+  }
   return <Dashboard />;
 }

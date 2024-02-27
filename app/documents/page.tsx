@@ -27,7 +27,7 @@ export default async function Page() {
 
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    redirect("/");
+    redirect("/login");
   }
 
   async function getDocuments() {

@@ -1,11 +1,12 @@
 import { createClient } from "@/utils/supabase/actions";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { Database } from "@/types/supabase";
 
 export async function POST(request: Request) {
   let userId, access_token, refresh_token, quizId;
   const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient<Database>(cookieStore);
   {
     const { data, error } = await supabase.auth.getUser();
     if (error) {
@@ -23,6 +24,11 @@ export async function POST(request: Request) {
   }
   const body = await request.json();
   const { documentId, numOfQuestions, remarks } = body;
+
+  if (documentId === null || numOfQuestions === null || remarks === null) {
+    throw new Error("Invalid request");
+  }
+
   try {
     {
       const { data, error } = await supabase
@@ -47,7 +53,7 @@ export async function POST(request: Request) {
     headers.append("Authorization", access_token || "");
     headers.append("Refresh-Token", refresh_token || "");
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT_URL}/quiz/`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/`, {
       method: "POST",
       headers: headers,
       body: JSON.stringify({
@@ -56,12 +62,6 @@ export async function POST(request: Request) {
     });
     const data = await res.json();
     const taskId = data.task_id;
-    {
-      const { data, error } = await supabase
-        .from("quiz")
-        .update({ task_id: taskId })
-        .eq("id", quizId);
-    }
     return new NextResponse(JSON.stringify({ taskId, quizId }));
   } catch (error: any) {
     throw new Error("Error getting documents " + error.message);

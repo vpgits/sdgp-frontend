@@ -4,29 +4,33 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { GlobeIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
 
-export default function Header() {
+export default async function Header() {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const { data } = await supabase.auth.getUser();
+  const loggedIn = data?.user !== null;
   return (
-    <div className="flex items-center justify-center p-5">
-      <div className="w-10/12 flex flex-auto items-center justify-between">
-        <Link className="flex justify-start" href="#">
-          <GlobeIcon className="h-6 w-6" />
-          <h1 className="ml-2 text-lg font-semibold">Quizme</h1>
-        </Link>
-        <nav className="hidden md:flex flex-auto items-center justify-center gap-4">
-          <Link
-            className="text-sm font-medium hover:underline"
-            href="/dashboard"
-          >
-            Home
+    <div className="fixed w-full  top-0 rounded-ful ">
+      <div className="flex items-center justify-center px-5 py-4   dark:bg-slate-950 text-black bg-white dark:text-white ">
+        <div className="w-10/12 flex flex-auto items-center justify-between">
+          <Link className="flex justify-start" href="/">
+            <GlobeIcon className="h-6 w-6" />
+            <h1 className="ml-2 text-lg font-semibold">Quizzifyme</h1>
           </Link>
-
-          {/* Activity Dropdown */}
-          <div className="relative group">
-            <button className="text-sm font-medium hover:underline ">
-              Activity
-            </button>
-            <div className="absolute hidden group-hover:block bg-white shadow-md py-2 px-4 top-full mt-1">
+          <nav className="hidden md:flex flex-auto items-center justify-center gap-4">
+            <Link className="text-sm font-medium hover:underline" href="/">
+              Home
+            </Link>
+            <Link
+              href="/dashboard"
+              className="text-sm font-medium hover:underline "
+            >
+              Dashboard
+            </Link>
+            {/* <div className="absolute hidden group-hover:block bg-white shadow-md py-2 px-4 top-full mt-1">
               <Link
                 className="block text-sm font-medium hover:underline "
                 href="#"
@@ -45,86 +49,89 @@ export default function Header() {
               >
                 America
               </Link>
-            </div>
-          </div>
-          {/* End of Activity Dropdown */}
+            </div> */}
 
-          <Link className="text-sm font-medium hover:underline" href="#">
-            Account
-          </Link>
-          <Link className="text-sm font-medium hover:underline" href="#">
-            About
-          </Link>
-          <Link
-            className="text-sm font-medium hover:underline"
-            href="ContactPage"
-          >
-            Contact
-          </Link>
-        </nav>
-        <Button className="hidden md:inline-flex">
-          <Link href="subscription-page">Subscribe</Link>{" "}
-        </Button>
-        <div className="flex flex-end">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button className="md:hidden" size="icon" variant="outline">
-                <HamburgerMenuIcon className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right">
-              <div className="grid gap-4 p-4">
-                <Link
-                  className="text-lg font-medium hover:underline"
-                  href="/dashboard"
-                >
-                  Home
-                </Link>
-                <div>
-                  <div>
-                    <Link
-                      className="text-lg font-medium hover:underline hover:text-green-300"
-                      href="#"
-                    >
-                      Activites
+            {/* End of Activity Dropdown */}
+
+            <Link
+              className="text-sm font-medium hover:underline"
+              href="/profile"
+            >
+              Profile
+            </Link>
+            <Link className="text-sm font-medium hover:underline" href="#">
+              About
+            </Link>
+            <Link
+              className="text-sm font-medium hover:underline"
+              href="/contact-us"
+            >
+              Contact Us
+            </Link>
+          </nav>
+          {!loggedIn ? (
+            <Link href="/login">
+              <Button className="hidden md:inline-flex">Login</Button>
+            </Link>
+          ) : (
+            <Link href="/subscribe">
+              <Button className="hidden md:inline-flex">Subscribe</Button>
+            </Link>
+          )}
+          <div className="flex flex-end">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button className="md:hidden" size="icon" variant="outline">
+                  <HamburgerMenuIcon className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right">
+                <div className="grid gap-4 p-4">
+                  <Link
+                    className="text-lg font-medium hover:underline"
+                    href="/"
+                  >
+                    Home
+                  </Link>
+                  <Link
+                    className="text-lg font-medium hover:underline"
+                    href="/dashboard"
+                  >
+                    Dashboard
+                  </Link>
+
+                  <Link
+                    className="text-lg font-medium hover:underline"
+                    href="#"
+                  >
+                    Profile
+                  </Link>
+                  <Link
+                    className="text-lg font-medium hover:underline"
+                    href="#"
+                  >
+                    About
+                  </Link>
+                  <Link
+                    className="text-lg font-medium hover:underline"
+                    href="#"
+                  >
+                    Contact Us
+                  </Link>
+                  {!loggedIn ? (
+                    <Link href="/login">
+                      <Button className="mt-4">Login</Button>
                     </Link>
-                  </div>
-                  <div className="mt-2 ml-5">
-                    <Link
-                      className="block text-lg font-medium hover:underline hover:text-green-300"
-                      href="#"
-                    >
-                      Asia
+                  ) : (
+                    <Link href="/subscribe">
+                      <Button className="mt-4">Subscribe</Button>
                     </Link>
-                    <Link
-                      className="block text-lg font-medium hover:underline hover:text-green-300"
-                      href="#"
-                    >
-                      Europe
-                    </Link>
-                    <Link
-                      className="block text-lg font-medium hover:underline hover:text-green-300"
-                      href="#"
-                    >
-                      America
-                    </Link>
-                  </div>
+                  )}
                 </div>
-
-                <Link className="text-lg font-medium hover:underline" href="#">
-                  Tours
-                </Link>
-                <Link className="text-lg font-medium hover:underline" href="#">
-                  About
-                </Link>
-                <Link className="text-lg font-medium hover:underline" href="#">
-                  Contact
-                </Link>
-                <Button className="mt-4">Subscribe</Button>
-              </div>
-            </SheetContent>
-          </Sheet>
-          <ModeToggle />
+              </SheetContent>
+            </Sheet>
+            <ModeToggle />
+          </div>
         </div>
       </div>
     </div>

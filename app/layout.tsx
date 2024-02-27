@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,10 +28,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="flex flex-auto flex-col h-screen">
-          <Header />
-          <div className="h-full">{children}</div>
+            <Header />
+            <div className="h-full mt-20">{children}</div>
           </div>
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

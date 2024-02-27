@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -10,8 +10,7 @@ import {
 } from "../ui/table";
 import { Toaster, toast } from "sonner";
 import { Button } from "../ui/button";
-import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 type Document = {
   id: string;
@@ -39,8 +38,8 @@ export default function DocumentsTable({ documentData }: Props) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((document: Document) => (
-            <CustomTableRow document={document} />
+          {data.map((document: Document, index) => (
+            <CustomTableRow document={document} key={index} />
           ))}
         </TableBody>
       </Table>
@@ -74,7 +73,6 @@ export function CustomTableRow(props: { document: Document }) {
     router.push(`/documents/${documentId}/quiz`);
   };
   const handleProcess = async (documentId: string) => {
-    setIsProcessing(true);
     try {
       const preprocessUrl = new URL(
         `api/documents/preprocess`,
@@ -88,6 +86,7 @@ export function CustomTableRow(props: { document: Document }) {
       const data = await response.json();
       setTaskId(data.taskId);
       setIsProcessing(true);
+      new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error: any) {
       toast(error.message, {
         action: {
@@ -109,21 +108,24 @@ export function CustomTableRow(props: { document: Document }) {
         const { data } = await response.json();
         const task_status = data.task_status;
         const task_result = data.task_result;
-        if (task_result.status !== toastMessage) {
+        if (task_result.status !== toastMessage && task_status !== "SUCCESS") {
           setToastMessage(task_result.status);
           toast(task_result.status);
         }
-        if (task_status === "SUCCESS") {
+        if (task_status === "SUCCESS" && isProcessing) {
           setIsProcessing(false);
-          toast.success("Document Processed");
+          toast.success(task_result.message);
           clearInterval(interval);
+          return;
         }
       } catch (error: any) {
         toast.error(`Failed to fetch task :${error.message}`);
+        clearInterval(interval);
+        return;
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [taskId, toastMessage, isProcessing]);
+  }, [isProcessing, toastMessage, taskId]);
 
   return (
     <TableRow key={document.id} className="">
@@ -137,14 +139,14 @@ export function CustomTableRow(props: { document: Document }) {
 
       <TableCell className="lg: max-w-36 xs:flex flex-col">
         <Button
-          className={`mx-2 my-2 min-w-32`}
+          className={`mx-2 my-2 min-w-24`}
           onClick={() => handleProcess(document.id)}
         >
           {isProcessing ? "Processing..." : "Process"}
         </Button>
         <Button
           onClick={() => handleQuiz(document.id)}
-          className={`mx-2 my-2 min-w-32 `}
+          className={`mx-2 my-2 min-w-24 `}
         >
           Quiz
         </Button>

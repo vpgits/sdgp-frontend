@@ -1,19 +1,32 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { FieldArrayWithId, useFieldArray, useForm } from "react-hook-form";
-import { QuestionData } from "@/types/supabase";
+import React, {
+  MutableRefObject,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import {
+  FieldArrayWithId,
+  UseFormReturn,
+  useFieldArray,
+  useForm,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "./ui/button";
-import { Progress } from "./ui/progress";
+import Chat from "./chat";
+import { handleFormUpload } from "@/utils/quiz/action";
+import { useTimer } from "react-timer-hook";
+import Link from "next/link";
 
 const zodMCQSchema = z.object({
   defaultValues: z.array(
     z.object({
       id: z.string(),
       question: z.string(),
-      correctAnswer: z.string(),
-      incorrectAnswers: z.array(z.string()),
+      correct_answer: z.string(),
+      incorrect_answers: z.array(z.string()),
       userAnswer: z.string(),
     })
   ),
@@ -34,6 +47,10 @@ type modifiedQuizData = {
   correct_answer: string;
   incorrect_answers: string[];
 }[];
+
+type quizData = {
+  defaultValues: modifiedQuizData;
+};
 
 type fieldType = FieldArrayWithId<
   {
@@ -101,69 +118,66 @@ type fieldType = FieldArrayWithId<
 //   ],
 // };
 
-export default function QuizForm(props: { quizData: any }) {
-  const { quizData } = props;
-  console.log(quizData);
+export default function QuizForm(props: {
+  quizData: quizData;
+  quizId: string;
+}) {
+  const { quizData, quizId } = props || {};
   const [mark, setMark] = useState<number>(0);
   const [submitted, setSubmitted] = useState<boolean>(false);
-  const [time, setTime] = useState<number>(5 * quizData.defaultValues.length);
+  const [userData, setUserData] = useState(null);
+  const time: Date = new Date();
+  const initialTime: Date = time;
+  time.setSeconds(time.getSeconds() + 0.5 * quizData.defaultValues.length); // 10 minutes timer
 
   const form = useForm<z.infer<typeof zodMCQSchema>>({
     resolver: zodResolver(zodMCQSchema),
     defaultValues: { ...quizData },
   });
+  const submitRef = useRef(form);
   const { control, handleSubmit, formState } = { ...form };
   const { fields } = useFieldArray({
     control,
     name: "defaultValues",
   });
 
-  const handleSubmitQuiz = (data: z.infer<typeof zodMCQSchema>) => {
-    setSubmitted(true);
+  const handleSubmitQuiz = async (data: any) => {
     if (data.defaultValues) {
       let score = 0;
-      data.defaultValues.forEach((question) => {
+      data.defaultValues.forEach((question: any) => {
         if (question.correctAnswer === question.userAnswer) {
           score += 10;
         }
       });
       setMark(score);
     }
-  };
-
-  useEffect(() => {
-    if (!submitted) {
-      const interval = setTimeout(() => {
-        setTime((time) => time - 1);
-      }, 1000);
-
-      if (time === 0 || submitted) {
-        clearInterval(interval);
-        form.handleSubmit(handleSubmitQuiz)();
-      }
-      return () => clearInterval(interval);
+    setUserData(data);
+    {
+      handleFormUpload(data, quizId);
     }
-  }, [time]);
+    setSubmitted(true);
+  };
 
   return (
     <>
-      <div className="z-10 top-0 sticky w-full text-center bg-white dark:bg-slate-950 py-2">
-        <div className="flex flex-auto items-center justify-center gap-x-10 gap-y-2 flex-col">
-          <h1 className="">
-            <span className="gap-x-10 x-5">
-              <p>{formState.isSubmitted ? `Score: ${mark}` : ""}</p>
-              <p>Time: {time}s </p>
-            </span>
-          </h1>
-          <Progress
-            value={100 - (100 * time) / (5 * quizData.defaultValues.length)}
-            max={100}
-            className={`w-1/2 ${
-              time < 10 ? (time == 0 ? "hidden" : "bg-red-500") : "bg-green-500"
-            }`}
-          />
-        </div>
+      <div className=" top-14 fixed w-full rounded-full text-center bg-white dark:bg-slate-950 py-1 flex flex-auto items-center justify-evenly gap-x-5">
+        <Timer
+          form={form}
+          expiryTimestamp={time}
+          handleSubmitQuiz={handleSubmitQuiz}
+        />
+
+        {formState.isSubmitted && (
+          <>
+            <h2 className="text-2xl font-bold">Your Score: {mark}</h2>
+            <Link href={`/share/${quizId}`}>
+              <Button>Share</Button>
+            </Link>
+          </>
+        )}
       </div>
+
+      {submitted && <Chat quizData={userData!} />}
       <form onSubmit={handleSubmit(handleSubmitQuiz)} className="pb-5">
         {fields.map((field, index) => (
           <div className="flex flex-auto flex-col mx-10" key={field.id}>
@@ -209,7 +223,7 @@ export function ShadCNMCQComponent({
         () => Math.random() - 0.5
       )
     );
-  }, []);
+  }, [field.correct_answer, field.incorrect_answers]);
 
   return (
     <div key={field.id} className="my-5">
@@ -236,7 +250,7 @@ export function ShadCNMCQComponent({
             } `}
           >
             <input
-              className="w-4 h-4 mr-4"
+              className="w-4 h-4 mr-4 absolute opacity-0 cursor-pointer"
               type="radio"
               id={`defaultValues.${index}.answer-${answerIndex}`}
               {...register(`defaultValues.${index}.userAnswer`)}
@@ -253,6 +267,57 @@ export function ShadCNMCQComponent({
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+export function Timer(props: {
+  expiryTimestamp: Date;
+  form: ReturnType<typeof useForm<z.infer<typeof zodMCQSchema>>>;
+  handleSubmitQuiz: (userData: any) => Promise<void>;
+}) {
+  const { form, expiryTimestamp, handleSubmitQuiz } = props;
+  const { formState, handleSubmit } = form;
+
+  const handleError = (error: any) => {
+    console.log("error");
+    console.log(error);
+  };
+
+  const {
+    totalSeconds,
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    resume,
+    restart,
+  } = useTimer({
+    expiryTimestamp,
+    onExpire: () => {
+      console.log("onExpire");
+      handleSubmit(handleSubmitQuiz, handleError)();
+    },
+  });
+
+  if (formState.isSubmitted) {
+    return;
+  }
+  return (
+    <div className="text-center flex justify-center flex-col items-center">
+      <span>
+        {days !== 0 && <p>{`${days} ${days === 1 ? "Day" : "Days"}`}</p>}
+        {hours !== 0 && <p>{`${hours} ${hours === 1 ? "Hour" : "Hours"}`}</p>}
+        {minutes !== 0 && (
+          <p>{`${minutes} ${minutes === 1 ? "Minute" : "Minutes"}`}</p>
+        )}
+        {seconds !== 0 && (
+          <p>{`${seconds} ${seconds === 1 ? "Second" : "Seconds"}`}</p>
+        )}
+      </span>
     </div>
   );
 }
