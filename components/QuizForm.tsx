@@ -19,6 +19,8 @@ import Chat from "./chat";
 import { handleFormUpload } from "@/utils/quiz/action";
 import { useTimer } from "react-timer-hook";
 import Link from "next/link";
+import html2canvas from "html2canvas";
+import jspdf, { jsPDF } from "jspdf";
 
 const zodMCQSchema = z.object({
   defaultValues: z.array(
@@ -31,6 +33,27 @@ const zodMCQSchema = z.object({
     })
   ),
 });
+
+
+  //download button
+  const downloadPDF = () => {
+    const input = pdfRef.current; 
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4', true); 
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const imgX = (pdfWidth - imgWidth * ratio) / 2; // Fixed missing multiplication operator *
+      const imgY = 30;
+      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio); // Fixed missing multiplication operator *
+      pdf.save('invoice.pdf');
+    });
+  };
+
+const pdref =useRef();
 
 type defaultValues = {
   id: string;
@@ -195,7 +218,8 @@ export default function QuizForm(props: {
           <Button type="reset" disabled={formState.isSubmitted}>
             Clear All
           </Button>
-          <Button disabled={!formState.isSubmitted} onClick={() => window.print()}>
+          {/* <Button disabled={!formState.isSubmitted} onClick={() => window.print()}> */}
+          <Button onClick={downloadPDF}>
             Download
           </Button>
         </div>
@@ -216,6 +240,7 @@ export function ShadCNMCQComponent({
   const { formState, register } = form;
   const [answers, setAnswers] = useState<string[]>([]);
   const [userAnswer, setUserAnswer] = useState<string>("");
+  
 
   useEffect(() => {
     setAnswers(
