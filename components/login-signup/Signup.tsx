@@ -7,9 +7,41 @@ import { useState } from "react";
 import Image from "next/image";
 import signupPic from "../../public/login-pic.png";
 import { signup, Login } from "@/app/login/action";
+import {
+  GoogleLogin,
+  GoogleOAuthProvider,
+  GoogleLoginProps,
+  useGoogleOneTapLogin,
+} from "@react-oauth/google";
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 
-export default function SignupLogin() {
+export default function SignupLogin({
+  nonce,
+  hashedNonce,
+}: {
+  nonce: string;
+  hashedNonce: string;
+}) {
   const [login, setLogin] = useState(true);
+  const supabase = createClient();
+  const router = useRouter();
+
+  async function handleSignInWithGoogle(response: any) {
+    const { data, error } = await supabase.auth.signInWithIdToken({
+      provider: "google",
+      token: response.credential,
+      nonce: nonce, // must be the same one as provided in data-nonce (if any)
+    });
+    console.log(data, error);
+    if (data) {
+      router.push("/dashboard");
+    }
+    if (error) {
+      console.log(error);
+      router.push("/login");
+    }
+  }
   return (
     <div className="flex flex-auto items-center justify-center h-full">
       <div className="lg:mx-24">
@@ -51,12 +83,32 @@ export default function SignupLogin() {
                       type="password"
                     />
                   </div>
-                  <Button className="w-full" type="submit">
-                    Login
-                  </Button>
-                  <Button className="w-full" variant="outline">
-                    Login with Google
-                  </Button>
+
+                  <div className="flex flex-auto items-center flex-col gap-y-2">
+                    <Button className="w-full" type="submit">
+                      Login
+                    </Button>
+                    <GoogleOAuthProvider
+                      clientId="251594071758-lcn2jr190479a3t9ghci9gi74tl1c9r8.apps.googleusercontent.com"
+                      nonce={hashedNonce}
+                    >
+                      <div className=" w-full flex justify-center flex-auto">
+                        <GoogleLogin
+                          nonce={hashedNonce}
+                          onSuccess={(credentialResponse) => {
+                            handleSignInWithGoogle(credentialResponse);
+                          }}
+                          onError={() => {
+                            console.log("Login Failed");
+                          }}
+                          useOneTap
+                          size="large"
+                          shape="rectangular"
+                          auto_select={false}
+                        />
+                      </div>
+                    </GoogleOAuthProvider>
+                  </div>
                 </div>
               </form>
 
@@ -114,9 +166,6 @@ export default function SignupLogin() {
                   </div>
                   <Button className="w-full" type="submit">
                     Sign Up
-                  </Button>
-                  <Button className="w-full" variant="outline">
-                    Sign Up with Google
                   </Button>
                 </div>
                 <div className="mt-4 text-center text-sm">
