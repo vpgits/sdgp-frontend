@@ -35,23 +35,6 @@ const zodMCQSchema = z.object({
 });
 
 
-  //download button
-  const downloadPDF = () => {
-    const input = pdfRef.current; 
-    html2canvas(input).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4', true); 
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = canvas.width;
-      const imgHeight = canvas.height;
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-      const imgX = (pdfWidth - imgWidth * ratio) / 2; // Fixed missing multiplication operator *
-      const imgY = 30;
-      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio); // Fixed missing multiplication operator *
-      pdf.save('invoice.pdf');
-    });
-  };
 
 const pdref =useRef();
 
@@ -181,6 +164,25 @@ export default function QuizForm(props: {
     setSubmitted(true);
   };
 
+  
+  //download button
+  const downloadPDF = () => {
+    const input = pdfRef.current; 
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4', true); 
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const imgX = (pdfWidth - imgWidth * ratio) / 2; // Fixed missing multiplication operator *
+      const imgY = 30;
+      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio); // Fixed missing multiplication operator *
+      pdf.save('invoice.pdf');
+    });
+  };
+
   return (
     <>
       <div className=" top-14 fixed w-full rounded-full text-center bg-white dark:bg-slate-950 py-1 flex flex-auto items-center justify-evenly gap-x-5">
@@ -201,7 +203,7 @@ export default function QuizForm(props: {
       </div>
 
       {submitted && <Chat quizData={userData!} />}
-      <form onSubmit={handleSubmit(handleSubmitQuiz)} className="pb-5">
+      <form onSubmit={handleSubmit(handleSubmitQuiz)} className="pb-5" ref={pdfRef}>
         {fields.map((field, index) => (
           <div className="flex flex-auto flex-col mx-10" key={field.id}>
             <ShadCNMCQComponent
