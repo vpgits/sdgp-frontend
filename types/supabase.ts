@@ -199,6 +199,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "public_questions_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quiz"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "questions_document_id_fkey"
             columns: ["document_id"]
             isOneToOne: false
@@ -210,13 +217,6 @@ export type Database = {
             columns: ["key_point"]
             isOneToOne: false
             referencedRelation: "key_points"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "questions_quiz_id_fkey"
-            columns: ["quiz_id"]
-            isOneToOne: false
-            referencedRelation: "quiz"
             referencedColumns: ["id"]
           },
           {
@@ -237,6 +237,8 @@ export type Database = {
           num_of_questions: number | null
           remarks: string | null
           results: Json | null
+          scores: number | null
+          summary: Json | null
           updated_at: string
           user_id: string
         }
@@ -248,6 +250,8 @@ export type Database = {
           num_of_questions?: number | null
           remarks?: string | null
           results?: Json | null
+          scores?: number | null
+          summary?: Json | null
           updated_at?: string
           user_id: string
         }
@@ -259,6 +263,8 @@ export type Database = {
           num_of_questions?: number | null
           remarks?: string | null
           results?: Json | null
+          scores?: number | null
+          summary?: Json | null
           updated_at?: string
           user_id?: string
         }
@@ -279,24 +285,50 @@ export type Database = {
           }
         ]
       }
+      share: {
+        Row: {
+          created_at: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_share_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "quiz"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       user: {
         Row: {
           created_at: string
           email: string | null
           id: string
           name: string | null
+          raw_user_meta_data: Json | null
         }
         Insert: {
           created_at?: string
           email?: string | null
           id: string
           name?: string | null
+          raw_user_meta_data?: Json | null
         }
         Update: {
           created_at?: string
           email?: string | null
           id?: string
           name?: string | null
+          raw_user_meta_data?: Json | null
         }
         Relationships: [
           {

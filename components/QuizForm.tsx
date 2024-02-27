@@ -123,18 +123,19 @@ type fieldType = FieldArrayWithId<
 export default function QuizForm(props: {
   quizData: quizData;
   quizId: string;
+  saveData: quizData;
 }) {
-  const { quizData, quizId } = props || {};
+  const { quizData, quizId, saveData } = props || {};
   const [mark, setMark] = useState<number>(0);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [userData, setUserData] = useState(null);
   const time: Date = new Date();
   const initialTime: Date = time;
-  time.setSeconds(time.getSeconds() + 0.5 * quizData.defaultValues.length); // 10 minutes timer
+  time.setSeconds(time.getSeconds() + 0.5 * quizData.defaultValues.length);
 
   const form = useForm<z.infer<typeof zodMCQSchema>>({
     resolver: zodResolver(zodMCQSchema),
-    defaultValues: { ...quizData },
+    defaultValues: saveData ? saveData : quizData,
   });
   const submitRef = useRef(form);
   const { control, handleSubmit, formState } = { ...form };
@@ -169,24 +170,24 @@ export default function QuizForm(props: {
         }
       });
       setMark(score);
+      setUserData(data);
+      handleFormUpload(data, quizId, score);
+      setSubmitted(true);
     }
-    setUserData(data);
-    {
-      handleFormUpload(data, quizId);
-    }
-    setSubmitted(true);
   };
 
   return (
     <>
       <div className=" top-14 fixed w-full rounded-full text-center bg-white dark:bg-slate-950 py-1 flex flex-auto items-center justify-evenly gap-x-5">
-        <Timer
-          form={form}
-          expiryTimestamp={time}
-          handleSubmitQuiz={handleSubmitQuiz}
-        />
+        {!saveData && (
+          <Timer
+            form={form}
+            expiryTimestamp={time}
+            handleSubmitQuiz={handleSubmitQuiz}
+          />
+        )}
 
-        {formState.isSubmitted && (
+        {(formState.isSubmitted || saveData) && (
           <>
             <h2 className="text-2xl font-bold">Your Score: {mark}</h2>
             <div className="flex gap-x-2 items-end">
@@ -208,25 +209,28 @@ export default function QuizForm(props: {
       >
         {fields.map((field, index) => (
           <div
-            className="flex flex-auto flex-col mx-16 px-5 dark:bg-slate-950"
+            className="flex flex-auto flex-col md:mx-16 mx-5 my-1 px-5 dark:bg-slate-950"
             key={field.id}
           >
             <ShadCNMCQComponent
               field={field as any}
               index={index as number}
               form={form}
+              save={saveData !== null}
             />
           </div>
         ))}
-        <div className="flex justify-center gap-x-10">
-          <Button type="submit" disabled={formState.isSubmitted}>
-            Submit
-          </Button>
-          <Button type="reset" disabled={formState.isSubmitted}>
-            Clear All
-          </Button>
-          {/* <Button disabled={!formState.isSubmitted} onClick={() => window.print()}> */}
-        </div>
+        {!form.formState.isSubmitted && !saveData && (
+          <div className="flex justify-center gap-x-10">
+            <Button type="submit" disabled={formState.isSubmitted}>
+              Submit
+            </Button>
+            <Button type="reset" disabled={formState.isSubmitted}>
+              Clear All
+            </Button>
+            {/* <Button disabled={!formState.isSubmitted} onClick={() => window.print()}> */}
+          </div>
+        )}
       </form>
     </>
   );
@@ -236,10 +240,12 @@ export function ShadCNMCQComponent({
   field,
   index,
   form,
+  save,
 }: {
   field: fieldType;
   index: number;
   form: ReturnType<typeof useForm<z.infer<typeof zodMCQSchema>>>;
+  save: boolean;
 }) {
   const { formState, register } = form;
   const [answers, setAnswers] = useState<string[]>([]);
@@ -264,7 +270,7 @@ export function ShadCNMCQComponent({
           <div
             key={`answer-${answerIndex}`}
             className={`border-2 border-black dark:border-gray-600 gap-y-2  w-full flex items-center p-3 my-2 rounded-lg  ${
-              formState.isSubmitted && userAnswer == answer
+              (formState.isSubmitted || save) && userAnswer == answer
                 ? userAnswer === field.correct_answer
                   ? "bg-green-500 bg-opacity-70"
                   : `bg-red-500 bg-opacity-70`
@@ -272,7 +278,7 @@ export function ShadCNMCQComponent({
                 ? "bg-slate-200 dark:bg-slate-700 "
                 : ""
             } ${
-              formState.isSubmitted && answer === field.correct_answer
+              (formState.isSubmitted || save) && answer === field.correct_answer
                 ? "bg-green-500 bg-opacity-70"
                 : ""
             } `}
@@ -282,7 +288,7 @@ export function ShadCNMCQComponent({
               type="radio"
               id={`defaultValues.${index}.answer-${answerIndex}`}
               {...register(`defaultValues.${index}.userAnswer`)}
-              disabled={formState.isSubmitted}
+              disabled={formState.isSubmitted || save}
               onChange={() => setUserAnswer(answer)}
               value={answer}
             />

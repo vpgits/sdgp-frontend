@@ -24,6 +24,18 @@ type questionData = {
   incorrect_answers: string[];
 };
 
+type modifiedQuizData = {
+  id: string;
+  userAnswer: string;
+  question: string | undefined;
+  correct_answer: string;
+  incorrect_answers: string[];
+}[];
+
+type quizData = {
+  defaultValues: modifiedQuizData;
+};
+
 export function generateMetadata() {
   return {
     title: "Quiz | Quizzifyme",
@@ -36,6 +48,9 @@ export default async function Page({ params }: { params: Props }) {
 
   const cookieStore = cookies();
   const supabase = createClient<Database>(cookieStore);
+
+  let userData;
+
   {
     const { data, error } = await supabase.auth.getUser();
     if (error || !data?.user) {
@@ -46,7 +61,7 @@ export default async function Page({ params }: { params: Props }) {
     try {
       let { data, error } = await supabase
         .from("questions")
-        .select("data")
+        .select("*")
         .eq("quiz_id", quizId);
       return data!;
     } catch (error: any) {
@@ -55,6 +70,17 @@ export default async function Page({ params }: { params: Props }) {
   };
 
   let quizData = await fetchQuiz();
+
+  {
+    const { data } = await supabase
+      .from("quiz")
+      .select("results, scores")
+      .eq("id", quizId);
+    const { results, scores } = data![0];
+    if (scores !== null) {
+      userData = results as quizData;
+    }
+  }
 
   let modifiedQuizData = quizData.map((data, index) => {
     if (data.data === undefined) throw new Error("Error fetching quiz");
@@ -82,7 +108,7 @@ export default async function Page({ params }: { params: Props }) {
   return (
     <>
       {/* <div className="flex flex-col items-center justify-center"> */}
-      <QuizForm quizData={data} quizId={quizId} />
+      <QuizForm quizData={data} quizId={quizId} saveData={userData!} />
       {/* </div> */}
     </>
   );

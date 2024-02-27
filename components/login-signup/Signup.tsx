@@ -85,14 +85,20 @@ export default function SignupLogin({
                   </div>
 
                   <div className="flex flex-auto items-center flex-col gap-y-2">
-                    <Button className="w-full" type="submit">
+                    <Button
+                      className="w-full"
+                      type="submit"
+                    >
                       Login
                     </Button>
                     <GoogleOAuthProvider
                       clientId="251594071758-lcn2jr190479a3t9ghci9gi74tl1c9r8.apps.googleusercontent.com"
                       nonce={hashedNonce}
                     >
-                      <div className=" w-full flex justify-center flex-auto">
+                      <div
+                        className=" w-full flex justify-center flex-auto"
+  
+                      >
                         <GoogleLogin
                           nonce={hashedNonce}
                           onSuccess={(credentialResponse) => {
@@ -137,15 +143,6 @@ export default function SignupLogin({
                 </div>
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
-                    <Input
-                      id="name"
-                      placeholder="John Doe"
-                      required
-                      type="text"
-                    />
-                  </div>
-                  <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
@@ -164,7 +161,11 @@ export default function SignupLogin({
                       type="password"
                     />
                   </div>
-                  <Button className="w-full" type="submit">
+                  <Button
+                    className="w-full"
+                    type="submit"
+
+                  >
                     Sign Up
                   </Button>
                 </div>
