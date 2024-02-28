@@ -45,7 +45,6 @@ export async function POST(request: Request) {
       if (error) {
         return new NextResponse(JSON.stringify({ error }));
       }
-      console.log(data);
       quizId = data[0].id;
     }
     const headers = new Headers();

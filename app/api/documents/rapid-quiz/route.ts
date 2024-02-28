@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     refresh_token = data?.session?.refresh_token;
   }
   const body = await request.json();
-  const documentId:string = body.documentId;
+  const documentId: string = body.documentId;
   try {
     {
       const { data, error } = await supabase
@@ -32,9 +32,10 @@ export async function POST(request: Request) {
           {
             document_id: documentId,
             user_id: userId,
-          }
+          },
         ])
         .select();
+      quizId = data![0].id;
       if (error) {
         return new NextResponse(JSON.stringify({ error }));
       }
@@ -56,6 +57,7 @@ export async function POST(request: Request) {
       }
     );
     const data = await res.json();
+    console.log(data);
     const taskId = data.task_id;
 
     return new NextResponse(JSON.stringify({ taskId, quizId }));

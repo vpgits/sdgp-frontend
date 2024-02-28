@@ -2,11 +2,12 @@ import { Database } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
+import QuizShare from "@/components/quizShare/QuizShare";
 
-import QRcode from "qrcode";
-
+type Summary = {
+  summary: string;
+  title: string;
+};
 
 export default async function Page({ params }: { params: { quizId: string } }) {
   const { quizId } = params;
@@ -22,9 +23,9 @@ export default async function Page({ params }: { params: { quizId: string } }) {
     try {
       let { data, error } = await supabase
         .from("share")
-        .select("id")
+        .select("id, summary")
         .eq("id", quizId);
-      return data!;
+      return data;
     } catch (error: any) {
       throw new Error("Error fetching quiz" + error.message);
     }
@@ -33,29 +34,14 @@ export default async function Page({ params }: { params: { quizId: string } }) {
   if (quizData === null) {
     redirect("/");
   }
-
-  const generateQRCode = async () => {
-    try {
-      const qrCodeData = await QRcode.toDataURL(quizId);
-      return qrCodeData;
-    } catch (error: any) {
-      throw new Error("Error generating QR code: " + error.message);
-    }
-  };
-
-  const qrCodeData = await generateQRCode();
+  const summary = quizData[0]?.summary as Summary;
 
   return (
     <div className="flex justify-center">
       <div>
-        <h1>Quiz ID: {quizId}</h1>
-          <div className="flex justify-center p-5">
-            <img src={qrCodeData} alt="QR Code" />
-          </div>
-          <div className="grid w-full gap-2">
-            <Textarea placeholder="Type your message here." />
-            <Button>Send message</Button>
-          </div>
+        <QuizShare quizId={quizId} />
+        <h1>{summary.title}</h1>
+        <p>{summary.summary}</p>
       </div>
     </div>
   );
