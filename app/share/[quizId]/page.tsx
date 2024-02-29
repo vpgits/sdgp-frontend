@@ -31,10 +31,10 @@ export default async function Page({ params }: { params: { quizId: string } }) {
     }
   };
   let quizData = await fetchQuiz();
-  if (quizData === null) {
+  if (!quizData![0]) {
     redirect("/");
   }
-  const summary = quizData[0]?.summary as Summary;
+  const summary = quizData![0]?.summary as Summary;
 
   return (
     <div className="flex justify-center">
