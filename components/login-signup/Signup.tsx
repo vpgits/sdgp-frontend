@@ -33,7 +33,7 @@ export default function SignupLogin({
     return () => {
       (window as any).handleSignInWithGoogle = undefined;
     };
-  }, []);
+  }, [handleSignInWithGoogle]);
 
   async function handleSignInWithGoogle(response: any) {
     const { data, error } = await supabase.auth.signInWithIdToken({
