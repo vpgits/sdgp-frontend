@@ -84,43 +84,27 @@ export type Database = {
       }
       key_points: {
         Row: {
-          context: string | null
           created_at: string
           data: Json | null
-          document_id: string | null
           id: number
-          key_point: string | null
           quiz_id: string | null
           user_id: string
         }
         Insert: {
-          context?: string | null
           created_at?: string
           data?: Json | null
-          document_id?: string | null
           id?: number
-          key_point?: string | null
           quiz_id?: string | null
           user_id?: string
         }
         Update: {
-          context?: string | null
           created_at?: string
           data?: Json | null
-          document_id?: string | null
           id?: number
-          key_point?: string | null
           quiz_id?: string | null
           user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "key_points_document_id_fkey"
-            columns: ["document_id"]
-            isOneToOne: false
-            referencedRelation: "documents"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "key_points_quiz_id_fkey"
             columns: ["quiz_id"]
@@ -230,6 +214,7 @@ export type Database = {
       }
       quiz: {
         Row: {
+          default_model: boolean | null
           document_id: string | null
           generating: boolean | null
           id: string
@@ -244,6 +229,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          default_model?: boolean | null
           document_id?: string | null
           generating?: boolean | null
           id?: string
@@ -258,6 +244,7 @@ export type Database = {
           user_id?: string
         }
         Update: {
+          default_model?: boolean | null
           document_id?: string | null
           generating?: boolean | null
           id?: string

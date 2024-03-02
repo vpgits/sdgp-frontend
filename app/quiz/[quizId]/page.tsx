@@ -50,7 +50,7 @@ export default async function Page({ params }: { params: Props }) {
   const cookieStore = cookies();
   const supabase = createClient<Database>(cookieStore);
 
-  let userData;
+  let userData, score;
 
   {
     const { data, error } = await supabase.auth.getUser();
@@ -94,6 +94,7 @@ export default async function Page({ params }: { params: Props }) {
     const { results, scores } = data?.[0] ?? {};
     if (scores !== null) {
       userData = results as quizData;
+      score = scores as number;
     }
   }
 
@@ -123,7 +124,12 @@ export default async function Page({ params }: { params: Props }) {
   return (
     <>
       {/* <div className="flex flex-col items-center justify-center"> */}
-      <QuizForm quizData={data} quizId={quizId} saveData={userData!} />
+      <QuizForm
+        quizData={data}
+        quizId={quizId}
+        saveData={userData!}
+        score={score!}
+      />
       {/* </div> */}
     </>
   );

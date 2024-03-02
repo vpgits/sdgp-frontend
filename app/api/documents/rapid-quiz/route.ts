@@ -24,6 +24,7 @@ export async function POST(request: Request) {
   }
   const body = await request.json();
   const documentId: string = body.documentId;
+  const defaultModel: boolean = body.defaultModel;
   try {
     {
       const { data, error } = await supabase
@@ -32,6 +33,7 @@ export async function POST(request: Request) {
           {
             document_id: documentId,
             user_id: userId,
+            default_model: defaultModel,
           },
         ])
         .select();
@@ -39,7 +41,6 @@ export async function POST(request: Request) {
       if (error) {
         return new NextResponse(JSON.stringify({ error }));
       }
-      console.log(data);
     }
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -53,13 +54,16 @@ export async function POST(request: Request) {
         headers: headers,
         body: JSON.stringify({
           quiz_id: quizId,
+          default_model: defaultModel || true,
         }),
       }
     );
+    if (!res.ok) {
+      throw new Error("Failed to submit quiz");
+    }
     const data = await res.json();
     console.log(data);
     const taskId = data.task_id;
-
     return new NextResponse(JSON.stringify({ taskId, quizId }));
   } catch (error: any) {
     throw new Error("Error getting documents " + error.message);

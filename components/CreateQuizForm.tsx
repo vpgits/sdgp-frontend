@@ -17,6 +17,14 @@ import { useRouter } from "next/navigation";
 
 import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import LLMState from "./LLMState";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 export default function CreateQuizForm() {
   const router = useRouter();
@@ -31,13 +39,19 @@ export default function CreateQuizForm() {
     const documentId = formData.get("documentId");
     const numOfQuestions = formData.get("numOfQuestions");
     const remarks = formData.get("remarks");
+    const defaultModel = formData.get("model") === "default" ? true : false;
     try {
       const request = await fetch("/api/documents/quiz", {
         headers: {
           "Content-Type": "application/json",
         },
         method: "POST",
-        body: JSON.stringify({ documentId, numOfQuestions, remarks }),
+        body: JSON.stringify({
+          documentId,
+          numOfQuestions,
+          remarks,
+          defaultModel,
+        }),
       });
       const response = await request.json();
       const taskId = response.taskId;
@@ -52,13 +66,14 @@ export default function CreateQuizForm() {
 
   const handleRapidSubmission = async (formData: FormData) => {
     const documentId = formData.get("documentId");
+    const defaultModel = formData.get("model") === "default" ? true : false;
     try {
       const request = await fetch("/api/documents/rapid-quiz", {
         headers: {
           "Content-Type": "application/json",
         },
         method: "POST",
-        body: JSON.stringify({ documentId }),
+        body: JSON.stringify({ documentId, defaultModel }),
       });
       const response = await request.json();
       const taskId = response.taskId;
@@ -139,12 +154,11 @@ export default function CreateQuizForm() {
   return (
     <>
       <div
-        className={`w-full h-full flex flex-auto items-center justify-center ${
-          isGenerating || isRapidGenerating ? "hover:cursor-none" : ""
-        }`}
+        className={`w-full h-full flex flex-auto items-center flex-col justify-center `}
       >
+        <LLMState />
         <Toaster />
-        <Tabs defaultValue="normal" className="w-[400px] h-[500px]">
+        <Tabs defaultValue="normal" className="w-[350px] -mt-8">
           <TabsList
             className="grid  grid-cols-2 mx-5"
             aria-disabled={isGenerating || isRapidGenerating}
@@ -193,6 +207,20 @@ export default function CreateQuizForm() {
                       required
                     />
                   </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="model">Model</Label>
+                    <Select>
+                      <SelectTrigger id="model">
+                        <SelectValue placeholder="QuizzifyMe Model" />
+                      </SelectTrigger>
+                      <SelectContent position="popper">
+                        <SelectItem value="default">
+                          QuizzifyMe Model
+                        </SelectItem>
+                        <SelectItem value="fireworks">Mistral-7B</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <div className="flex flex-col gap-2">
                     <Button type="submit" disabled={isGenerating}>
                       Generate
@@ -210,7 +238,7 @@ export default function CreateQuizForm() {
             </Card>
           </TabsContent>
           <TabsContent value="rapid">
-            <Card className="max-w-md h-[448px] mx-5 flex flex-auto flex-col items-center justify-center">
+            <Card className="mx-5 flex flex-auto flex-col items-center justify-center">
               <CardHeader>
                 <CardTitle>Create Quiz</CardTitle>
                 <CardDescription>
@@ -230,6 +258,18 @@ export default function CreateQuizForm() {
                       readOnly
                       type="text"
                     />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="model">Model</Label>
+                    <Select>
+                      <SelectTrigger id="model">
+                        <SelectValue placeholder="QuizzifyMe Model" />
+                      </SelectTrigger>
+                      <SelectContent position="popper">
+                        <SelectItem value="next">QuizzifyMe Model</SelectItem>
+                        <SelectItem value="sveltekit">Mistral-7B</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="flex flex-col gap-2">
                     <Button type="submit" disabled={isRapidGenerating}>
