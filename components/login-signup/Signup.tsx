@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import signupPic from "../../public/login-pic.png";
 import { signup, Login } from "@/app/login/action";
@@ -15,6 +15,8 @@ import {
 } from "@react-oauth/google";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import { Anybody } from "next/font/google";
+import Script from "next/script";
 
 export default function SignupLogin({
   nonce,
@@ -26,6 +28,12 @@ export default function SignupLogin({
   const [login, setLogin] = useState(true);
   const supabase = createClient();
   const router = useRouter();
+  useEffect(() => {
+    (window as any).handleSignInWithGoogle = handleSignInWithGoogle;
+    return () => {
+      (window as any).handleSignInWithGoogle = undefined;
+    };
+  }, []);
 
   async function handleSignInWithGoogle(response: any) {
     const { data, error } = await supabase.auth.signInWithIdToken({
@@ -85,21 +93,15 @@ export default function SignupLogin({
                   </div>
 
                   <div className="flex flex-auto items-center flex-col gap-y-2">
-                    <Button
-                      className="w-full"
-                      type="submit"
-                    >
+                    <Button className="w-full" type="submit">
                       Login
                     </Button>
                     <GoogleOAuthProvider
                       clientId="251594071758-lcn2jr190479a3t9ghci9gi74tl1c9r8.apps.googleusercontent.com"
                       nonce={hashedNonce}
                     >
-                      <div
-                        className=" w-full flex justify-center flex-auto"
-  
-                      >
-                        <GoogleLogin
+                      <div className=" w-full flex justify-center flex-auto">
+                        {/* <GoogleLogin
                           nonce={hashedNonce}
                           onSuccess={(credentialResponse) => {
                             handleSignInWithGoogle(credentialResponse);
@@ -111,7 +113,27 @@ export default function SignupLogin({
                           size="large"
                           shape="rectangular"
                           auto_select={false}
-                        />
+                        /> */}
+                        <div
+                          id="g_id_onload"
+                          data-client_id="251594071758-lcn2jr190479a3t9ghci9gi74tl1c9r8.apps.googleusercontent.com"
+                          data-context="signin"
+                          data-ux_mode="popup"
+                          data-callback="handleSignInWithGoogle"
+                          data-nonce={hashedNonce}
+                          data-auto_select="false"
+                          data-itp_support="true"
+                        ></div>
+
+                        <div
+                          className="g_id_signin"
+                          data-type="standard"
+                          data-shape="pill"
+                          data-theme="outline"
+                          data-text="continue_with"
+                          data-size="large"
+                          data-logo_alignment="left"
+                        ></div>
                       </div>
                     </GoogleOAuthProvider>
                   </div>
@@ -161,11 +183,7 @@ export default function SignupLogin({
                       type="password"
                     />
                   </div>
-                  <Button
-                    className="w-full"
-                    type="submit"
-
-                  >
+                  <Button className="w-full" type="submit">
                     Sign Up
                   </Button>
                 </div>

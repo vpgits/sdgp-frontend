@@ -1,4 +1,5 @@
 import CreateQuizForm from "@/components/CreateQuizForm";
+import LLMState from "@/components/LLMState";
 
 export function generateMetadata() {
   return {
@@ -30,8 +31,10 @@ export default function Page() {
   // };
 
   return (
-    <div className="h-full">
-      <CreateQuizForm />
-    </div>
+    <>
+      <div className="h-full flex items-center flex-auto">
+        <CreateQuizForm />
+      </div>
+    </>
   );
 }

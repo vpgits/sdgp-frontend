@@ -241,6 +241,7 @@ export type Database = {
           summary: Json | null
           updated_at: string
           user_id: string
+          default_model:boolean | null
         }
         Insert: {
           document_id?: string | null
@@ -254,6 +255,7 @@ export type Database = {
           summary?: Json | null
           updated_at?: string
           user_id: string
+          default_model:boolean | null
         }
         Update: {
           document_id?: string | null
@@ -267,6 +269,7 @@ export type Database = {
           summary?: Json | null
           updated_at?: string
           user_id?: string
+          default_model:boolean | null
         }
         Relationships: [
           {
