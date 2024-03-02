@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "./ui/button";
 import Chat from "./chat";
-import { handleFormUpload } from "@/utils/quiz/action";
+import { handleFormUpload, handleShare } from "@/utils/quiz/action";
 import { useTimer } from "react-timer-hook";
 import Link from "next/link";
 import html2canvas from "html2canvas";
@@ -185,9 +185,13 @@ export default function QuizForm(props: {
             <h2 className="text-xl md:font-xl font-bold">Score: {mark}</h2>
             <div className="flex gap-x-2 items-end">
               {" "}
-              <Link href={`/share/${quizId}`}>
-                <Button>Share</Button>
-              </Link>
+              <Button
+                onClick={() => {
+                  handleShare(quizId);
+                }}
+              >
+                Share
+              </Button>
               <Button onClick={downloadPDF}>Download</Button>
             </div>
           </>

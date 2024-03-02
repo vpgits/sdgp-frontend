@@ -45,6 +45,7 @@ export function generateMetadata() {
 
 export default async function Page({ params }: { params: Props }) {
   const { quizId } = params;
+  let parentQuizId: string | undefined;
 
   const cookieStore = cookies();
   const supabase = createClient<Database>(cookieStore);
@@ -57,12 +58,26 @@ export default async function Page({ params }: { params: Props }) {
       redirect("/");
     }
   }
+
+  {
+    const { data, error } = await supabase
+      .from("quiz")
+      .select("parent_id")
+      .eq("id", quizId);
+    if (error) {
+      throw new Error("Error fetching quiz" + error.message);
+    }
+    if (data![0].parent_id !== null) {
+      parentQuizId = data![0].parent_id;
+    }
+  }
+
   const fetchQuiz = async () => {
     try {
       let { data, error } = await supabase
         .from("questions")
         .select("*")
-        .eq("quiz_id", quizId);
+        .eq("quiz_id", parentQuizId ? parentQuizId : quizId);
       return data!;
     } catch (error: any) {
       throw new Error("Error fetching quiz" + error.message);
@@ -76,7 +91,7 @@ export default async function Page({ params }: { params: Props }) {
       .from("quiz")
       .select("results, scores")
       .eq("id", quizId);
-    const { results, scores } = data![0];
+    const { results, scores } = data?.[0] ?? {};
     if (scores !== null) {
       userData = results as quizData;
       score = scores as number;
