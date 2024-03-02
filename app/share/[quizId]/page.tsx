@@ -10,6 +10,32 @@ type Summary = {
   title: string;
 };
 
+export async function generateMetadata({ params }: { params: { quizId: string } }) {
+  const { quizId } = params;
+  const cookieStore = cookies();
+  const supabase = createClient<Database>(cookieStore);
+  const fetchQuiz = async () => {
+    try {
+      let { data, error } = await supabase
+        .from("share")
+        .select("id, summary")
+        .eq("id", quizId);
+      return data;
+    } catch (error: any) {
+      throw new Error("Error fetching quiz" + error.message);
+    }
+  };
+  let quizData = await fetchQuiz();
+  if (!quizData![0]) {
+    redirect("/");
+  }
+  const summary = quizData![0]?.summary as Summary;
+  return {
+    title: summary.title,
+    description: summary.summary,
+  };
+}
+
 export default async function Page({ params }: { params: { quizId: string } }) {
   const { quizId } = params;
   const cookieStore = cookies();
