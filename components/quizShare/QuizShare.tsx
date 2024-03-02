@@ -22,10 +22,11 @@ export default function QuizShare(params: { quizId: string }) {
 
   return (
     <>
-      <div className="flex justify-center p-5">
+      <div className="flex justify-center p-2">
         {qrCodeData && <img src={qrCodeData} alt="QR Code" />}
       </div>
       <Button
+        className="hover:bg-white hover:text-black hover:dark:bg-black hover:dark:text-white"
         onClick={() => {
           createNewQuiz(quizId);
         }}

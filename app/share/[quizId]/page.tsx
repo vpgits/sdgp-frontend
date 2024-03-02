@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import QuizShare from "@/components/quizShare/QuizShare";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 type Summary = {
   summary: string;
@@ -16,7 +17,7 @@ export default async function Page({ params }: { params: { quizId: string } }) {
   {
     const { data, error } = await supabase.auth.getUser();
     if (error || !data?.user) {
-      redirect("/");
+      redirect("/login");
     }
   }
   const fetchQuiz = async () => {
@@ -37,12 +38,17 @@ export default async function Page({ params }: { params: { quizId: string } }) {
   const summary = quizData![0]?.summary as Summary;
 
   return (
-    <div className="flex justify-center">
-      <div>
-        <QuizShare quizId={quizId} />
-        <h1>{summary.title}</h1>
-        <p>{summary.summary}</p>
-      </div>
+    <div className="flex justify-center flex-col items-center h-full">
+      <Card className="flex justify-center flex-col items-center max-w-xs md:max-w-md text-center">
+        <CardHeader>
+          <QuizShare quizId={quizId} />
+        </CardHeader>
+        <CardContent>
+          {" "}
+          <h1 className="">{summary.title}</h1>
+          <p className=" text-sm font-light">{summary.summary}</p>{" "}
+        </CardContent>
+      </Card>
     </div>
   );
 }
