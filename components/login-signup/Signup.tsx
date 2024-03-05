@@ -101,7 +101,7 @@ export default function SignupLogin({
                       nonce={hashedNonce}
                     >
                       <div className=" w-full flex justify-center flex-auto">
-                        {/* <GoogleLogin
+                        <GoogleLogin
                           nonce={hashedNonce}
                           onSuccess={(credentialResponse) => {
                             handleSignInWithGoogle(credentialResponse);
@@ -113,8 +113,8 @@ export default function SignupLogin({
                           size="large"
                           shape="rectangular"
                           auto_select={false}
-                        /> */}
-                        <div
+                        />
+                        {/* <div
                           id="g_id_onload"
                           data-client_id="251594071758-lcn2jr190479a3t9ghci9gi74tl1c9r8.apps.googleusercontent.com"
                           data-context="signin"
@@ -133,7 +133,7 @@ export default function SignupLogin({
                           data-text="continue_with"
                           data-size="large"
                           data-logo_alignment="left"
-                        ></div>
+                        ></div> */}
                       </div>
                     </GoogleOAuthProvider>
                   </div>
