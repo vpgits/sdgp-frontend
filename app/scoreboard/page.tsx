@@ -1,6 +1,20 @@
 import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card"
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function Component() {
+import { createClient } from "@/utils/supabase/server";
+import { revalidatePath } from "next/cache";
+import { Tables, Database } from "@/types/supabase";
+
+export default async function Component() {const cookieStore = cookies();
+  const supabase = createClient<Database>(cookieStore);
+
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    redirect("/");
+  }
+
+
   const participants = [
     {
       name: "Ella Johnson",
