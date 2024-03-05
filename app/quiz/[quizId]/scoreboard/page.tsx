@@ -12,7 +12,12 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { Tables, Database } from "@/types/supabase";
 
-export default async function Component() {
+type Props = {
+  quizId: Tables<"quiz">["id"];
+};
+
+export default async function Component({ params }: { params: Props }) {
+  const { quizId } = params;
   const cookieStore = cookies();
   const supabase = createClient<Database>(cookieStore);
 
@@ -20,21 +25,6 @@ export default async function Component() {
   if (error || !data?.user) {
     redirect("/");
   }
-
-  async function fetchScores() {
-    const { data, error } = await supabase
-      .from("quiz")
-      .select(`score,user_id,users(id)`)
-      .order("score", { ascending: false });
-    if (error) {
-      console.error(error);
-      return [];
-    }
-    return data;
-  }
-
-  const scores = await fetchScores();
-  console.log(scores);
 
   const participants = [
     {
