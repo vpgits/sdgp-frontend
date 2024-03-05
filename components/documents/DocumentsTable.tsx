@@ -11,6 +11,7 @@ import {
 import { Toaster, toast } from "sonner";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Document = {
   id: string;
@@ -129,7 +130,9 @@ export function CustomTableRow(props: { document: Document }) {
 
   return (
     <TableRow key={document.id} className="">
-      <TableCell className="">{document.title}</TableCell>
+      <TableCell className="">
+        <Link href={`/documents/${document.id}`}>{document.title}</Link>
+      </TableCell>
       <TableCell className="hidden lg:table-cell">
         {document.file_type}
       </TableCell>

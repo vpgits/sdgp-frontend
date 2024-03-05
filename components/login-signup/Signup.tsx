@@ -3,13 +3,53 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import signupPic from "../../public/login-pic.png";
 import { signup, Login } from "@/app/login/action";
+import {
+  GoogleLogin,
+  GoogleOAuthProvider,
+  GoogleLoginProps,
+  useGoogleOneTapLogin,
+} from "@react-oauth/google";
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
+import { Anybody } from "next/font/google";
+import Script from "next/script";
 
-export default function SignupLogin() {
+export default function SignupLogin({
+  nonce,
+  hashedNonce,
+}: {
+  nonce: string;
+  hashedNonce: string;
+}) {
   const [login, setLogin] = useState(true);
+  const supabase = createClient();
+  const router = useRouter();
+  useEffect(() => {
+    (window as any).handleSignInWithGoogle = handleSignInWithGoogle;
+    return () => {
+      (window as any).handleSignInWithGoogle = undefined;
+    };
+  }, [handleSignInWithGoogle]);
+
+  async function handleSignInWithGoogle(response: any) {
+    const { data, error } = await supabase.auth.signInWithIdToken({
+      provider: "google",
+      token: response.credential,
+      nonce: nonce, // must be the same one as provided in data-nonce (if any)
+    });
+    console.log(data, error);
+    if (data) {
+      router.push("/dashboard");
+    }
+    if (error) {
+      console.log(error);
+      router.push("/login");
+    }
+  }
   return (
     <div className="flex flex-auto items-center justify-center h-full">
       <div className="lg:mx-24">
@@ -51,12 +91,52 @@ export default function SignupLogin() {
                       type="password"
                     />
                   </div>
-                  <Button className="w-full" type="submit">
-                    Login
-                  </Button>
-                  <Button className="w-full" variant="outline">
-                    Login with Google
-                  </Button>
+
+                  <div className="flex flex-auto items-center flex-col gap-y-2">
+                    <Button className="w-full" type="submit">
+                      Login
+                    </Button>
+                    <GoogleOAuthProvider
+                      clientId="251594071758-lcn2jr190479a3t9ghci9gi74tl1c9r8.apps.googleusercontent.com"
+                      nonce={hashedNonce}
+                    >
+                      <div className=" w-full flex justify-center flex-auto">
+                        <GoogleLogin
+                          nonce={hashedNonce}
+                          onSuccess={(credentialResponse) => {
+                            handleSignInWithGoogle(credentialResponse);
+                          }}
+                          onError={() => {
+                            console.log("Login Failed");
+                          }}
+                          useOneTap
+                          size="large"
+                          shape="rectangular"
+                          auto_select={false}
+                        />
+                        {/* <div
+                          id="g_id_onload"
+                          data-client_id="251594071758-lcn2jr190479a3t9ghci9gi74tl1c9r8.apps.googleusercontent.com"
+                          data-context="signin"
+                          data-ux_mode="popup"
+                          data-callback="handleSignInWithGoogle"
+                          data-nonce={hashedNonce}
+                          data-auto_select="false"
+                          data-itp_support="true"
+                        ></div>
+
+                        <div
+                          className="g_id_signin"
+                          data-type="standard"
+                          data-shape="pill"
+                          data-theme="outline"
+                          data-text="continue_with"
+                          data-size="large"
+                          data-logo_alignment="left"
+                        ></div> */}
+                      </div>
+                    </GoogleOAuthProvider>
+                  </div>
                 </div>
               </form>
 
@@ -85,15 +165,6 @@ export default function SignupLogin() {
                 </div>
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
-                    <Input
-                      id="name"
-                      placeholder="John Doe"
-                      required
-                      type="text"
-                    />
-                  </div>
-                  <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
@@ -114,9 +185,6 @@ export default function SignupLogin() {
                   </div>
                   <Button className="w-full" type="submit">
                     Sign Up
-                  </Button>
-                  <Button className="w-full" variant="outline">
-                    Sign Up with Google
                   </Button>
                 </div>
                 <div className="mt-4 text-center text-sm">

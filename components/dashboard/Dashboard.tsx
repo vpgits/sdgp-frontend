@@ -5,11 +5,15 @@ import { FaFileWord, FaHistory } from "react-icons/fa";
 import { LuBrainCircuit } from "react-icons/lu";
 import { GiTrophyCup } from "react-icons/gi";
 import { IoLogoGameControllerB, IoIosNotifications } from "react-icons/io";
+import { revalidatePath } from "next/cache";
 
 export default function Dashboard() {
+  revalidatePath("/dashboard", "layout");
   return (
     <div className="flex flex-col items-center justify-center p-4 space-y-8 h-full">
-      <h1 className="text-6xl font-bold md:mb-28 md:text-9xl">Quiz Dashboard</h1>
+      <h1 className="text-6xl font-bold md:mb-28 md:text-9xl">
+        Quiz Dashboard
+      </h1>
       <div className="grid grid-cols-2 gap-15 md:grid-cols-6 font-semibold">
         <div className="button text-center space-y-4">
           <Button className="h-32 w-32 hover:bg-white hover:text-black hover:shadow-lg dark:hover:bg-black dark:hover:text-white dark:bg-white">
