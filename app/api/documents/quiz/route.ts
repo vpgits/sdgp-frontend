@@ -40,6 +40,7 @@ export async function POST(request: Request) {
             num_of_questions: numOfQuestions,
             remarks: remarks,
             default_model: defaultModel,
+            generating:true,
           },
         ])
         .select();

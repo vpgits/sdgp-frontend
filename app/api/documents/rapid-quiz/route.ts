@@ -34,6 +34,7 @@ export async function POST(request: Request) {
             document_id: documentId,
             user_id: userId,
             default_model: defaultModel,
+            generating:true
           },
         ])
         .select();
