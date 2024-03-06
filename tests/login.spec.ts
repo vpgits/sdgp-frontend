@@ -22,6 +22,4 @@ test("login-default", async ({ page }) => {
 //   await expect(page).toHaveTitle("Login | Quizzifyme");
 // });
 
-test("login-google", async ({ page }) => {
-  
-});
+
