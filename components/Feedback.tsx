@@ -4,10 +4,7 @@ import rating from "../public/rating.png";
 import feedbacks from "../public/home/feedback/feedback.json";
 import {
   Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+  CardContent
 } from "./ui/card";
 const Feedback = () => {
   return (
@@ -117,14 +114,24 @@ export function RatingCard(feedbackData: any) {
   return (
     <Card className="max-w-xs min-h-96 flex items-center ">
       <CardContent>
+        <p className="text-blue-500 text-8xl font-bold italic">"</p>
         <Image
           src={feedback.image}
           alt={`feedback${index}pf`}
-          height={150}
-          width={100}
+          height={250}
+          width={250}
           className="mx-auto"
         />
-        <p className="text-center">{feedback.text}</p>
+        <p className="text-center italic text-sm ">{feedback.text}</p>
+        <Image
+                  src={
+                    "/rating.png"
+                  }
+                  alt="rating"
+                  height={150}
+                  width={150}
+                  className="mx-auto block"
+                  /> 
       </CardContent>
     </Card>
   );

@@ -47,17 +47,27 @@ const Footer = () => {
           <ul className="space-y-2  mx-auto">
             <li>
               <a href="#" className="text-sm hover:underline">
-                Service 1
+              PDF to word document
               </a>
             </li>
             <li>
               <a href="#" className="text-sm hover:underline">
-                Service 2
+              PDF to Quiz
               </a>
             </li>
             <li>
               <a href="#" className="text-sm hover:underline">
-                Service 3
+              Highscore Board
+              </a>
+            </li>
+            <li>
+              <a href="#" className="text-sm hover:underline">
+              History
+              </a>
+            </li>
+            <li>
+              <a href="#" className="text-sm hover:underline">
+             Game
               </a>
             </li>
           </ul>

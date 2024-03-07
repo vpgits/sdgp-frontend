@@ -1,9 +1,10 @@
-// pages/index.tsx
 import Image from "next/image";
 import landingimage from "../public/landing.png";
 import Footer from "@/components/footer";
 import Feedback from "@/components/Feedback";
 import Faq from "@/components/Faq";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export function generateMetadata() {
   return {
@@ -15,48 +16,35 @@ export function generateMetadata() {
 export default function Home() {
   return (
     <>
-      <main className="flex flex-col mt-12 m-5 md:m-5 items-center">
-        <div className="flex flex-auto flex-col m-2 md:m-10 lg:flex-row">
-          <div>
-            <h1 className="text-4xl sm:text-3xl md:text-4xl lg:text-4xl mb-3">
-              Elevate Your Learning Experience:
+      <main className="flex flex-col mt-12 items-center">
+        <div className="flex flex-col md:flex-row items-center text-center md:text-left">
+          <div className="md:ml-20">
+            <h1 className="text-3xl italic md:text-4xl lg:text-6xl xl:text-7xl">
+              Elevate Your Learning Experience
             </h1>
-            <h2 className="text-xl sm:text-xl md:text-2xl lg:text-2xl">
-              {" "}
+            <h2 className="text-l mt-3 md:mt-5 lg:mt-5 md:text-2xl lg:text-2xl xl:text-3xl">
               Where AI Meets Fun and Learning!
             </h2>
           </div>
-          <div className="flex flex-auto justify-end">
+          <div className="flex-shrink-0 w-full md:w-1/2">
             <Image
               src={landingimage}
               alt="landing"
-              className="w-9/12"
+              width={800}
+              height={600}
               priority
             />
           </div>
-          <p className=" text-lg text-center dark:text-gray-300 text-gray-800   md:text-2xl font md:my-20 mt-10 lg:mt-40">
-            A generative AI based solution for a personalised and inventive
-            approach to learning, based on a solution that offers a personalised
-            learning experience for anyone seeking support.
-          </p>
-
-          {/* <div className="buttons mt-10 md:mt-20">
-            <Button className="bg-blue-500 mr-2">
-              <Link href="#buy" className="text-white">
-                Try For Free
-              </Link>
-            </Button>
-            <Button className="border border-blue-500 text-blue-500 xl:ml-20">
-              <Link href="#buy" className="text-blue-500">
-                Buy Premium
-              </Link>
-            </Button>
-          </div> */}
         </div>
+  
+        <p className="text-lg mt-20 mb-20 text-center font-light dark:text-gray-300 text-gray-800 md:text-2xl md:my-8 lg:my-10 xl:my-12">
+          A generative AI-based solution for a personalized and inventive
+          approach to learning, based on a solution that offers a personalized
+          learning experience for anyone seeking support.
+        </p>
+
         <Feedback />
-        {/* <div className='ml-20 mt-20 w-1/2'> */}
         <Faq />
-        {/* </div> */}
       </main>
       <Footer />
     </>
