@@ -1,7 +1,35 @@
 
 import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card"
 
-export default function Component() {
+export default function Component()
+async function fetchScores() {
+  let scoreData = [];
+
+  const { data: data1, error: error1 } = await supabase
+    .from("quiz")
+    .select(`scores, user_id`)
+    .eq("id", quizId)
+    .order("scores", { ascending: false });
+
+  if (data1) {
+    scoreData.push(...data1);
+  }
+
+  const { data: data2, error: error2 } = await supabase
+    .from("quiz")
+    .select(`scores, user_id`)
+    .eq("parent_id", quizId)
+    .order("scores", { ascending: false });
+
+  if (data2) {
+    scoreData.push(...data2);
+  }
+
+  return scoreData;
+}
+
+const scores = await fetchScores();
+console.log(scores); {
   return (
     <div className="flex justify-center"> 
     <Card className="w-full max-w-3xl border-4 p-4">
