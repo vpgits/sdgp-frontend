@@ -1,7 +1,6 @@
 
 import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card"
 
-export default function Component()
 async function fetchScores() {
   let scoreData = [];
 
