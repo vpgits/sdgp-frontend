@@ -193,6 +193,7 @@ export default function QuizForm(props: {
                 Share
               </Button>
               <Button onClick={downloadPDF}>Download</Button>
+              <Link href={"/documents"}><Button>Back</Button></Link>
             </div>
           </>
         )}
