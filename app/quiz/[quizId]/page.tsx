@@ -85,9 +85,6 @@ export default async function Page({ params }: { params: Props }) {
   };
 
   let quizData = await fetchQuiz();
-  if (quizData === null || quizData.length === 0) {
-    redirect("/documents");
-  }
 
   {
     const { data } = await supabase
