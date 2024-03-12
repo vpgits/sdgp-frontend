@@ -17,6 +17,34 @@ type Props = {
 };
 
 export default async function Component({ params }: { params: Props }) {
+  async function fetchScores() {
+    let scoreData = [];
+
+    const { data: data1, error: error1 } = await supabase
+      .from("quiz")
+      .select(`scores, user_id`)
+      .eq("id", quizId)
+      .order("scores", { ascending: false });
+
+    if (data1) {
+      scoreData.push(...data1);
+    }
+
+    const { data: data2, error: error2 } = await supabase
+      .from("quiz")
+      .select(`scores, user_id`)
+      .eq("parent_id", quizId)
+      .order("scores", { ascending: false });
+
+    if (data2) {
+      scoreData.push(...data2);
+    }
+
+    return scoreData;
+  }
+
+  const scores = await fetchScores();
+  console.log(scores);
   const { quizId } = params;
   const cookieStore = cookies();
   const supabase = createClient<Database>(cookieStore);
