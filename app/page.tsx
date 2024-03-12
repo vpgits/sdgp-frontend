@@ -1,5 +1,5 @@
 import Image from "next/image";
-import landingimage from "../public/landing.svg";
+import landingimage from "../public/landing.avif";
 import Footer from "@/components/footer";
 import Feedback from "@/components/Feedback";
 import Faq from "@/components/Faq";
@@ -37,7 +37,7 @@ export default function Home() {
             />
           </div>
         </div>
-  
+
         <p className="ml-10 mr-10 text-lg mt-20 mb-20 text-center font-light dark:text-gray-300 text-gray-800 md:text-2xl md:my-8 lg:my-10 xl:my-12">
           A generative AI-based solution for a personalized and inventive
           approach to learning, based on a solution that offers a personalized

@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from "next/image";
-import group from  "@/public/group.webp";
+import group from  "@/public/group.avif";
 import studentinfo from "@/public/home/studentinfo/studentinfo.json";
 import { Card, CardContent } from "../ui/card";
 
@@ -48,7 +48,7 @@ export function StudentInfo(studentData: any) {
         <p className="text-blue-500 text-8xl font-bold italic">{student.num}</p>
         <Image
           src={student.image}
-          alt={`student${index}pf`}
+          alt={`student${index}`}
           height={250}
           width={250}
           className="mx-auto"

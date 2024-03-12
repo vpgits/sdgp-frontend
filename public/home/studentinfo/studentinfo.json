@@ -1,38 +1,37 @@
 [
-    {
-     "num":"1",
-     "name":"Venura Pesanjith",
-     "title":"Founder",
-      "text":"ahfahfafhafhaf fafjlalff aflahflsafaf fafafaf afalfaf asfsafas faf safafasf asfaf afaf af afa fsafasfasfasf afafsaf asfsaf afsafasf lAF;AJSFASFPAFADLAOREM,A SAFASFAZVNAXVnaxsva xav axvavaxfafa orrm axcxafafaaloter,",
-      "image": "/home/feedback/student1.png"
-    },
-    {
-     "num":"2", 
-     "name":"Geenodh Gamage",
-     "title":"Co-Founder",
-      "text": "ahfahfafhafhaf fafjlalff aflahflsafaf fafafaf afalfaf asfsafas faf safafasf asfaf afaf af afa fsafasfasfasf afafsaf asfsaf afsafasf lAF;AJSFASFPAFADLAOREM,A SAFASFAZVNAXVnaxsva xav axvavaxfafa orrm axcxafafaaloter,.",
-      "image": "/home/feedback/student2.png"
-    },
-    {
-     "num":"3", 
-     "name":"Anuda Gunarathna",
-     "title":"Co-Founder",
-      "text": "ahfahfafhafhaf fafjlalff aflahflsafaf fafafaf afalfaf asfsafas faf safafasf asfaf afaf af afa fsafasfasfasf afafsaf asfsaf afsafasf lAF;AJSFASFPAFADLAOREM,A SAFASFAZVNAXVnaxsva xav axvavaxfafa orrm axcxafafaaloter,",
-      "image": "/home/feedback/student3.png"
-    },
-    {
-        "num":"4",
-        "name":"Gimindu Athapaththu",
-        "title":"Co-Founder",
-        "text": "ahfahfafhafhaf fafjlalff aflahflsafaf fafafaf afalfaf asfsafas faf safafasf asfaf afaf af afa fsafasfasfasf afafsaf asfsaf afsafasf lAF;AJSFASFPAFADLAOREM,A SAFASFAZVNAXVnaxsva xav axvavaxfafa orrm axcxafafaaloter,",
-        "image": "/home/feedback/student4.png"
-      },
-      {
-        "num":"5",
-        "name":"Avisha Dilhara",
-        "title":"Co-Founder",
-        "text": "ahfahfafhafhaf fafjlalff aflahflsafaf fafafaf afalfaf asfsafas faf safafasf asfaf afaf af afa fsafasfasfasf afafsaf asfsaf afsafasf lAF;AJSFASFPAFADLAOREM,A SAFASFAZVNAXVnaxsva xav axvavaxfafa orrm axcxafafaaloter,",
-        "image": "/home/feedback/student5.png"
-      }
-  ]
-  
+  {
+    "num": "1",
+    "name": "Venura Pesanjith",
+    "title": "Founder",
+    "text": "Meet Venura Pesanjith, our Founder, who wears many hats, including leading our machine learning efforts. With a knack for designing robust architectures and a deep understanding of machine learning algorithms, Venura ensures our system is both cutting-edge and scalable.",
+    "image": "/home/studentinfo/student1.avif"
+  },
+  {
+    "num": "2",
+    "name": "Geenodh Gamage",
+    "title": "HCI Expert and Team Leader",
+    "text": "Geenodh Gamage, our HCI Expert and Team Leader, brings a wealth of experience in UI/UX usability. Geenodh ensures our project stays on track, fostering collaboration and guiding our vision to create user-centric designs that elevate our product.",
+    "image": "/home/feedback/student2.png"
+  },
+  {
+    "num": "3",
+    "name": "Anuda Gunarathna",
+    "title": "Frontend Developer (React)",
+    "text": "Anuda Gunarathna, our talented Frontend Developer well-versed in React, crafts seamless user experiences, translating complex ideas into intuitive interfaces that delight our users.",
+    "image": "/home/feedback/student3.png"
+  },
+  {
+    "num": "4",
+    "name": "Gimindu Athapaththu",
+    "title": "Frontend Developer (React)",
+    "text": "Gimindu Athapaththu, our skilled Frontend Developer well-versed in React, crafts seamless user experiences, translating complex ideas into intuitive interfaces that delight our users.",
+    "image": "/home/feedback/student4.png"
+  },
+  {
+    "num": "5",
+    "name": "Avisha Dilhara",
+    "title": "Machine Learning Enthusiast (Novice Full Stack)",
+    "text": "Avisha Dilhara, our Machine Learning Enthusiast with a passion for machine learning and a solid foundation in full-stack development, is eager to dive deep into all aspects of our project, contributing fresh perspectives and innovative solutions.",
+    "image": "/home/feedback/student5.png"
+  }
+]
