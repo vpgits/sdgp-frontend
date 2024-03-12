@@ -256,8 +256,8 @@ export default function CreateQuizForm() {
             className="grid  grid-cols-2 mx-5"
             aria-disabled={isGenerating || isRapidGenerating}
           >
-            <TabsTrigger value="normal">Normal</TabsTrigger>
-            <TabsTrigger value="rapid">Rapid</TabsTrigger>
+            <TabsTrigger value="normal" disabled={isGenerating || isRapidGenerating}>Normal</TabsTrigger>
+            <TabsTrigger value="rapid" disabled={isGenerating || isRapidGenerating}>Rapid</TabsTrigger>
           </TabsList>
           <TabsContent value="normal">
             <Card className=" max-w-md mx-5 ">
