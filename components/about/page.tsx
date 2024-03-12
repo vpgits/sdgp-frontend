@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from "next/image";
-import group from  "@/public/group.jpg";
+import group from  "@/public/group.webp";
 import studentinfo from "@/public/home/studentinfo/studentinfo.json";
 import { Card, CardContent } from "../ui/card";
 

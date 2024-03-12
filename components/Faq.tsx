@@ -1,41 +1,24 @@
-import React from "react";
-import Image from "next/image";
-import faq from "../public/FAQ.png";
+import React from 'react';
+import Image from 'next/image';
+import faq from '../public/FAQ.svg';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import faqData from "../public/home/faq.json";
+} from '@/components/ui/accordion';
 
 export function accordion() {
   return (
-    <div className="flex items-center flex-col justify-center m-10 w-full md:m-5">
-      <h1 className="text-4xl text-center">FAQ</h1>
-      <Image src={faq} alt="faq" height={100} width={200} className="mx-auto" />
-      <Accordion
-        type="single"
-        collapsible
-        className="w-10/12 mx-5 md:mx-20 text-left"
-      >
-        {faqData.map((faq, index) => {
-          return (
-            <AccordionItem key={index} value={`item-${index + 1}`}>
-              <AccordionTrigger>{faq.title}</AccordionTrigger>
-              <AccordionContent>{faq.description}</AccordionContent>
-            </AccordionItem>
-          );
-        })}
-      </Accordion>
-    </div>
-  );
-}
-
-export default accordion;
-
-{
-  /* <Accordion type="single" collapsible className=" md:w-max">
+    <div className="flex flex-col items-center ml-20">
+      <Image
+        src={faq}
+        alt="faq"
+        height={400}
+        width={400}
+        className="mx-auto"
+      />
+      <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="item-1">
           <AccordionTrigger>Is it accessible?</AccordionTrigger>
           <AccordionContent>
@@ -55,5 +38,9 @@ export default accordion;
             Yes. It's animated by default, but you can disable it if you prefer.
           </AccordionContent>
         </AccordionItem>
-      </Accordion> */
+      </Accordion>
+    </div>
+  );
 }
+
+export default accordion;

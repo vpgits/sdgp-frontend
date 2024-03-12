@@ -1,5 +1,5 @@
 import Image from "next/image";
-import landingimage from "../public/landing.png";
+import landingimage from "../public/landing.svg";
 import Footer from "@/components/footer";
 import Feedback from "@/components/Feedback";
 import Faq from "@/components/Faq";
@@ -33,11 +33,12 @@ export default function Home() {
               width={800}
               height={600}
               priority
+              sizes="(max-width: 768px) 100vw,50vw"
             />
           </div>
         </div>
   
-        <p className="text-lg mt-20 mb-20 text-center font-light dark:text-gray-300 text-gray-800 md:text-2xl md:my-8 lg:my-10 xl:my-12">
+        <p className="ml-10 mr-10 text-lg mt-20 mb-20 text-center font-light dark:text-gray-300 text-gray-800 md:text-2xl md:my-8 lg:my-10 xl:my-12">
           A generative AI-based solution for a personalized and inventive
           approach to learning, based on a solution that offers a personalized
           learning experience for anyone seeking support.

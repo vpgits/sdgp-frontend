@@ -112,29 +112,30 @@ const Feedback = () => {
 export function RatingCard(feedbackData: any) {
   const { feedback, index } = feedbackData;
   return (
-    <Card className="max-w-xs min-h-96 flex items-center ">
+    <Card className="lg:w-80 lg:h-100 flex items-center">
       <CardContent>
         <p className="text-blue-500 text-8xl font-bold italic">"</p>
+        <div className="mx-auto -mt-40 md:-mt-20 lg:-mt-10">
+          <Image
+            src={feedback.image}
+            alt={`feedback${index}pf`}
+            height={250}
+            width={250}
+            className="object-cover w-full h-full w-30 h-30 md:w-64 md:h-64 "
+          />
+        </div>
+        <p className="text-center italic text-sm -mt-20 md:-mt-10 lg:-mt-0">{feedback.text}</p>
         <Image
-          src={feedback.image}
-          alt={`feedback${index}pf`}
-          height={250}
-          width={250}
-          className="mx-auto"
+          src="/rating.png"
+          alt="rating"
+          height={150}
+          width={150}
+          className="mx-auto block mt-5"
         />
-        <p className="text-center italic text-sm ">{feedback.text}</p>
-        <Image
-                  src={
-                    "/rating.png"
-                  }
-                  alt="rating"
-                  height={150}
-                  width={150}
-                  className="mx-auto block"
-                  /> 
       </CardContent>
     </Card>
   );
 }
+
 
 export default Feedback;
