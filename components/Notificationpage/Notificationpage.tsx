@@ -2,18 +2,21 @@ import React from "react";
 import { Button } from "../ui/button";
 import { Tables } from "@/types/supabase";
 
+
 export default function Notificationpage(params: {
   notificationData: Tables<"notification">[];
 }) {
   const notifications = params.notificationData;
 
   return (
+    
     <div className="flex flex-col">
       <main className="flex-1 overflow-y-auto p-6">
         <div className="flex flex-auto justify-between my-2">
           <h1 className="text-2xl font-bold">Notifications</h1>
           <Button variant="outline">Mark All as Read</Button>
         </div>
+        
         {notifications.map((notification, index) => (
           <div
             className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
@@ -43,6 +46,7 @@ export default function Notificationpage(params: {
         </div>
       </div> */}
       </main>
+      
     </div>
   );
 }

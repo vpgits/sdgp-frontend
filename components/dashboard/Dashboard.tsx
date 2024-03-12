@@ -16,7 +16,7 @@ export default function Dashboard({ userData }: { userData: any }) {
   return (
     <>
       <WelcomeBanner userData={user} />
-      <div className="flex flex-col items-center justify-center p-4 space-y-8">
+      <div className="flex flex-col items-center justify-center p-16 space-y-16">
         <h1 className="text-5xl font-bold md:mb-28 md:text-9xl">
           Quiz Dashboard
         </h1>
@@ -71,8 +71,8 @@ export default function Dashboard({ userData }: { userData: any }) {
               </p>
             </div>
           </Link>
-          <MiniHistory />
-          <MiniDocument />
+          {/* <MiniHistory /> */}
+          {/* <MiniDocument /> */}
         </div>
       </div>
     </>

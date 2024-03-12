@@ -9,7 +9,9 @@ export default function WelcomeBanner({ userData }: { userData: any }) {
   }
   return (
     <span>
-      <h1 className=" text-xl text-left mx-5">Welcome {name}</h1>
+<h1 className="inline text-xl text-left mx-5 font-bold">Welcome</h1>
+<p className=" -ml-3 font-bold inline bg-gradient-to-r from-cyan-600 to-orange-400 bg-clip-text text-transparent text-xl">{`${name}!`}</p>
+
     </span>
   );
 }
