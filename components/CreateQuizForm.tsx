@@ -122,6 +122,7 @@ export default function CreateQuizForm() {
   const fetchTaskStatus = () => {
     return new Promise((resolve, reject) => {
       const interval = setInterval(async () => {
+        if (!isGenerating) return;
         try {
           const response = await fetch(
             `/api/documents/quiz/status?taskId=${taskId}`
@@ -145,21 +146,10 @@ export default function CreateQuizForm() {
       return () => clearInterval(interval);
     });
   };
-
-  useEffect(() => {
-    if (!isGenerating) {
-      return;
-    }
-    toast.promise(fetchRapidTaskStatus(), {
-      loading: toastMessage,
-      success: "Quiz generated successfully",
-      error: "Failed to generate quiz",
-    });
-  }, [isGenerating, toastMessage, taskId, quizId, router]);
-
   const fetchRapidTaskStatus = () => {
     return new Promise((resolve, reject) => {
       const interval = setInterval(async () => {
+        if (!isRapidGenerating) return;
         try {
           const response = await fetch(
             `/api/documents/rapid-quiz/status?taskId=${taskId}`
@@ -172,7 +162,9 @@ export default function CreateQuizForm() {
           if (task_status === "SUCCESS") {
             setIsRapidGenerating(false);
             resolve("Quiz generated successfully");
-            router.push(`/quiz/${quizId}`);
+            new Promise(() =>
+              setTimeout(() => router.push(`/quiz/${quizId}`), 1000)
+            );
           }
         } catch (error: any) {
           toast.error("Failed to fetch task status:", error);
@@ -185,6 +177,17 @@ export default function CreateQuizForm() {
   };
 
   useEffect(() => {
+    if (!isGenerating) {
+      return;
+    }
+    toast.promise(fetchTaskStatus(), {
+      loading: toastMessage,
+      success: "Quiz generated successfully",
+      error: "Failed to generate quiz",
+    });
+  }, [isGenerating, toastMessage, taskId, quizId, router, fetchTaskStatus]);
+
+  useEffect(() => {
     if (!isRapidGenerating) {
       return;
     }
@@ -193,7 +196,14 @@ export default function CreateQuizForm() {
       success: "Quiz generated successfully",
       error: "Failed to generate quiz",
     });
-  }, [isGenerating, toastMessage, taskId, quizId, router]);
+  }, [
+    toastMessage,
+    taskId,
+    quizId,
+    router,
+    fetchRapidTaskStatus,
+    isRapidGenerating,
+  ]);
 
   // useEffect(() => {
   //   if (!isGenerating) return;
@@ -242,7 +252,7 @@ export default function CreateQuizForm() {
     setDocumentId(documentId);
 
     doesDocumentExist();
-  }, [router]);
+  }, [router, supabase]);
 
   return (
     <>
@@ -256,8 +266,18 @@ export default function CreateQuizForm() {
             className="grid  grid-cols-2 mx-5"
             aria-disabled={isGenerating || isRapidGenerating}
           >
-            <TabsTrigger value="normal" disabled={isGenerating || isRapidGenerating}>Normal</TabsTrigger>
-            <TabsTrigger value="rapid" disabled={isGenerating || isRapidGenerating}>Rapid</TabsTrigger>
+            <TabsTrigger
+              value="normal"
+              disabled={isGenerating || isRapidGenerating}
+            >
+              Normal
+            </TabsTrigger>
+            <TabsTrigger
+              value="rapid"
+              disabled={isGenerating || isRapidGenerating}
+            >
+              Rapid
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="normal">
             <Card className=" max-w-md mx-5 ">
@@ -286,7 +306,7 @@ export default function CreateQuizForm() {
                       placeholder="5"
                       type="number"
                       min="3"
-                      max="5"
+                      max="20"
                       required
                     />
                   </div>
@@ -302,7 +322,7 @@ export default function CreateQuizForm() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="model">Model</Label>
-                    <Select name="model">
+                    <Select name="model" required>
                       <SelectTrigger>
                         <SelectValue placeholder="Select Model" />
                       </SelectTrigger>
@@ -310,7 +330,7 @@ export default function CreateQuizForm() {
                         <SelectItem value="default">
                           QuizzifyMe Model
                         </SelectItem>
-                        <SelectItem value="openai">GPT-3.5</SelectItem>
+                        <SelectItem value="openai">Mixtral</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -354,7 +374,7 @@ export default function CreateQuizForm() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="model">Model</Label>
-                    <Select name="model">
+                    <Select name="model" required>
                       <SelectTrigger>
                         <SelectValue placeholder="Select Model" />
                       </SelectTrigger>
@@ -362,7 +382,7 @@ export default function CreateQuizForm() {
                         <SelectItem value="default">
                           QuizzifyMe Model
                         </SelectItem>
-                        <SelectItem value="openai">GPT-3.5</SelectItem>
+                        <SelectItem value="openai">Mixtral</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

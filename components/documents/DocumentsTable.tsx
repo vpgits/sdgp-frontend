@@ -74,7 +74,7 @@ export function CustomTableRow(props: { document: Document }) {
       }
     };
     handleQuizState();
-  }, [document.id]);
+  }, [document.id, supabase]);
 
   const handleQuiz = async (documentId: string) => {
     let quizId;

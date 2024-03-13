@@ -6,6 +6,7 @@ import React from "react";
 
 import QuizForm from "@/components/QuizForm";
 import Chat from "@/components/chat";
+import { revalidatePath } from "next/cache";
 
 type Props = {
   quizId: Tables<"quiz">["id"];
@@ -108,18 +109,12 @@ export default async function Page({ params }: { params: Props }) {
     };
   });
 
-  // let modifiedQuizData:modifiedQuizData = quizData.map((data, index) => (
-  //   if(data.data === undefined) throw new Error("Error fetching quiz");
-  //   return(
-  //     ...data.data,
-  //     userAnswer: "",
-  //     id: index,
-  //   )
-  // ));
 
   let data = {
     defaultValues: modifiedQuizData,
   };
+
+  revalidatePath(`/quiz/${quizId}`);
 
   return (
     <>

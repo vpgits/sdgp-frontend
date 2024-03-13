@@ -14,13 +14,13 @@ import {
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "./ui/button";
-import Chat from "./chat";
 import { handleFormUpload } from "@/utils/quiz/action";
 import { useTimer } from "react-timer-hook";
 import Link from "next/link";
 import html2canvas from "html2canvas";
 import jspdf, { jsPDF } from "jspdf";
+import { Button } from "../ui/button";
+import Chat from "../chat";
 
 const zodMCQSchema = z.object({
   defaultValues: z.array(
@@ -182,7 +182,7 @@ export default function QuizForm(props: {
     }
     setUserData(data);
     {
-      handleFormUpload(data, quizId);
+      handleFormUpload(data, quizId, mark);
     }
     setSubmitted(true);
   };
@@ -198,7 +198,9 @@ export default function QuizForm(props: {
 
         {formState.isSubmitted && (
           <>
-            <h2 className="text-2xl font-bold">Your Score: {mark}</h2>
+            <h2 className="text-2xl font-bold">
+              Your Score: {new Number(mark).toFixed(2).toString()}
+            </h2>
             <Link href={`/share/${quizId}`}>
               <Button>Share</Button>
             </Link>
