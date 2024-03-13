@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { Tables, Database } from "@/types/supabase";
+import MiniDocument from "@/components/dashboard/MiniDocuments";
 
 export function generateMetadata() {
   return {
@@ -14,6 +15,7 @@ export function generateMetadata() {
 }
 
 export default async function Page() {
+  
   const cookieStore = cookies();
   const supabase = createClient<Database>(cookieStore);
 
@@ -39,4 +41,6 @@ export default async function Page() {
   revalidatePath("/notification-page");
 
   return <Notificationpage notificationData={notificationData} />;
+  
+
 }

@@ -3,6 +3,7 @@ import { createNewQuiz } from "@/utils/quiz/action";
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import QRcode from "qrcode";
+import Image from "next/image";
 
 export default function QuizShare(params: { quizId: string }) {
   const { quizId } = params;
@@ -23,7 +24,7 @@ export default function QuizShare(params: { quizId: string }) {
   return (
     <>
       <div className="flex justify-center p-2">
-        {qrCodeData && <img src={qrCodeData} alt="QR Code" />}
+        {qrCodeData && <Image src={qrCodeData} alt="QR Code" />}
       </div>
       <Button
         className="hover:bg-white hover:text-black hover:dark:bg-black hover:dark:text-white"

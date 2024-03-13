@@ -25,8 +25,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { createClient } from "@/utils/supabase/client";
+import { Database } from "@/types/supabase";
 
 export default function CreateQuizForm() {
+  const supabase = createClient<Database>();
   const router = useRouter();
   const [documentId, setDocumentId] = useState("");
   const [toastMessage, setToastMessage] = useState(null);
@@ -86,70 +89,170 @@ export default function CreateQuizForm() {
     }
   };
 
-  useEffect(() => {
-    if (!isRapidGenerating) return;
-    const interval = setInterval(async () => {
-      try {
-        const response = await fetch(
-          `/api/documents/rapid-quiz/status?taskId=${taskId}`
-        );
-        const { data } = await response.json();
-        const task_status = data.task_status;
-        const task_result = data.task_result;
-        console.log(task_result);
-        console.log(task_result.status);
-        if (task_result.status !== toastMessage) {
+  // useEffect(() => {
+  //   if (!isRapidGenerating) return;
+  //   const interval = setInterval(async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `/api/documents/rapid-quiz/status?taskId=${taskId}`
+  //       );
+  //       const { data } = await response.json();
+  //       const task_status = data.task_status;
+  //       const task_result = data.task_result;
+  //       console.log(task_result);
+  //       console.log(task_result.status);
+  //       if (task_result.status !== toastMessage) {
+  //         setToastMessage(task_result.status);
+  //         toast(task_result.status);
+  //       }
+  //       if (task_status === "SUCCESS") {
+  //         toast.success("Quiz generated successfully");
+  //         setIsRapidGenerating(false);
+  //         new Promise((resolve) => setTimeout(resolve, 1000));
+  //         router.push(`/quiz/${quizId}`);
+  //       }
+  //     } catch (error: any) {
+  //       toast.error("Failed to fetch task status:", error);
+  //     }
+  //   }, 2000);
+
+  //   return () => clearInterval(interval);
+  // }, [taskId, toastMessage, quizId, isRapidGenerating, router]);
+
+  const fetchTaskStatus = () => {
+    return new Promise((resolve, reject) => {
+      const interval = setInterval(async () => {
+        if (!isGenerating) return;
+        try {
+          const response = await fetch(
+            `/api/documents/quiz/status?taskId=${taskId}`
+          );
+          const { data } = await response.json();
+          const task_status = data.task_status;
+          const task_result = data.task_result;
+
           setToastMessage(task_result.status);
-          toast(task_result.status);
+          if (task_status === "SUCCESS") {
+            setIsRapidGenerating(false);
+            resolve("Quiz generated successfully");
+            router.push(`/quiz/${quizId}`);
+          }
+        } catch (error: any) {
+          toast.error("Failed to fetch task status:", error);
+          reject(error);
         }
-        if (task_status === "SUCCESS") {
-          toast.success("Quiz generated successfully");
-          setIsRapidGenerating(false);
-          new Promise((resolve) => setTimeout(resolve, 1000));
-          router.push(`/quiz/${quizId}`);
-        }
-      } catch (error: any) {
-        toast.error("Failed to fetch task status:", error);
-      }
-    }, 2000);
+      }, 2000);
 
-    return () => clearInterval(interval);
-  }, [taskId, toastMessage, quizId, isRapidGenerating, router]);
+      return () => clearInterval(interval);
+    });
+  };
+  const fetchRapidTaskStatus = () => {
+    return new Promise((resolve, reject) => {
+      const interval = setInterval(async () => {
+        if (!isRapidGenerating) return;
+        try {
+          const response = await fetch(
+            `/api/documents/rapid-quiz/status?taskId=${taskId}`
+          );
+          const { data } = await response.json();
+          const task_status = data.task_status;
+          const task_result = data.task_result;
+
+          setToastMessage(task_result.status);
+          if (task_status === "SUCCESS") {
+            setIsRapidGenerating(false);
+            resolve("Quiz generated successfully");
+            new Promise(() =>
+              setTimeout(() => router.push(`/quiz/${quizId}`), 1000)
+            );
+          }
+        } catch (error: any) {
+          toast.error("Failed to fetch task status:", error);
+          reject(error);
+        }
+      }, 2000);
+
+      return () => clearInterval(interval);
+    });
+  };
 
   useEffect(() => {
-    if (!isGenerating) return;
-    const interval = setInterval(async () => {
-      try {
-        const response = await fetch(
-          `/api/documents/quiz/status?taskId=${taskId}`
-        );
-        const { data } = await response.json();
-        const task_status = data.task_status;
-        const task_result = data.task_result;
-        if (task_result.status !== toastMessage) {
-          setToastMessage(task_result.status);
-          toast(task_result.status);
-        }
-        if (task_status === "SUCCESS") {
-          setIsGenerating(false);
-          new Promise((resolve) => setTimeout(resolve, 1000));
-          router.push(`/quiz/${quizId}`);
-        }
-      } catch (error: any) {
-        toast.error("Failed to fetch task status:", error);
-      }
-    }, 2000);
+    if (!isGenerating) {
+      return;
+    }
+    toast.promise(fetchTaskStatus(), {
+      loading: toastMessage,
+      success: "Quiz generated successfully",
+      error: "Failed to generate quiz",
+    });
+  }, [isGenerating, toastMessage, taskId, quizId, router, fetchTaskStatus]);
 
-    return () => clearInterval(interval);
-  }, [taskId, toastMessage, quizId, isGenerating, router]);
+  useEffect(() => {
+    if (!isRapidGenerating) {
+      return;
+    }
+    toast.promise(fetchRapidTaskStatus(), {
+      loading: toastMessage,
+      success: "Quiz generated successfully",
+      error: "Failed to generate quiz",
+    });
+  }, [
+    toastMessage,
+    taskId,
+    quizId,
+    router,
+    fetchRapidTaskStatus,
+    isRapidGenerating,
+  ]);
+
+  // useEffect(() => {
+  //   if (!isGenerating) return;
+  //   const interval = setInterval(async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `/api/documents/quiz/status?taskId=${taskId}`
+  //       );
+  //       const { data } = await response.json();
+  //       const task_status = data.task_status;
+  //       const task_result = data.task_result;
+  //       if (task_result.status !== toastMessage) {
+  //         setToastMessage(task_result.status);
+  //         toast(task_result.status);
+  //       }
+  //       if (task_status === "SUCCESS") {
+  //         setIsGenerating(false);
+  //         new Promise((resolve) => setTimeout(resolve, 1000));
+  //         router.push(`/quiz/${quizId}`);
+  //       }
+  //     } catch (error: any) {
+  //       toast.error("Failed to fetch task status:", error);
+  //     }
+  //   }, 2000);
+
+  //   return () => clearInterval(interval);
+  // }, [taskId, toastMessage, quizId, isGenerating, router]);
 
   useEffect(() => {
     const documentId = window.location.pathname.split("/")[2];
     if (!documentId) {
       router.push("/documents");
     }
+    const doesDocumentExist = async () => {
+      const { data, error } = await supabase
+        .from("documents")
+        .select("id")
+        .eq("id", documentId);
+      if (error) {
+        router.push("/documents");
+      }
+      if (data!.length === 0 || data === null) {
+        router.push("/documents");
+      }
+    };
     setDocumentId(documentId);
-  }, [router]);
+
+    doesDocumentExist();
+  }, [router, supabase]);
 
   return (
     <>
@@ -163,8 +266,18 @@ export default function CreateQuizForm() {
             className="grid  grid-cols-2 mx-5"
             aria-disabled={isGenerating || isRapidGenerating}
           >
-            <TabsTrigger value="normal">Normal</TabsTrigger>
-            <TabsTrigger value="rapid">Rapid</TabsTrigger>
+            <TabsTrigger
+              value="normal"
+              disabled={isGenerating || isRapidGenerating}
+            >
+              Normal
+            </TabsTrigger>
+            <TabsTrigger
+              value="rapid"
+              disabled={isGenerating || isRapidGenerating}
+            >
+              Rapid
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="normal">
             <Card className=" max-w-md mx-5 ">
@@ -193,7 +306,7 @@ export default function CreateQuizForm() {
                       placeholder="5"
                       type="number"
                       min="3"
-                      max="5"
+                      max="20"
                       required
                     />
                   </div>
@@ -209,15 +322,15 @@ export default function CreateQuizForm() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="model">Model</Label>
-                    <Select>
-                      <SelectTrigger id="model">
-                        <SelectValue placeholder="QuizzifyMe Model" />
+                    <Select name="model" required>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Model" />
                       </SelectTrigger>
                       <SelectContent position="popper">
                         <SelectItem value="default">
                           QuizzifyMe Model
                         </SelectItem>
-                        <SelectItem value="fireworks">Mistral-7B</SelectItem>
+                        <SelectItem value="openai">Mixtral</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -261,13 +374,15 @@ export default function CreateQuizForm() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="model">Model</Label>
-                    <Select>
-                      <SelectTrigger id="model">
-                        <SelectValue placeholder="QuizzifyMe Model" />
+                    <Select name="model" required>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Model" />
                       </SelectTrigger>
                       <SelectContent position="popper">
-                        <SelectItem value="next">QuizzifyMe Model</SelectItem>
-                        <SelectItem value="sveltekit">Mistral-7B</SelectItem>
+                        <SelectItem value="default">
+                          QuizzifyMe Model
+                        </SelectItem>
+                        <SelectItem value="openai">Mixtral</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

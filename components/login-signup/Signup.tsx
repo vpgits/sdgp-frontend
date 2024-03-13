@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import signupPic from "../../public/login-pic.png";
 import { signup, Login } from "@/app/login/action";
@@ -28,6 +28,26 @@ export default function SignupLogin({
   const [login, setLogin] = useState(true);
   const supabase = createClient();
   const router = useRouter();
+
+  const handleSignInWithGoogle = useCallback(
+    async (response: any) => {
+      const { data, error } = await supabase.auth.signInWithIdToken({
+        provider: "google",
+        token: response.credential,
+        nonce: nonce, // must be the same one as provided in data-nonce (if any)
+      });
+      console.log(data, error);
+      if (data) {
+        router.push("/dashboard");
+      }
+      if (error) {
+        console.log(error);
+        router.push("/login");
+      }
+    },
+    [nonce, router, supabase.auth]
+  );
+
   useEffect(() => {
     (window as any).handleSignInWithGoogle = handleSignInWithGoogle;
     return () => {
@@ -35,21 +55,6 @@ export default function SignupLogin({
     };
   }, [handleSignInWithGoogle]);
 
-  async function handleSignInWithGoogle(response: any) {
-    const { data, error } = await supabase.auth.signInWithIdToken({
-      provider: "google",
-      token: response.credential,
-      nonce: nonce, // must be the same one as provided in data-nonce (if any)
-    });
-    console.log(data, error);
-    if (data) {
-      router.push("/dashboard");
-    }
-    if (error) {
-      console.log(error);
-      router.push("/login");
-    }
-  }
   return (
     <div className="flex flex-auto items-center justify-center h-full">
       <div className="lg:mx-24">
