@@ -39,6 +39,7 @@ export default function SignupLogin({
       console.log(data, error);
       if (data) {
         router.push("/dashboard");
+        router.refresh();
       }
       if (error) {
         console.log(error);
