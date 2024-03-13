@@ -5,18 +5,16 @@ import Link from "next/link";
 import MiniDocument from "../dashboard/MiniDocuments";
 import MiniHistory from "../dashboard/MiniHistory";
 
-export default function Historypage(params: { historyData: Tables<"quiz">[] }) {
-  const historyz = params.historyData;
-  console.log(historyz);
-
+export default function Historypage() {
   return (
     <div className="flex flex-col">
-      <header className="flex items-center justify-between px-6 py-4 border-b">
+      <header className="flex items-center justify-between px-6">
         <h1 className="text-2xl font-bold">History</h1>
-        <Button variant="outline">Mark All as Read</Button>
       </header>
-      <MiniDocument/>
-      <MiniHistory />
+      <div className="flex flex-auto flex-col md:flex-row justify-center gap-x-48 md:mx-20 my-5 mx-5 gap-y-5 md:max-h-full">
+        <MiniDocument />
+        <MiniHistory />
+      </div>
     </div>
   );
 }

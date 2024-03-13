@@ -21,8 +21,7 @@ export default async function MiniDocument() {
   let { data: documents, error } = await supabase
     .from("documents")
     .select("id, summary, inserted_at, title")
-    .order("inserted_at", { ascending: false })
-    .range(0, 4);
+    .order("inserted_at", { ascending: false });
   return (
     // <div>
     //   <h1>My Documents</h1>
@@ -32,20 +31,21 @@ export default async function MiniDocument() {
     // </div>
     <Card>
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-        <Link href={"/documents"}>
-        </Link>
+        <Link href={"/documents"}></Link>
       </CardHeader>
-      <CardContent>
-        <p className="text-sm text-muted-foreground">
-          View recently uploaded documents
-        </p>
+      <p className="text-sm text-muted-foreground px-5">
+        View recently uploaded documents
+      </p>
+      <CardContent className=" max-h-72 overflow-y-auto md:max-h-fit">
         {documents?.map((d: any, index) => (
           <Card className="my-5 flex flex-row items-center" key={index}>
             <div className="ml-4">
               <IoDocumentTextOutline className="text-4xl" />
             </div>
             <div className="flex flex-col items-start">
-              <Link href={`/documents/${d.id}`}><CardHeader>{d.summary?.title || d.title}</CardHeader></Link>
+              <Link href={`/documents/${d.id}`}>
+                <CardHeader>{d.summary?.title || d.title}</CardHeader>
+              </Link>
               <CardContent className="font-mono text-xs text-start">
                 <p>{new Date(d.inserted_at).toDateString()}</p>
                 <p>{new Date(d.inserted_at).toTimeString()}</p>

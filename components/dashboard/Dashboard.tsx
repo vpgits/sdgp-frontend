@@ -16,11 +16,11 @@ export default function Dashboard({ userData }: { userData: any }) {
   return (
     <>
       <WelcomeBanner userData={user} />
-      <div className="flex flex-col items-center justify-center p-16 space-y-16">
-        <h1 className="text-5xl font-bold md:mb-28 md:text-9xl">
+      <div className="flex flex-col items-center justify-center ">
+        <h1 className="text-5xl font-bold md:mb-28 md:text-9xl ml-10 mt-2">
           Quiz Dashboard
         </h1>
-        <div className="grid grid-cols-2 gap-15 md:grid-cols-6 font-semibold">
+        <div className=" font-semibold flex flex-auto flex-col gap-y-5">
           {/* <div className="button text-center space-y-4">
             <Button className="h-32 w-32 hover:bg-white hover:text-black hover:shadow-lg dark:hover:bg-black dark:hover:text-white dark:bg-white">
               <FaFileWord size={60} />
@@ -29,16 +29,16 @@ export default function Dashboard({ userData }: { userData: any }) {
               PDF to word document
             </p>
           </div> */}
-          <div className="button text-center space-y-4">
-            <Link href="/documents">
-              <Button className="h-32 w-32 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
-                <LuBrainCircuit size={60} />
+          <Link href="/documents">
+            <div className=" flex flex-auto flex-row items-center gap-x-5 w-full text-5xl">
+              <Button className="text-6xl h-20 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
+                <LuBrainCircuit className="text-5xl" />
               </Button>
-              <p className="text-gray-700 text-2xl mt-4  dark:text-white">
+              <p className="text-gray-700 text-2xl  dark:text-white">
                 My Documents
               </p>
-            </Link>
-          </div>
+            </div>
+          </Link>
           {/* <div className="button text-center space-y-4">
             <Button className="h-32 w-32 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
               <GiTrophyCup size={60} />
@@ -47,10 +47,10 @@ export default function Dashboard({ userData }: { userData: any }) {
               Highscore Board
             </p>
           </div> */}
-          <Link href="/History-page">
-            <div className="button text-center space-y-4">
-              <Button className="h-32 w-32 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
-                <FaHistory size={60} />
+          <Link href="/history">
+            <div className="flex flex-auto flex-row items-center gap-x-5 w-full text-5xl">
+              <Button className="text-6xl h-20 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
+                <FaHistory className="text-5xl" />
               </Button>
               <p className="text-gray-700 text-2xl  dark:text-white">History</p>
             </div>
@@ -62,9 +62,9 @@ export default function Dashboard({ userData }: { userData: any }) {
             <p className="text-gray-700 text-2xl  dark:text-white">Game</p>
           </div> */}
           <Link href="/notifications">
-            <div className="button text-center space-y-4">
-              <Button className="h-32 w-32 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
-                <IoIosNotifications size={60} />
+            <div className="flex flex-auto flex-row items-center gap-x-5 w-full text-5xl">
+              <Button className="text-6xl h-20 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
+                <IoIosNotifications className="text-5xl" />
               </Button>
               <p className="text-gray-700 text-2xl  dark:text-white">
                 Notification
