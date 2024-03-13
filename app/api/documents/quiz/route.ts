@@ -25,7 +25,7 @@ export async function POST(request: Request) {
   const body = await request.json();
   const { documentId, numOfQuestions, remarks , defaultModel} = body;
 
-  if (documentId === null || numOfQuestions === null || remarks === null) {
+  if (documentId === null || numOfQuestions === null || remarks === null || defaultModel == null) {
     throw new Error("Invalid request");
   }
 
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
       headers: headers,
       body: JSON.stringify({
         quiz_id: quizId,
-        default_model: defaultModel || true,
+        default_model: defaultModel,
       }),
     });
     const data = await res.json();

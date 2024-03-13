@@ -193,6 +193,7 @@ export default function QuizForm(props: {
                 Share
               </Button>
               <Button onClick={downloadPDF}>Download</Button>
+              <Link href={"/documents"}><Button>Back</Button></Link>
             </div>
           </>
         )}
@@ -222,9 +223,9 @@ export default function QuizForm(props: {
             <Button type="submit" disabled={formState.isSubmitted}>
               Submit
             </Button>
-            <Button type="reset" disabled={formState.isSubmitted}>
+            {/* <Button type="reset" disabled={formState.isSubmitted}>
               Clear All
-            </Button>
+            </Button> */}
             {/* <Button disabled={!formState.isSubmitted} onClick={() => window.print()}> */}
           </div>
         )}
@@ -244,7 +245,7 @@ export function ShadCNMCQComponent({
   form: ReturnType<typeof useForm<z.infer<typeof zodMCQSchema>>>;
   save: boolean;
 }) {
-  const { formState, register } = form;
+  const { formState, register, reset } = form;
   const [answers, setAnswers] = useState<string[]>([]);
   const [userAnswer, setUserAnswer] = useState<string>(field.userAnswer);
 

@@ -47,7 +47,25 @@ export async function handleShare(quizId: string) {
   }
 
   try {
-    const { data } = await supabase.from("share").select("id").eq("id", quizId);
+    let parentQuizId: string;
+    {
+      const { data, error } = await supabase
+        .from("quiz")
+        .select("parent_id")
+        .eq("id", quizId);
+      if (error) {
+        throw new Error("Error fetching quiz" + error.message);
+      }
+      if (data![0].parent_id !== null) {
+        parentQuizId = data![0].parent_id;
+      } else {
+        parentQuizId = quizId;
+      }
+    }
+    const { data } = await supabase
+      .from("share")
+      .select("id")
+      .eq("id", parentQuizId);
     if (!data![0]) {
       const { data } = await supabase
         .from("quiz")
