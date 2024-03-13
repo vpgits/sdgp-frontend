@@ -11,12 +11,27 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { Tables, Database } from "@/types/supabase";
+import { AvatarIcon } from "@radix-ui/react-icons";
+import Image from "next/image";
 
 type Props = {
   quizId: Tables<"quiz">["id"];
 };
 
+type RawUserMetaData = {
+  picture: string;
+};
+
 export default async function Component({ params }: { params: Props }) {
+  const { quizId } = params;
+  const cookieStore = cookies();
+  const supabase = createClient<Database>(cookieStore);
+
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    redirect("/");
+  }
+
   async function fetchScores() {
     let scoreData = [];
 
@@ -42,60 +57,36 @@ export default async function Component({ params }: { params: Props }) {
 
     return scoreData;
   }
+  async function mapUsernames() {
+    const userIds = scores.map((score) => score.user_id);
+    const users = await fetchUsers(userIds);
 
-  const scores = await fetchScores();
-  console.log(scores);
-  const { quizId } = params;
-  const cookieStore = cookies();
-  const supabase = createClient<Database>(cookieStore);
-
-  const { data, error } = await supabase.auth.getUser();
-  if (error || !data?.user) {
-    redirect("/");
+    return scores.map((score) => {
+      const user = users.find((user) => user.id === score.user_id);
+      return {
+        user_id: user!,
+        scores: score.scores,
+      };
+    });
   }
 
-  const participants = [
-    {
-      name: "Ella Johnson",
-      score: 1000,
-    },
-    {
-      name: "Noah Williams",
-      score: 950,
-    },
-    {
-      name: "Ava Brown",
-      score: 900,
-    },
-    {
-      name: "Liam Jones",
-      score: 850,
-    },
-    {
-      name: "Olivia Garcia",
-      score: 800,
-    },
-    {
-      name: "Lucas Rodriguez",
-      score: 750,
-    },
-    {
-      name: "Sophia Martinez",
-      score: 700,
-    },
-    {
-      name: "Mia Hernandez",
-      score: 650,
-    },
-    {
-      name: "Benjamin Lopez",
-      score: 600,
-    },
-    {
-      name: "Charlotte Smith",
-      score: 550,
-    },
-  ];
+  async function fetchUsers(userIds: string[]) {
+    const { data, error } = await supabase
+      .from("user")
+      .select(`email, id, raw_user_meta_data`)
+      .in("id", userIds);
+
+    if (error) {
+      console.error("Error fetching users:", error);
+      return [];
+    }
+
+    return data;
+  }
+  let scores = await fetchScores();
+  scores = scores.filter((score) => score!.scores != null);
+  scores = scores.sort((a, b) => b.scores! - a.scores!);
+  const scoreBoardData = await mapUsernames();
 
   return (
     <div className="flex h-full justify-center items-center">
@@ -110,26 +101,40 @@ export default async function Component({ params }: { params: Props }) {
         </div>
         <CardContent className="p-0">
           <div className="flex flex-col gap-2">
-            {participants.map((participant, index) => (
-              <div className="flex items-center gap-4" key={index}>
-                <div className="w-8">{index + 1}</div>
-                <div className="flex items-center gap-4">
-                  <img
-                    alt="Avatar"
-                    className="rounded-full"
-                    height="40"
-                    src="/placeholder.svg"
-                    style={{
-                      aspectRatio: "40/40",
-                      objectFit: "cover",
-                    }}
-                    width="40"
-                  />
-                  <div className="font-semibold">{participant.name}</div>
+            {scoreBoardData.length > 0 ? (
+              scoreBoardData.map((participant, index) => (
+                <div className="flex items-center gap-4" key={index}>
+                  <div className="w-8">{index + 1}</div>
+                  <div className="flex items-center gap-4">
+                    {participant.user_id.raw_user_meta_data ? (
+                      <Image
+                        alt="Avatar"
+                        height="40"
+                        src={
+                          (
+                            participant.user_id
+                              .raw_user_meta_data as RawUserMetaData
+                          ).picture
+                        }
+                        width="40"
+                      />
+                    ) : (
+                      <AvatarIcon />
+                    )}
+                    <div className="font-semibold">
+                      {participant.user_id.email}
+                    </div>
+                  </div>
+                  <div className="ml-auto font-semibold">
+                    {Number(participant.scores).toFixed(2)}
+                  </div>
                 </div>
-                <div className="ml-auto font-semibold">{participant.score}</div>
+              ))
+            ) : (
+              <div className="text-center">
+                No scores yet! Be the first to take the quiz!
               </div>
-            ))}
+            )}
           </div>
         </CardContent>
       </Card>
