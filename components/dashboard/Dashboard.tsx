@@ -16,11 +16,11 @@ export default function Dashboard({ userData }: { userData: any }) {
   return (
     <>
       <WelcomeBanner userData={user} />
-      <div className="flex flex-col items-center justify-center ">
+      <div className="flex flex-col items-center justify-between h-full">
         <h1 className="text-5xl font-bold md:mb-28 md:text-9xl ml-10 mt-2">
           Quiz Dashboard
         </h1>
-        <div className=" font-semibold flex flex-auto flex-col gap-y-5">
+        <div className=" font-semibold flex flex-auto justify-center h-full mb-20 flex-col gap-y-5 ">
           {/* <div className="button text-center space-y-4">
             <Button className="h-32 w-32 hover:bg-white hover:text-black hover:shadow-lg dark:hover:bg-black dark:hover:text-white dark:bg-white">
               <FaFileWord size={60} />
