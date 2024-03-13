@@ -22,6 +22,13 @@ type RawUserMetaData = {
   picture: string;
 };
 
+export function generateMetadata() {
+  return {
+    title: "Quiz Leaderboard | Quizzifyme",
+    description: "Quiz Leaderboard",
+  };
+}
+
 export default async function Component({ params }: { params: Props }) {
   const { quizId } = params;
   const cookieStore = cookies();
