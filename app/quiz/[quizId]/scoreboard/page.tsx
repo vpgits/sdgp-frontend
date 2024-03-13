@@ -97,7 +97,7 @@ export default async function Component({ params }: { params: Props }) {
 
   return (
     <div className="flex h-full justify-center items-center">
-      <Card className="w-full max-w-3xl border-4 p-4 m-4">
+      <Card className="w-full max-w-3xl border-4 p-4 m-4 min-h-96 flex flex-auto items-center flex-col justify-center">
         <div className="flex justify-center">
           <CardHeader className="text-center">
             <CardTitle>Quiz Leaderboard</CardTitle>
@@ -106,13 +106,13 @@ export default async function Component({ params }: { params: Props }) {
             </CardDescription>
           </CardHeader>
         </div>
-        <CardContent className="p-0">
-          <div className="flex flex-col gap-2">
+        <CardContent className="p-0 min">
+          <div className="flex flex-col gap-2 ">
             {scoreBoardData.length > 0 ? (
               scoreBoardData.map((participant, index) => (
                 <div className="flex items-center gap-4" key={index}>
                   <div className="w-8">{index + 1}</div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 ">
                     {participant.user_id.raw_user_meta_data ? (
                       <Image
                         alt="Avatar"

@@ -41,7 +41,6 @@ export async function signup(formData: FormData) {
   // type-casting here for convenience
   // in practice, you should validate your inputs
 
-
   {
     const signUpData = {
       email: formData.get("email") as string,
@@ -53,25 +52,9 @@ export async function signup(formData: FormData) {
       console.error(error);
       redirect("/error");
     }
-
   }
-
-
 
   revalidatePath("/login", "layout");
   redirect("/login");
 }
 
-export async function logout() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
-
-  const { error } = await supabase.auth.signOut();
-
-  if (error) {
-    redirect("/error");
-  }
-
-  revalidatePath("/", "layout");
-  redirect("/");
-}
