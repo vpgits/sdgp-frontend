@@ -171,7 +171,7 @@ export default function QuizForm(props: {
 
   return (
     <>
-      <div className=" top-14 fixed w-full rounded-full text-center bg-white dark:bg-slate-950 py-1 flex flex-auto items-center justify-evenly gap-x-5">
+      <div className=" fixed top-14 z-50  w-full rounded-full text-center bg-white dark:bg-slate-950 py-1 flex flex-auto items-center justify-evenly gap-x-5">
         {!saveData && (
           <Timer
             form={form}
@@ -193,7 +193,9 @@ export default function QuizForm(props: {
                 Share
               </Button>
               <Button onClick={downloadPDF}>Download</Button>
-              <Link href={"/documents"}><Button>Back</Button></Link>
+              <Link href={"/documents"}>
+                <Button>Back</Button>
+              </Link>
             </div>
           </>
         )}

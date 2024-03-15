@@ -109,22 +109,21 @@ export default async function Page({ params }: { params: Props }) {
     };
   });
 
-
   let data = {
     defaultValues: modifiedQuizData,
   };
 
-  revalidatePath(`/quiz/${quizId}`);
 
   return (
     <>
-      {/* <div className="flex flex-col items-center justify-center"> */}
-      <QuizForm
-        quizData={data}
-        quizId={quizId}
-        saveData={userData!}
-        score={score!}
-      />
+      <div className="h-screen">
+        <QuizForm
+          quizData={data}
+          quizId={quizId}
+          saveData={userData!}
+          score={score!}
+        />
+      </div>
       {/* </div> */}
     </>
   );

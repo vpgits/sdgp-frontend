@@ -15,12 +15,12 @@ export default function Dashboard({ userData }: { userData: any }) {
   revalidatePath("/dashboard", "layout");
   return (
     <>
-      <WelcomeBanner userData={user} />
       <div className="flex flex-col items-center justify-between h-full">
-        <h1 className="text-5xl font-bold md:mb-28 md:text-9xl ml-10 mt-2">
+        <WelcomeBanner userData={user} />
+        <h1 className="text-5xl font-bold md:text-9xl md:text-center ml-10 md:ml-0 md:mt-0 mt-5">
           Quiz Dashboard
         </h1>
-        <div className=" font-semibold flex flex-auto justify-center h-full mb-20 flex-col gap-y-5 ">
+        <div className=" font-semibold flex flex-auto justify-center flex-col gap-y-5 ">
           {/* <div className="button text-center space-y-4">
             <Button className="h-32 w-32 hover:bg-white hover:text-black hover:shadow-lg dark:hover:bg-black dark:hover:text-white dark:bg-white">
               <FaFileWord size={60} />

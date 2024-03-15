@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
-import signupPic from "../../public/login-pic.png";
+import signupPic from "../../public/login.avif";
 import { signup, Login } from "@/app/login/action";
 import {
   GoogleLogin,

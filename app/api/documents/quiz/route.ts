@@ -23,9 +23,19 @@ export async function POST(request: Request) {
     refresh_token = data?.session?.refresh_token;
   }
   const body = await request.json();
-  const { documentId, numOfQuestions, remarks , defaultModel} = body;
+  let { documentId, numOfQuestions, remarks, defaultModel } = body;
+  if (defaultModel === "default") {
+    defaultModel = true;
+  } else {
+    defaultModel = false;
+  }
 
-  if (documentId === null || numOfQuestions === null || remarks === null || defaultModel == null) {
+  if (
+    documentId === null ||
+    numOfQuestions === null ||
+    remarks === null ||
+    defaultModel == null
+  ) {
     throw new Error("Invalid request");
   }
 
@@ -39,8 +49,8 @@ export async function POST(request: Request) {
             user_id: userId,
             num_of_questions: numOfQuestions,
             remarks: remarks,
-            default_model: defaultModel,
-            generating:true,
+            default_model: defaultModel || true,
+            generating: true,
           },
         ])
         .select();
