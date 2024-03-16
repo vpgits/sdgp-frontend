@@ -62,7 +62,7 @@ export default function MiniHistory() {
     };
 
     fetchQuiz();
-  }, []);
+  }, [supabase]);
 
   if (isLoading) {
     return <div>Loading...</div>;

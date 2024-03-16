@@ -24,10 +24,10 @@ import RapidQuizForm from "./RapidQuizForm";
 const normalFormZodSchema = z.object({
   documentId: z.string().readonly(),
   numOfQuestions: z
-  .number()
-  .int({ message: "Number of questions must be an integer" })
-  .min(3, { message: "Number of questions must be at least 3" })
-  .max(20, { message: "Number of questions must be at most 20" }),
+    .number()
+    .int({ message: "Number of questions must be an integer" })
+    .min(3, { message: "Number of questions must be at least 3" })
+    .max(20, { message: "Number of questions must be at most 20" }),
   remarks: z.string().min(5, {
     message:
       "Remarks must be at least 5 characters, Enter something related to the document",
@@ -54,6 +54,23 @@ export default function CreateQuizForm() {
   let normalForm: UseFormReturn<z.infer<typeof normalFormZodSchema>>;
   let rapidForm: UseFormReturn<z.infer<typeof rapidFormZodSchema>>;
 
+  normalForm = useForm<z.infer<typeof normalFormZodSchema>>({
+    // resolver: zodResolver(normalFormZodSchema),
+    defaultValues: {
+      documentId: documentId!,
+      numOfQuestions: 3,
+      remarks: "",
+      defaultModel: "default",
+    },
+  });
+  rapidForm = useForm<z.infer<typeof rapidFormZodSchema>>({
+    resolver: zodResolver(rapidFormZodSchema),
+    defaultValues: {
+      documentId: documentId!,
+      defaultModel: "default",
+    },
+  });
+
   useEffect(() => {
     const documentId = window.location.pathname.split("/")[2];
     if (!documentId) {
@@ -75,24 +92,7 @@ export default function CreateQuizForm() {
     normalForm.reset({ ...normalForm.getValues(), documentId: documentId });
     rapidForm.reset({ ...rapidForm.getValues(), documentId: documentId });
     doesDocumentExist();
-  }, [documentId]);
-
-  normalForm = useForm<z.infer<typeof normalFormZodSchema>>({
-    // resolver: zodResolver(normalFormZodSchema),
-    defaultValues: {
-      documentId: documentId!,
-      numOfQuestions: 3,
-      remarks: "",
-      defaultModel: "default",
-    },
-  });
-  rapidForm = useForm<z.infer<typeof rapidFormZodSchema>>({
-    resolver: zodResolver(rapidFormZodSchema),
-    defaultValues: {
-      documentId: documentId!,
-      defaultModel: "default",
-    },
-  });
+  }, [documentId, normalForm, rapidForm, router, supabase]);
 
   // useEffect(() => {
   //   if (!isRapidGenerating) return;
@@ -275,7 +275,7 @@ export default function CreateQuizForm() {
 
       return () => clearTimeout(redirectTimeout);
     }
-  }, [isSuccess]);
+  }, [isSuccess, quizId, router]);
 
   useEffect(() => {
     if (!isGenerating && !isSuccess) {
@@ -298,7 +298,7 @@ export default function CreateQuizForm() {
       success: "Quiz generated successfully",
       error: "Failed to generate quiz",
     });
-  }, [isGenerating, isSuccess]);
+  }, [isGenerating, isSuccess, toastMessage]);
 
   // useEffect(() => {
   //   if (!isGenerating) return;

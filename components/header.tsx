@@ -42,7 +42,7 @@ export default async function Header() {
             >
               Profile
             </Link>
-            <Link className="text-sm font-medium hover:underline" href="/about">
+            <Link className="text-sm font-medium hover:underline" href="/about-us">
               About
             </Link>
             <Link

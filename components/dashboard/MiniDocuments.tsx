@@ -66,7 +66,7 @@ export default async function MiniDocument() {
             </>
           ))
         ) : (
-          <h2>You haven't uploaded any documents yet</h2>
+          <h2>You haven&apos;t uploaded any documents yet</h2>
         )}
         <hr />
       </div>
