@@ -2,10 +2,16 @@ import React from "react";
 import { ModeToggle } from "./ModeToggle";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { GlobeIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
+import MiniLogOut from "./login-signup/miniLogOut";
 
 export default async function Header() {
   const cookieStore = cookies();
@@ -30,36 +36,13 @@ export default async function Header() {
             >
               Dashboard
             </Link>
-            {/* <div className="absolute hidden group-hover:block bg-white shadow-md py-2 px-4 top-full mt-1">
-              <Link
-                className="block text-sm font-medium hover:underline "
-                href="#"
-              >
-                Asia
-              </Link>
-              <Link
-                className="block text-sm font-medium hover:underline "
-                href="#"
-              >
-                Europe
-              </Link>
-              <Link
-                className="block text-sm font-medium hover:underline "
-                href="#"
-              >
-                America
-              </Link>
-            </div> */}
-
-            {/* End of Activity Dropdown */}
-
             <Link
               className="text-sm font-medium hover:underline"
               href="/profile"
             >
               Profile
             </Link>
-            <Link className="text-sm font-medium hover:underline" href="/about-us">
+            <Link className="text-sm font-medium hover:underline" href="/about">
               About
             </Link>
             <Link
@@ -69,15 +52,15 @@ export default async function Header() {
               Contact Us
             </Link>
           </nav>
-          {!loggedIn ? (
-            <Link href="/login">
-              <Button className="hidden md:inline-flex">Login</Button>
-            </Link>
-          ) : (
-            <Link href="/subscribe">
-              <Button className="hidden md:inline-flex">Subscribe</Button>
-            </Link>
-          )}
+          <div className="hidden md:block">
+            {!loggedIn ? (
+              <Link href="/login">
+                <Button className="hidden md:inline-flex">Login</Button>
+              </Link>
+            ) : (
+              <MiniLogOut />
+            )}
+          </div>
           <div className="flex flex-end">
             <Sheet>
               <SheetTrigger asChild>
@@ -102,19 +85,19 @@ export default async function Header() {
 
                   <Link
                     className="text-lg font-medium hover:underline"
-                    href="#"
+                    href="/profile"
                   >
                     Profile
                   </Link>
                   <Link
                     className="text-lg font-medium hover:underline"
-                    href="#"
+                    href="/about"
                   >
                     About
                   </Link>
                   <Link
                     className="text-lg font-medium hover:underline"
-                    href="#"
+                    href="/contact-us"
                   >
                     Contact Us
                   </Link>
@@ -123,9 +106,7 @@ export default async function Header() {
                       <Button className="mt-4">Login</Button>
                     </Link>
                   ) : (
-                    <Link href="/subscribe">
-                      <Button className="mt-4">Subscribe</Button>
-                    </Link>
+                    <MiniLogOut />
                   )}
                 </div>
               </SheetContent>

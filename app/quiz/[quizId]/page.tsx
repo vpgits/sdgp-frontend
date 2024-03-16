@@ -6,9 +6,24 @@ import React from "react";
 
 import QuizForm from "@/components/QuizForm";
 
+
 type Props = {
   quizId: Tables<"quiz">["id"];
 };
+// type modifiedQuizData = {
+//   id: string;
+//   userAnswer: string;
+//   question: string | undefined;
+//   correct_answer: string;
+//   incorrect_answers: string[];
+// }[];
+
+type questionData = {
+  question: string | undefined;
+  correct_answer: string;
+  incorrect_answers: string[];
+};
+
 type modifiedQuizData = {
   id: string;
   userAnswer: string;
@@ -17,37 +32,52 @@ type modifiedQuizData = {
   incorrect_answers: string[];
 }[];
 
-type questionData = {
-  question: string | undefined;
-  correct_answer: string;
-  incorrect_answers: string[];
+type quizData = {
+  defaultValues: modifiedQuizData;
 };
 
-export function generateMetadata(){
+export function generateMetadata() {
   return {
     title: "Quiz | Quizzifyme",
     description: "Quiz",
   };
-
 }
 
 export default async function Page({ params }: { params: Props }) {
   const { quizId } = params;
+  let parentQuizId: string | undefined;
 
   const cookieStore = cookies();
   const supabase = createClient<Database>(cookieStore);
+
+  let userData, score;
+
   {
     const { data, error } = await supabase.auth.getUser();
     if (error || !data?.user) {
       redirect("/");
     }
   }
+
+  {
+    const { data, error } = await supabase
+      .from("quiz")
+      .select("parent_id")
+      .eq("id", quizId);
+    if (error) {
+      throw new Error("Error fetching quiz" + error.message);
+    }
+    if (data![0].parent_id !== null) {
+      parentQuizId = data![0].parent_id;
+    }
+  }
+
   const fetchQuiz = async () => {
     try {
       let { data, error } = await supabase
         .from("questions")
-        .select("data")
-        .eq("quiz_id", quizId);
+        .select("*")
+        .eq("quiz_id", parentQuizId ? parentQuizId : quizId);
       return data!;
     } catch (error: any) {
       throw new Error("Error fetching quiz" + error.message);
@@ -55,6 +85,18 @@ export default async function Page({ params }: { params: Props }) {
   };
 
   let quizData = await fetchQuiz();
+
+  {
+    const { data } = await supabase
+      .from("quiz")
+      .select("results, scores")
+      .eq("id", quizId);
+    const { results, scores } = data?.[0] ?? {};
+    if (scores !== null) {
+      userData = results as quizData;
+      score = scores as number;
+    }
+  }
 
   let modifiedQuizData = quizData.map((data, index) => {
     if (data.data === undefined) throw new Error("Error fetching quiz");
@@ -66,24 +108,21 @@ export default async function Page({ params }: { params: Props }) {
     };
   });
 
-  // let modifiedQuizData:modifiedQuizData = quizData.map((data, index) => (
-  //   if(data.data === undefined) throw new Error("Error fetching quiz");
-  //   return(
-  //     ...data.data,
-  //     userAnswer: "",
-  //     id: index,
-  //   )
-  // ));
-
   let data = {
     defaultValues: modifiedQuizData,
   };
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center">
-        <QuizForm quizData={data} />
+      <div className="h-screen">
+        <QuizForm
+          quizData={data}
+          quizId={quizId}
+          saveData={userData!}
+          score={score!}
+        />
       </div>
+
     </>
   );
 }

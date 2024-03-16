@@ -27,7 +27,7 @@ export default async function Page() {
 
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    redirect("/");
+    redirect("/login");
   }
 
   async function getDocuments() {
@@ -47,7 +47,7 @@ export default async function Page() {
   revalidatePath("/documents");
 
   return (
-    <div className="w-full p-8">
+    <div className="w-full px-8">
       <header className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">My Documents</h1>
         <Link href="/documents/add">

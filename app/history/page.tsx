@@ -4,15 +4,13 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { Tables,Database } from "@/types/supabase";
+import { Tables, Database } from "@/types/supabase";
 
-export function generateMetadata(){
+export function generateMetadata() {
   return {
     title: "History | Quizzifyme",
     description: "History",
   };
-
-
 }
 
 export default async function Page() {
@@ -21,30 +19,10 @@ export default async function Page() {
 
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    redirect("/");
+    redirect("/login");
   }
 
-  async function getHistory() {
-    const { data, error } = await supabase
-      .from("quiz")
-      .select("*")
-      .order("updated_at", { ascending: false });
+  revalidatePath("/history");
 
-    if (error) {
-      console.log(error);
-    }
-    return data!;
-  }
-
-
-  const historyData:Tables<"quiz">[] = await getHistory();
-  console.log(historyData)
-  
-
-  revalidatePath("/History-page");
-
-  return (
-    <Historypage historyData={historyData}/>
-  )
+  return <Historypage />;
 }
-
