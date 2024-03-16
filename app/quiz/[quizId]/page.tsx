@@ -5,8 +5,7 @@ import { Database, Tables } from "@/types/supabase";
 import React from "react";
 
 import QuizForm from "@/components/QuizForm";
-import Chat from "@/components/chat";
-import { revalidatePath } from "next/cache";
+
 
 type Props = {
   quizId: Tables<"quiz">["id"];
@@ -113,7 +112,6 @@ export default async function Page({ params }: { params: Props }) {
     defaultValues: modifiedQuizData,
   };
 
-
   return (
     <>
       <div className="h-screen">
@@ -124,7 +122,7 @@ export default async function Page({ params }: { params: Props }) {
           score={score!}
         />
       </div>
-      {/* </div> */}
+
     </>
   );
 }

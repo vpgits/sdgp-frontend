@@ -11,6 +11,11 @@ import { FaHistory } from "react-icons/fa";
 export default async function MiniHistory() {
   const cookieStore = cookies();
   const supabase = createClient<Database>(cookieStore);
+  let userId: string;
+  {
+    const { data, error } = await supabase.auth.getUser()!;
+    userId = data.user?.id!;
+  }
 
   {
     const { data, error } = await supabase.auth.getUser();
@@ -23,11 +28,32 @@ export default async function MiniHistory() {
     .from("quiz")
     .select("id, summary, inserted_at, scores, parent_id")
     .order("inserted_at", { ascending: false })
-    .range(0, 4);
+    .range(0, 4)
+    .eq("user_id", userId);
 
-    quiz?.filter((q) => q.parent_id === null);
+  await Promise.all(
+    quiz!.map(async (q) => {
+      let parent_id: string;
+      let quizData: any;
+      if (q.parent_id !== null) {
+        console.log(q.parent_id);
+        parent_id = q.parent_id;
+
+        const { data, error } = await supabase
+          .from("quiz")
+          .select("summary")
+          .eq("id", parent_id);
+        if (error) {
+          throw new Error("Error fetching quiz" + error.message);
+        }
+        quizData = data[0].summary!;
+        q.summary = quizData;
+      }
+    })
+  );
+
   return (
-    <div className="min-w-48 min-h-[500px] p-2 rounded-lg border dark:border-slate-600 border-slate-400 flex flex-col justify-center flex-auto items-center ">
+    <div className="min-w-48 min-h-[550px] p-2 rounded-lg border dark:border-slate-600 border-slate-400 flex flex-col justify-center flex-auto items-center ">
       <div className="flex flex-row items-center justify-between my-2">
         <Link href={"/history"}>
           <span className="flex flex-row gap-x-5">
@@ -43,22 +69,26 @@ export default async function MiniHistory() {
       </p>
       <div className="">
         {quiz?.map((q, index) => (
-          <div className="my-2 flex flex-row items-center" key={index}>
-            <div className="mr-4 ml-1">
-              <ImQuestion className="text-3xl" />
-            </div>
-            <div className="flex flex-col items-start">
-              <Link href={`/quiz/${q.id}`}>
-                <div>{(q.summary as any)?.title}</div>
-              </Link>
-              <div className="font-mono text-xs text-start">
-                <p>Score: {new Number(q.scores).toFixed(2)}</p>
-                <p>{new Date(q.inserted_at).toDateString()}</p>
-                <p>{new Date(q.inserted_at).toTimeString()}</p>
+          <>
+            <hr />
+            <div className="my-2 flex flex-row items-center" key={index}>
+              <div className="mr-4 ml-1">
+                <ImQuestion className="text-3xl" />
+              </div>
+              <div className="flex flex-col items-start">
+                <Link href={`/quiz/${q.id}`}>
+                  <div className="hover:underline">{(q.summary as any)?.title}</div>
+                </Link>
+                <div className="font-mono text-xs text-start">
+                  <p>Score: {new Number(q.scores).toFixed(2)}</p>
+                  <p>{new Date(q.inserted_at).toDateString()}</p>
+                  <p>{new Date(q.inserted_at).toTimeString()}</p>
+                </div>
               </div>
             </div>
-          </div>
+          </>
         ))}
+        <hr />
       </div>
     </div>
   );

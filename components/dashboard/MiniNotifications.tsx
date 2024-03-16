@@ -31,7 +31,7 @@ export default async function MiniNotifications() {
 
   const notificationData: Tables<"notification">[] = await getNotification();
   return (
-    <div className="min-w-48 min-h-[500px] p-2 rounded-lg border dark:border-slate-600 border-slate-400 flex flex-col justify-center flex-auto items-center ">
+    <div className="min-w-48 min-h-[550px] p-2 rounded-lg border dark:border-slate-600 border-slate-400 flex flex-col justify-center flex-auto items-center ">
       <div className="flex flex-row items-center justify-between my-2">
         <Link href={"/notifications"}>
           <span className="flex flex-row gap-x-5">
@@ -47,21 +47,25 @@ export default async function MiniNotifications() {
       </p>
       <div className="max-h-72 overflow-y-auto md:max-h-fit">
         {notificationData?.map((n, index) => (
-          <div className="mt-2 flex flex-row items-center" key={index}>
-            <div className="mr-4">
-              {/* <IoDocumentTextOutline className="text-3xl" /> */}
-            </div>
-            <div className="flex flex-col items-start">
-              <Link href={`/documents/${n.id}`}>
-                <div>{n.title}</div>
-              </Link>
-              <p>{n.description}</p>
-              <div className="font-mono text-xs text-start">
-                <p>{new Date(n.created_at).toDateString()}</p>
+          <>
+            <hr />
+            <div className="mt-2 flex flex-row items-center" key={index}>
+              <div className="mr-4">
+                {/* <IoDocumentTextOutline className="text-3xl" /> */}
+              </div>
+              <div className="flex flex-col items-start">
+                <Link href={`/documents/${n.id}`}>
+                  <div className="hover:underline">{n.title}</div>
+                </Link>
+                <p>{n.description}</p>
+                <div className="font-mono text-xs text-start">
+                  <p>{new Date(n.created_at).toDateString()}</p>
+                </div>
               </div>
             </div>
-          </div>
+          </>
         ))}
+        <hr />
       </div>
     </div>
   );

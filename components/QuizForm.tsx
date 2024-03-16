@@ -201,7 +201,9 @@ export default function QuizForm(props: {
         )}
       </div>
 
-      {submitted && <Chat quizData={userData!} />}
+      {(formState.isSubmitted || saveData) && (userData! || saveData!) && (
+        <Chat quizData={userData! || saveData!} />
+      )}
       <form
         onSubmit={handleSubmit(handleSubmitQuiz)}
         className="pb-5"
