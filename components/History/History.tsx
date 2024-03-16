@@ -2,8 +2,8 @@ import React from "react";
 import { Button } from "../ui/button";
 import { Tables } from "@/types/supabase";
 import Link from "next/link";
-import MiniDocument from "../dashboard/MiniDocuments";
-import MiniHistory from "../dashboard/MiniHistory";
+import MiniDocument from "./MiniDocuments";
+import MiniHistory from "./MiniHistory";
 
 export default function Historypage() {
   return (
