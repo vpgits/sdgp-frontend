@@ -10,6 +10,11 @@ import Link from "next/link";
 export default async function MiniHistory() {
   const cookieStore = cookies();
   const supabase = createClient<Database>(cookieStore);
+  let userId: string;
+  {
+    const { data, error } = await supabase.auth.getUser()!;
+    userId = data.user?.id!;
+  }
 
   {
     const { data, error } = await supabase.auth.getUser();
@@ -21,15 +26,37 @@ export default async function MiniHistory() {
   let { data: quiz, error } = await supabase
     .from("quiz")
     .select("id, summary, inserted_at, scores, parent_id")
-    .order("inserted_at", { ascending: false });
+    .order("inserted_at", { ascending: false })
+    .eq("user_id", userId);
+
+  await Promise.all(
+    quiz!.map(async (q) => {
+      let parent_id: string;
+      let quizData: any;
+      if (q.parent_id !== null) {
+        console.log(q.parent_id);
+        parent_id = q.parent_id;
+
+        const { data, error } = await supabase
+          .from("quiz")
+          .select("summary")
+          .eq("id", parent_id);
+        if (error) {
+          throw new Error("Error fetching quiz" + error.message);
+        }
+        quizData = data[0].summary!;
+        q.summary = quizData;
+      }
+    })
+  );
   return (
-    <div >
-      <Card className="p-5">
+    <div>
+      <Card className="h-[600px]">
         <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0"></CardHeader>
-        <p className="text-sm text-muted-foreground ">
+        <p className="text-sm text-muted-foreground ml-5">
           View recently taken quizzes
         </p>
-        <CardContent className=" max-h-72 overflow-y-auto md:max-h-fit">
+        <CardContent className="overflow-y-scroll h-5/6 scrollbar-hide scrollbar-hide::-webkit-scrollbar ">
           {quiz?.map((q: any, index) => (
             <Card className="my-5 flex flex-row items-center" key={index}>
               <div className="ml-4">

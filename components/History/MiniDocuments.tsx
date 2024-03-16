@@ -29,14 +29,14 @@ export default async function MiniDocument() {
     //     <pre key={index}>{JSON.stringify(d, null, 2)}</pre>
     //   ))}
     // </div>
-    <Card>
+    <Card className=" h-[600px]">
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
         <Link href={"/documents"}></Link>
       </CardHeader>
       <p className="text-sm text-muted-foreground px-5">
         View recently uploaded documents
       </p>
-      <CardContent className=" max-h-72 overflow-y-auto md:max-h-fit">
+      <CardContent className="overflow-y-scroll h-5/6 scrollbar-hide scrollbar-hide::-webkit-scrollbar  ">
         {documents?.map((d: any, index) => (
           <Card className="my-5 flex flex-row items-center" key={index}>
             <div className="ml-4">
