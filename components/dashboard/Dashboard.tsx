@@ -1,34 +1,26 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { FaFileWord, FaHistory } from "react-icons/fa";
+import { FaHistory } from "react-icons/fa";
 import { LuBrainCircuit } from "react-icons/lu";
-import { GiTrophyCup } from "react-icons/gi";
-import { IoLogoGameControllerB, IoIosNotifications } from "react-icons/io";
+import { IoIosNotifications } from "react-icons/io";
 import { revalidatePath } from "next/cache";
 import WelcomeBanner from "./welcomeBanner";
-import MiniHistory from "./MiniHistory";
 import MiniDocument from "./MiniDocuments";
+import MiniHistory from "./MiniHistory";
+import MiniNotifications from "./MiniNotifications";
 
 export default function Dashboard({ userData }: { userData: any }) {
   const user = userData;
   revalidatePath("/dashboard", "layout");
   return (
     <>
-      <div className="flex flex-col items-center justify-between h-full">
+      <div className="flex flex-col items-center justify-between h-full md:h-auto">
         <WelcomeBanner userData={user} />
-        <h1 className="text-5xl font-bold md:text-9xl md:text-center ml-10 md:ml-0 md:mt-0 mt-5">
+        <h1 className="text-5xl font-bold md:text-8xl md:text-center ml-10 md:ml-0 md:mt-0 ">
           Quiz Dashboard
         </h1>
-        <div className=" font-semibold flex flex-auto justify-center flex-col gap-y-5 ">
-          {/* <div className="button text-center space-y-4">
-            <Button className="h-32 w-32 hover:bg-white hover:text-black hover:shadow-lg dark:hover:bg-black dark:hover:text-white dark:bg-white">
-              <FaFileWord size={60} />
-            </Button>
-            <p className="text-gray-700 text-2xl dark:text-white">
-              PDF to word document
-            </p>
-          </div> */}
+        <div className="md:hidden font-semibold flex flex-auto justify-center flex-col gap-y-5 ">
           <Link href="/documents">
             <div className=" flex flex-auto flex-row items-center gap-x-5 w-full text-5xl">
               <Button className="text-6xl h-20 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
@@ -39,14 +31,6 @@ export default function Dashboard({ userData }: { userData: any }) {
               </p>
             </div>
           </Link>
-          {/* <div className="button text-center space-y-4">
-            <Button className="h-32 w-32 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
-              <GiTrophyCup size={60} />
-            </Button>
-            <p className="text-gray-700 text-2xl  dark:text-white">
-              Highscore Board
-            </p>
-          </div> */}
           <Link href="/history">
             <div className="flex flex-auto flex-row items-center gap-x-5 w-full text-5xl">
               <Button className="text-6xl h-20 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
@@ -55,12 +39,6 @@ export default function Dashboard({ userData }: { userData: any }) {
               <p className="text-gray-700 text-2xl  dark:text-white">History</p>
             </div>
           </Link>
-          {/* <div className="button text-center space-y-4">
-            <Button className="h-32 w-32 hover:bg-white hover:text-black hover:shadow-lg  dark:hover:bg-black dark:hover:text-white dark:bg-white">
-              <IoLogoGameControllerB size={60} />
-            </Button>
-            <p className="text-gray-700 text-2xl  dark:text-white">Game</p>
-          </div> */}
           <Link href="/notifications">
             <div className="flex flex-auto flex-row items-center gap-x-5 w-full text-5xl">
               <Button className="text-6xl h-20 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
@@ -71,8 +49,11 @@ export default function Dashboard({ userData }: { userData: any }) {
               </p>
             </div>
           </Link>
-          {/* <MiniHistory /> */}
-          {/* <MiniDocument /> */}
+        </div>
+        <div className="hidden md:flex flex-auto items-center justify-evenly gap-x-10 m-5">
+          <MiniDocument />
+          <MiniHistory />
+          <MiniNotifications />
         </div>
       </div>
     </>

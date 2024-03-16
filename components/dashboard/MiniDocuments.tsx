@@ -6,6 +6,8 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Link from "next/link";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import { Button } from "../ui/button";
+import { LuBrainCircuit } from "react-icons/lu";
 
 export default async function MiniDocument() {
   const cookieStore = cookies();
@@ -21,39 +23,42 @@ export default async function MiniDocument() {
   let { data: documents, error } = await supabase
     .from("documents")
     .select("id, summary, inserted_at, title")
-    .order("inserted_at", { ascending: false });
+    .order("inserted_at", { ascending: false })
+    .range(0, 4);
   return (
-    // <div>
-    //   <h1>My Documents</h1>
-    //   {documents?.map((d, index) => (
-    //     <pre key={index}>{JSON.stringify(d, null, 2)}</pre>
-    //   ))}
-    // </div>
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-        <Link href={"/documents"}></Link>
-      </CardHeader>
-      <p className="text-sm text-muted-foreground px-5">
+    <div className=" min-w-48 min-h-[500px] p-2 rounded-lg border dark:border-slate-600 border-slate-400 flex flex-col justify-center flex-auto items-center ">
+      <div className="flex flex-row items-center justify-between my-2">
+        <Link href={"/documents"}>
+          <span className="flex flex-row gap-x-5">
+            {" "}
+            <Button className="text-2xl  hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
+              <LuBrainCircuit className="text-2xl" />
+            </Button>
+            <h1 className="text-3xl font-semibold">My Documents</h1>
+          </span>
+        </Link>
+      </div>
+      <p className="text-sm text-muted-foreground">
         View recently uploaded documents
       </p>
-      <CardContent className=" max-h-72 overflow-y-auto md:max-h-fit">
-        {documents?.map((d: any, index) => (
-          <Card className="my-5 flex flex-row items-center" key={index}>
-            <div className="ml-4">
-              <IoDocumentTextOutline className="text-4xl" />
+      <div className="max-h-72 overflow-y-auto md:max-h-fit">
+        {documents?.map((d, index) => (
+          <div className="mt-2 flex flex-row items-center" key={index}>
+            <div className="mr-4">
+              <IoDocumentTextOutline className="text-3xl" />
             </div>
             <div className="flex flex-col items-start">
               <Link href={`/documents/${d.id}`}>
-                <CardHeader>{d.summary?.title || d.title}</CardHeader>
+                <div>{(d.summary as any)?.title || d.title}</div>
               </Link>
-              <CardContent className="font-mono text-xs text-start">
+              <div className="font-mono text-xs text-start">
                 <p>{new Date(d.inserted_at).toDateString()}</p>
                 <p>{new Date(d.inserted_at).toTimeString()}</p>
-              </CardContent>
+              </div>
             </div>
-          </Card>
+          </div>
         ))}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
