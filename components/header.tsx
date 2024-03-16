@@ -42,7 +42,10 @@ export default async function Header() {
             >
               Profile
             </Link>
-            <Link className="text-sm font-medium hover:underline" href="/about-us">
+            <Link
+              className="text-sm font-medium hover:underline"
+              href="/about-us"
+            >
               About
             </Link>
             <Link
@@ -58,7 +61,10 @@ export default async function Header() {
                 <Button className="hidden md:inline-flex">Login</Button>
               </Link>
             ) : (
-              <MiniLogOut />
+              // <MiniLogOut />
+              <Link href={"/subscribe"}>
+                <Button>Subscribe</Button>
+              </Link>
             )}
           </div>
           <div className="flex flex-end">
@@ -106,7 +112,10 @@ export default async function Header() {
                       <Button className="mt-4">Login</Button>
                     </Link>
                   ) : (
-                    <MiniLogOut />
+                    // <MiniLogOut />
+                    <Link href={"/subscribe"}>
+                      <Button>Subscribe</Button>
+                    </Link>
                   )}
                 </div>
               </SheetContent>
