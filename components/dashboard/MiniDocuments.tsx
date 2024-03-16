@@ -8,6 +8,7 @@ import Link from "next/link";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { Button } from "../ui/button";
 import { LuBrainCircuit } from "react-icons/lu";
+import html2canvas from "html2canvas";
 
 export default async function MiniDocument() {
   const cookieStore = cookies();
@@ -24,9 +25,9 @@ export default async function MiniDocument() {
     .from("documents")
     .select("id, summary, inserted_at, title")
     .order("inserted_at", { ascending: false })
-    .range(0, 4);
+    .range(0, 3);
   return (
-    <div className=" min-w-48 min-h-[550px] p-2 rounded-lg border dark:border-slate-600 border-slate-400 flex flex-col justify-center flex-auto items-center ">
+    <div className=" min-w-[300px] min-h-[550px] p-2 rounded-lg border dark:border-slate-600 border-slate-400 flex flex-col justify-center flex-auto items-center ">
       <div className="flex flex-row items-center justify-between my-2">
         <Link href={"/documents"}>
           <span className="flex flex-row gap-x-5">
@@ -42,27 +43,31 @@ export default async function MiniDocument() {
         View recently uploaded documents
       </p>
       <div className="max-h-72 overflow-y-auto md:max-h-fit">
-        {documents?.map((d, index) => (
-          <>
-            <hr />
-            <div className="mt-2 flex flex-row items-center" key={index}>
-              <div className="mr-4">
-                <IoDocumentTextOutline className="text-3xl" />
-              </div>
-              <div className="flex flex-col items-start">
-                <Link href={`/documents/${d.id}`}>
-                  <div className="hover:underline">
-                    {(d.summary as any)?.title || d.title}
+        {documents ? (
+          documents?.map((d, index) => (
+            <>
+              <hr />
+              <div className="mt-2 flex flex-row items-center" key={index}>
+                <div className="mr-4">
+                  <IoDocumentTextOutline className="text-3xl" />
+                </div>
+                <div className="flex flex-col items-start">
+                  <Link href={`/documents/${d.id}`}>
+                    <div className="hover:underline">
+                      {(d.summary as any)?.title || d.title}
+                    </div>
+                  </Link>
+                  <div className="font-mono text-xs text-start">
+                    <p>{new Date(d.inserted_at).toDateString()}</p>
+                    <p>{new Date(d.inserted_at).toTimeString()}</p>
                   </div>
-                </Link>
-                <div className="font-mono text-xs text-start">
-                  <p>{new Date(d.inserted_at).toDateString()}</p>
-                  <p>{new Date(d.inserted_at).toTimeString()}</p>
                 </div>
               </div>
-            </div>
-          </>
-        ))}
+            </>
+          ))
+        ) : (
+          <h2>You haven't uploaded any documents yet</h2>
+        )}
         <hr />
       </div>
     </div>

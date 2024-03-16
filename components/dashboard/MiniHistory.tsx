@@ -28,7 +28,7 @@ export default async function MiniHistory() {
     .from("quiz")
     .select("id, summary, inserted_at, scores, parent_id")
     .order("inserted_at", { ascending: false })
-    .range(0, 4)
+    .range(0, 3)
     .eq("user_id", userId);
 
   await Promise.all(
@@ -53,7 +53,7 @@ export default async function MiniHistory() {
   );
 
   return (
-    <div className="min-w-48 min-h-[550px] p-2 rounded-lg border dark:border-slate-600 border-slate-400 flex flex-col justify-center flex-auto items-center ">
+    <div className="min-w-[300px] min-h-[550px] p-2 rounded-lg border dark:border-slate-600 border-slate-400 flex flex-col justify-center flex-auto items-center ">
       <div className="flex flex-row items-center justify-between my-2">
         <Link href={"/history"}>
           <span className="flex flex-row gap-x-5">
@@ -68,26 +68,32 @@ export default async function MiniHistory() {
         View recently taken quizzes
       </p>
       <div className="">
-        {quiz?.map((q, index) => (
-          <>
-            <hr />
-            <div className="my-2 flex flex-row items-center" key={index}>
-              <div className="mr-4 ml-1">
-                <ImQuestion className="text-3xl" />
-              </div>
-              <div className="flex flex-col items-start">
-                <Link href={`/quiz/${q.id}`}>
-                  <div className="hover:underline">{(q.summary as any)?.title}</div>
-                </Link>
-                <div className="font-mono text-xs text-start">
-                  <p>Score: {new Number(q.scores).toFixed(2)}</p>
-                  <p>{new Date(q.inserted_at).toDateString()}</p>
-                  <p>{new Date(q.inserted_at).toTimeString()}</p>
+        {quiz ? (
+          quiz?.map((q, index) => (
+            <>
+              <hr />
+              <div className="my-2 flex flex-row items-center" key={index}>
+                <div className="mr-4 ml-1">
+                  <ImQuestion className="text-3xl" />
+                </div>
+                <div className="flex flex-col items-start">
+                  <Link href={`/quiz/${q.id}`}>
+                    <div className="hover:underline">
+                      {(q.summary as any)?.title}
+                    </div>
+                  </Link>
+                  <div className="font-mono text-xs text-start">
+                    <p>Score: {new Number(q.scores).toFixed(2)}</p>
+                    <p>{new Date(q.inserted_at).toDateString()}</p>
+                    <p>{new Date(q.inserted_at).toTimeString()}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </>
-        ))}
+            </>
+          ))
+        ) : (
+          <h2>You dont have any history yet</h2>
+        )}
         <hr />
       </div>
     </div>

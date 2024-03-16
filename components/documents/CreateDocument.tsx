@@ -1,7 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/JWqPM32ZeTV
- */
 import {
   CardTitle,
   CardDescription,
@@ -15,7 +11,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import { SubmitButton } from "./AlertDemo";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";

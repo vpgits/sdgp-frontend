@@ -15,12 +15,12 @@ export default function Dashboard({ userData }: { userData: any }) {
   revalidatePath("/dashboard", "layout");
   return (
     <>
-      <div className="flex flex-col items-center justify-between h-full md:h-auto">
+      <div className="flex flex-col items-center justify-between h-full md:h-auto lg:text-sm">
         <WelcomeBanner userData={user} />
-        <h1 className="text-5xl font-bold md:text-8xl md:text-center ml-10 md:ml-0 md:mt-0 ">
+        <h1 className="text-4xl font-bold md:text-8xl text-center mx-2 ">
           Quiz Dashboard
         </h1>
-        <div className="md:hidden font-semibold flex flex-auto justify-center flex-col gap-y-5 ">
+        <div className="lg:hidden font-semibold flex flex-auto justify-center flex-col gap-y-5 ">
           <Link href="/documents">
             <div className=" flex flex-auto flex-row items-center gap-x-5 w-full text-5xl">
               <Button className="text-6xl h-20 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
@@ -50,7 +50,7 @@ export default function Dashboard({ userData }: { userData: any }) {
             </div>
           </Link>
         </div>
-        <div className="hidden md:flex flex-auto items-center justify-evenly gap-x-10 m-5">
+        <div className="hidden lg:flex flex-auto items-center justify-evenly gap-x-10 m-5 lg:my-0">
           <MiniDocument />
           <MiniHistory />
           <MiniNotifications />

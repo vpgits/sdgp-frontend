@@ -91,7 +91,7 @@ export default async function Header() {
                   </Link>
                   <Link
                     className="text-lg font-medium hover:underline"
-                    href="/about"
+                    href="/about-us"
                   >
                     About
                   </Link>

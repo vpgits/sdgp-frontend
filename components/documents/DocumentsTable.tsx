@@ -169,71 +169,6 @@ export function CustomTableRow(props: { document: Document }) {
     }
   };
 
-  // useEffect(() => {
-  //   if (!isProcessing) return;
-  //   const interval = setInterval(async () => {
-  //     try {
-  //       const response = await fetch(
-  //         `/api/documents/preprocess/status?taskId=${taskId}`
-  //       );
-  //       const { data } = await response.json();
-  //       const task_status = data.task_status;
-  //       const task_result = data.task_result;
-  //       if (task_result.status !== toastMessage && task_status !== "SUCCESS") {
-  //         setToastMessage(task_result.status);
-  //         toast(task_result.status);
-  //       }
-  //       if (task_status === "SUCCESS" && isProcessing) {
-  //         setIsProcessing(false);
-  //         toast.success(task_result.message);
-  //         clearInterval(interval);
-  //         return;
-  //       }
-  //     } catch (error: any) {
-  //       toast.error(`Failed to fetch task :${error.message}`);
-  //       clearInterval(interval);
-  //       return;
-  //     }
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, [isProcessing, toastMessage, taskId]);
-
-  // const fetchProcessStatus = async () => {
-  //   // ... existing code for fetchProcessStatus
-  // };
-
-  // useEffect(() => {
-  //   if (isProcessing) {
-  //     fetchProcessStatus();
-  //   }
-  // }, [isProcessing]);
-
-  // useEffect(() => {
-  //   if (!isProcessing && !isSuccess) return; // Early return if not processing or successful
-  //   if (promiseAlreadyCalled) return; // Check if promise has already been called
-
-  //   promiseAlreadyCalled(true) = true;
-
-  //   const preprocessingPromise = new Promise((resolve, reject) => {
-  //     const timeout = setTimeout(() => {
-  //       console.log("In the promise");
-  //       if (isSuccess) {
-  //         resolve("Document processed successfully");
-  //         clearTimeout(timeout);
-  //       } else {
-  //         reject("Failed to process the document");
-  //       }
-  //     }, 1000); // Adjust timeout as needed
-  //   });
-
-  //   toast.promise(preprocessingPromise, {
-  //     loading: toastMessage,
-  //     success: "Document processed successfully",
-  //     error: "Failed to process the document",
-  //   });
-
-  // }, [isProcessing, isSuccess, toastMessage]);
-
   return (
     <TableRow key={document.id} className="">
       <TableCell className="">
@@ -263,7 +198,7 @@ export function CustomTableRow(props: { document: Document }) {
 
         <Button
           onClick={() => handleQuiz(document.id)}
-          className={`mx-2 my-2 min-w-24 `}
+          className={`mx-2 my-2 min-w-28 `}
           disabled={!quizReady}
         >
           Quiz

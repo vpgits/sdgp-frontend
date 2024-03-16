@@ -59,7 +59,7 @@ export default function RapidQuizForm({
           type="text"
           readOnly
           value={form.getValues("documentId")}
-          className="rounded-lg p-2 border-gray-600 bg-inherit border"
+          className="rounded-lg p-2 border-gray-600 bg-inherit border w-full"
           disabled
         />
         <small>This is your document ID</small>
@@ -72,10 +72,10 @@ export default function RapidQuizForm({
           className=" w-full py-2 px-3 border border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-black dark:text-white"
           disabled={isGenerating}
         >
-          <option value="default" className="bg-inherit">
+          <option value="default" className="bg-inherit w-full">
             QuizzifyMe Model
           </option>
-          <option value="openai" className="bg-inherit">
+          <option value="openai" className="bg-inherit w-full">
             Mixtral
           </option>
         </select>

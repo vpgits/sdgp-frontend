@@ -7,16 +7,9 @@ import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import signupPic from "../../public/login.avif";
 import { signup, Login } from "@/app/login/action";
-import {
-  GoogleLogin,
-  GoogleOAuthProvider,
-  GoogleLoginProps,
-  useGoogleOneTapLogin,
-} from "@react-oauth/google";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
-import { Anybody } from "next/font/google";
-import Script from "next/script";
 
 export default function SignupLogin({
   nonce,
@@ -26,6 +19,7 @@ export default function SignupLogin({
   hashedNonce: string;
 }) {
   const [login, setLogin] = useState(true);
+  const [isLoggginIn, setIsLoggingIn] = useState(false);
   const supabase = createClient();
   const router = useRouter();
 
@@ -78,38 +72,46 @@ export default function SignupLogin({
                       placeholder="m@example.com"
                       required
                       type="email"
+                      disabled={isLoggginIn}
                     />
                   </div>
                   <div className="space-y-2">
                     <div className="flex items-center">
                       <Label htmlFor="password">Password</Label>
-                      <Link
-                        className="ml-auto inline-block text-sm underline"
-                        href="#"
-                      >
-                        Forgot your password?
-                      </Link>
                     </div>
                     <Input
                       id="password"
                       name="password"
                       required
                       type="password"
+                      min={6}
+                      disabled={isLoggginIn}
                     />
                   </div>
 
                   <div className="flex flex-auto items-center flex-col gap-y-2">
-                    <Button className="w-full" type="submit">
-                      Login
+                    <Button
+                      className="w-full"
+                      type="submit"
+                      disabled={isLoggginIn}
+                    >
+                      {isLoggginIn ? "Logging in..." : "Login"}
                     </Button>
                     <GoogleOAuthProvider
                       clientId="251594071758-lcn2jr190479a3t9ghci9gi74tl1c9r8.apps.googleusercontent.com"
                       nonce={hashedNonce}
                     >
-                      <div className=" w-full flex justify-center flex-auto">
+                      <div
+                        className={`w-full flex justify-center flex-auto ${
+                          isLoggginIn
+                            ? "hover:cursor-not-allowed"
+                            : ""
+                        }`}
+                      >
                         <GoogleLogin
                           nonce={hashedNonce}
                           onSuccess={(credentialResponse) => {
+                            setIsLoggingIn(true);
                             handleSignInWithGoogle(credentialResponse);
                           }}
                           onError={() => {
@@ -147,15 +149,16 @@ export default function SignupLogin({
               </form>
 
               <div className="mt-4 text-center text-sm">
-                Don&apos;t have an account?
-                <p
+                Don&apos;t have an account?&nbsp;
+                <a
                   className="hover:cursor-pointer underline"
                   onClick={() => {
+                    if (isLoggginIn) return;
                     setLogin(false);
                   }}
                 >
                   Sign up
-                </p>
+                </a>
               </div>
             </div>
           </div>
@@ -187,6 +190,7 @@ export default function SignupLogin({
                       name="password"
                       required
                       type="password"
+                      min={6}
                     />
                   </div>
                   <Button className="w-full" type="submit">

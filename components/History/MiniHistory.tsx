@@ -34,7 +34,6 @@ export default async function MiniHistory() {
       let parent_id: string;
       let quizData: any;
       if (q.parent_id !== null) {
-        console.log(q.parent_id);
         parent_id = q.parent_id;
 
         const { data, error } = await supabase
