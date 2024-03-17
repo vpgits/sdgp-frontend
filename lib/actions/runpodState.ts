@@ -1,4 +1,5 @@
 "use server";
+import "dotenv/config";
 
 export default async function checkRunpodState() {
   const RUNPOD_WORKER_ID = process.env.RUNPOD_WORKER_ID;

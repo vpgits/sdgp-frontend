@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test("addDocuments", async ({ page }) => {
   await page.goto("http://localhost:3000/dashboard");
-  await page.click("text=PDF to Quiz");
+  await page.click("text=My Documents");
   await page.waitForURL("http://localhost:3000/documents");
   await expect(page).toHaveTitle("Documents | QuizzifyMe");
   await page.click("text=Add Documents");
