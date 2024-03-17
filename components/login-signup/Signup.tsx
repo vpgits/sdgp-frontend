@@ -103,9 +103,7 @@ export default function SignupLogin({
                     >
                       <div
                         className={`w-full flex justify-center flex-auto ${
-                          isLoggginIn
-                            ? "hover:cursor-not-allowed"
-                            : ""
+                          isLoggginIn ? "hover:cursor-not-allowed" : ""
                         }`}
                       >
                         <GoogleLogin
@@ -215,7 +213,7 @@ export default function SignupLogin({
       </div>
 
       <div className="hidden lg:block">
-        <Image src={signupPic} width={300} alt="login" />
+        <Image src={signupPic} width={300} alt="login" priority />
       </div>
     </div>
   );
