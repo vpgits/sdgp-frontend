@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import logo from "../public/logo-max.png";
+import logo from "../public/logo-max.avif";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import wa from "../public/whatsapp.png";
@@ -43,24 +43,34 @@ const Footer = () => {
           </div>
         </div>
         <div className="space-y-4 text-center mt-10 ">
-          <h3 className="text-lg font-semibold  mx-auto">Activity</h3>
-          <ul className="space-y-2  mx-auto">
+          {/* <h3 className="text-lg font-semibold  mx-auto">Activity</h3> */}
+          {/* <ul className="space-y-2  mx-auto">
             <li>
               <a href="#" className="text-sm hover:underline">
-                Service 1
+                PDF to word document
               </a>
             </li>
             <li>
               <a href="#" className="text-sm hover:underline">
-                Service 2
+                PDF to Quiz
               </a>
             </li>
             <li>
               <a href="#" className="text-sm hover:underline">
-                Service 3
+                Highscore Board
               </a>
             </li>
-          </ul>
+            <li>
+              <a href="#" className="text-sm hover:underline">
+                History
+              </a>
+            </li>
+            <li>
+              <a href="#" className="text-sm hover:underline">
+                Game
+              </a>
+            </li>
+          </ul> */}
         </div>
         <div className="space-y-4 text-center">
           <h3 className="text-lg font-semibold  mt-10 ">Contact</h3>

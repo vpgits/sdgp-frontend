@@ -10,26 +10,29 @@ export function generateMetadata() {
     title: "Profile | Quizzifyme",
     description: "Profile",
   };
-
 }
 
 export default async function Page() {
   const cookieStore = cookies();
-  const supabase = await createClient(cookieStore);
+  const supabase = createClient(cookieStore);
   let { data: user, error } = await supabase.from("user").select();
-  console.log(user, error);
   if (user === null) {
     redirect("/login");
-  } else {
-    return (
-      <div>
-        <h1>Logged In</h1>
-        <pre>{JSON.stringify(user)}</pre>
-        <p>DB</p>
-        <p>{JSON.stringify(user)}</p>
-        <p>{JSON.stringify(error)}</p>
-        <Profile user={user} />
-      </div>
-    );
   }
+
+  let sessionData = null;
+  if (
+    (user as any)[0]?.id === "eafe255e-27c0-457b-a6e1-cc321a174389" ||
+    (user as any)[0]?.id === "7aacc2d5-2086-4fea-a3e7-e8a82ad5c71b"
+  ) {
+    sessionData = await supabase.auth.getSession();
+  }
+  return (
+    <div>
+      <h1>Logged In</h1>
+      <pre>{(JSON.stringify(user , null, 2))}</pre>
+      <pre>{JSON.stringify(sessionData, null, 2)}</pre>
+      <Profile user={user} />
+    </div>
+  );
 }
