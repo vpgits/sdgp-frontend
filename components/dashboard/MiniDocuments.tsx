@@ -45,8 +45,8 @@ export default async function MiniDocument() {
       <div className="max-h-72 overflow-y-auto md:max-h-fit">
         {documents ? (
           documents?.map((d, index) => (
-            <>
-              <hr />
+            <div className={`minidocuments-${index}`}>
+              <hr key={`hr-${index}`} />
               <div className="mt-2 flex flex-row items-center" key={index}>
                 <div className="mr-4">
                   <IoDocumentTextOutline className="text-3xl" />
@@ -63,7 +63,7 @@ export default async function MiniDocument() {
                   </div>
                 </div>
               </div>
-            </>
+            </div>
           ))
         ) : (
           <h2>You haven&apos;t uploaded any documents yet</h2>

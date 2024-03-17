@@ -70,8 +70,8 @@ export default async function MiniHistory() {
       <div className="">
         {quiz ? (
           quiz?.map((q, index) => (
-            <>
-              <hr />
+            <div key={`minihistory-${index}`}>
+              <hr key={`hr-${index}`} />
               <div className="my-2 flex flex-row items-center" key={index}>
                 <div className="mr-4 ml-1">
                   <ImQuestion className="text-3xl" />
@@ -89,7 +89,7 @@ export default async function MiniHistory() {
                   </div>
                 </div>
               </div>
-            </>
+            </div>
           ))
         ) : (
           <h2>You dont have any history yet</h2>
