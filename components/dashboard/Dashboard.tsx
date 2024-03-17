@@ -20,7 +20,7 @@ export default function Dashboard({ userData }: { userData: any }) {
         <h1 className="text-4xl font-bold md:text-8xl text-center mx-2 ">
           Quiz Dashboard
         </h1>
-        <div className="lg:hidden font-semibold flex flex-auto justify-center flex-col gap-y-5 ">
+        <div className=" font-semibold flex flex-auto justify-center flex-col gap-y-5 ">
           <Link href="/documents">
             <div className=" flex flex-auto flex-row items-center gap-x-5 w-full text-5xl">
               <Button className="text-6xl h-20 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
@@ -50,11 +50,11 @@ export default function Dashboard({ userData }: { userData: any }) {
             </div>
           </Link>
         </div>
-        <div className="hidden lg:flex flex-auto items-center justify-evenly gap-x-10 m-5 lg:my-0">
+        {/* <div className="hidden lg:flex flex-auto items-center justify-evenly gap-x-10 m-5 lg:my-0">
           <MiniDocument />
           <MiniHistory />
           <MiniNotifications />
-        </div>
+        </div> */}
       </div>
     </>
   );
