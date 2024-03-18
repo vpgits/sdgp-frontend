@@ -1,37 +1,30 @@
-import CreateQuizForm from "@/components/CreateQuizForm";
+
+import CreateQuizForm from "@/components/quiz/CreateQuizForm";
+import { createClient } from "@/utils/supabase/actions";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export function generateMetadata() {
   return {
     title: "Create Quiz | Quizzifyme",
     description: "Create a quiz from your document",
-    image: "/images/quiz.png",
-    url: "https://quizzifyme.com/documents/[documentId]/quiz",
   };
 }
 
-export default function Page() {
-  // const handleGenerate = async () => {
-  //   let quizId;
-  //   try {
-  //     const quizUrl = new URL(`api/documents/quiz`, window.location.origin);
-  //     const documentId = window.location.pathname.split("/")[2];
-  //     quizUrl.search = new URLSearchParams({ documentId }).toString();
+export default async function Page() {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
 
-  //     const response = await fetch(quizUrl.toString());
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-  //     const data = await response.json();
-  //     quizId = data.quizId;
-  //   } catch (error: any) {
-  //     throw new Error(error.message);
-  //   }
-  //   router.push(`/quiz/${quizId}`);
-  // };
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    redirect("/login");
+  }
 
   return (
-    <div className="h-full">
-      <CreateQuizForm />
-    </div>
+    <>
+      <div className="h-full flex items-center flex-auto">
+        <CreateQuizForm />
+      </div>
+    </>
   );
 }

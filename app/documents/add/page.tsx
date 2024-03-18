@@ -10,7 +10,7 @@ export function generateMetadata() {
 
 export default function AddDocument() {
   return (
-    <div className="flex flex-auto items-center justify-center h-screen -mt-10">
+    <div className="flex flex-auto items-center justify-center h-full">
       <AddDocumentCard />
     </div>
   );

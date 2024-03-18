@@ -1,26 +1,18 @@
 "use client";
-import React, {
-  MutableRefObject,
-  RefObject,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import {
-  FieldArrayWithId,
-  UseFormReturn,
-  useFieldArray,
-  useForm,
-} from "react-hook-form";
+import React, { useEffect, useRef, useState } from "react";
+import { FieldArrayWithId, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "./ui/button";
 import Chat from "./chat";
-import { handleFormUpload } from "@/utils/quiz/action";
+import { handleFormUpload, handleShare } from "@/utils/quiz/action";
 import { useTimer } from "react-timer-hook";
 import Link from "next/link";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { useRouter } from "next/navigation";
 
 const zodMCQSchema = z.object({
   defaultValues: z.array(
@@ -124,18 +116,20 @@ export default function QuizForm(props: {
   quizData: quizData;
   quizId: string;
   saveData: quizData;
+  score: number;
 }) {
-  const { quizData, quizId, saveData } = props || {};
-  const [mark, setMark] = useState<number>(0);
+  const { quizData, quizId, saveData, score } = props;
+  const [mark, setMark] = useState<number>(score);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [userData, setUserData] = useState(null);
   const time: Date = new Date();
   const initialTime: Date = time;
-  time.setSeconds(time.getSeconds() + 0.5 * quizData.defaultValues.length);
+  const router = useRouter();
+  time.setSeconds(time.getSeconds() + 45 * quizData.defaultValues.length);
 
   const form = useForm<z.infer<typeof zodMCQSchema>>({
     resolver: zodResolver(zodMCQSchema),
-    defaultValues: saveData ? saveData : quizData,
+    defaultValues: saveData! ? saveData : quizData,
   });
   const submitRef = useRef(form);
   const { control, handleSubmit, formState } = { ...form };
@@ -165,10 +159,11 @@ export default function QuizForm(props: {
     if (data.defaultValues) {
       let score = 0;
       data.defaultValues.forEach((question: any) => {
-        if (question.correctAnswer === question.userAnswer) {
+        if (question.correct_answer === question.userAnswer) {
           score += 10;
         }
       });
+      score = (score * 10) / data.defaultValues.length;
       setMark(score);
       setUserData(data);
       handleFormUpload(data, quizId, score);
@@ -178,7 +173,7 @@ export default function QuizForm(props: {
 
   return (
     <>
-      <div className=" top-14 fixed w-full rounded-full text-center bg-white dark:bg-slate-950 py-1 flex flex-auto items-center justify-evenly gap-x-5">
+      <div className=" fixed top-14 z-50  w-full rounded-full text-center bg-white dark:bg-slate-950 py-1 flex flex-auto items-center justify-evenly gap-x-5">
         {!saveData && (
           <Timer
             form={form}
@@ -189,19 +184,32 @@ export default function QuizForm(props: {
 
         {(formState.isSubmitted || saveData) && (
           <>
-            <h2 className="text-2xl font-bold">Your Score: {mark}</h2>
+            <h2 className="text-xl md:font-xl font-bold">Score: {mark}</h2>
             <div className="flex gap-x-2 items-end">
               {" "}
-              <Link href={`/share/${quizId}`}>
-                <Button>Share</Button>
-              </Link>
+              <Button
+                onClick={() => {
+                  handleShare(quizId);
+                }}
+              >
+                Share
+              </Button>
               <Button onClick={downloadPDF}>Download</Button>
+              <Button
+                onClick={() => {
+                  router.push(`/quiz/${quizId}/scoreboard`);
+                }}
+              >
+                ScoreCard
+              </Button>
             </div>
           </>
         )}
       </div>
 
-      {submitted && <Chat quizData={userData!} />}
+      {(formState.isSubmitted || saveData) && (userData! || saveData!) && (
+        <Chat quizData={userData! || saveData!} />
+      )}
       <form
         onSubmit={handleSubmit(handleSubmitQuiz)}
         className="pb-5"
@@ -216,7 +224,7 @@ export default function QuizForm(props: {
               field={field as any}
               index={index as number}
               form={form}
-              save={saveData !== null}
+              save={saveData ? true : false}
             />
           </div>
         ))}
@@ -225,9 +233,9 @@ export default function QuizForm(props: {
             <Button type="submit" disabled={formState.isSubmitted}>
               Submit
             </Button>
-            <Button type="reset" disabled={formState.isSubmitted}>
+            {/* <Button type="reset" disabled={formState.isSubmitted}>
               Clear All
-            </Button>
+            </Button> */}
             {/* <Button disabled={!formState.isSubmitted} onClick={() => window.print()}> */}
           </div>
         )}
@@ -247,9 +255,9 @@ export function ShadCNMCQComponent({
   form: ReturnType<typeof useForm<z.infer<typeof zodMCQSchema>>>;
   save: boolean;
 }) {
-  const { formState, register } = form;
+  const { formState, register, reset } = form;
   const [answers, setAnswers] = useState<string[]>([]);
-  const [userAnswer, setUserAnswer] = useState<string>("");
+  const [userAnswer, setUserAnswer] = useState<string>(field.userAnswer);
 
   useEffect(() => {
     setAnswers(
@@ -261,7 +269,7 @@ export function ShadCNMCQComponent({
 
   return (
     <div key={field.id} className="my-5">
-      <label key={`defaultValues.${index}.id`}>{field.question}</label>
+      <Label key={`defaultValues.${index}.id`}>{field.question}</Label>
       <div
         key={`${field.id}.answers`}
         className="flex flex-col items-center justify-center mt-2"
@@ -292,12 +300,12 @@ export function ShadCNMCQComponent({
               onChange={() => setUserAnswer(answer)}
               value={answer}
             />
-            <label
+            <Label
               htmlFor={`defaultValues.${index}.answer-${answerIndex}`}
               className={`w-full hover:cursor-pointer text-justify`}
             >
               <span>{answer}</span>
-            </label>
+            </Label>
           </div>
         ))}
       </div>
@@ -308,7 +316,7 @@ export function ShadCNMCQComponent({
 export function Timer(props: {
   expiryTimestamp: Date;
   form: ReturnType<typeof useForm<z.infer<typeof zodMCQSchema>>>;
-  handleSubmitQuiz: (userData: any) => Promise<void>;
+  handleSubmitQuiz: (userData: quizData) => Promise<void>;
 }) {
   const { form, expiryTimestamp, handleSubmitQuiz } = props;
   const { formState, handleSubmit } = form;
@@ -343,14 +351,10 @@ export function Timer(props: {
   return (
     <div className="text-center flex justify-center flex-col items-center">
       <span>
-        {days !== 0 && <p>{`${days} ${days === 1 ? "Day" : "Days"}`}</p>}
-        {hours !== 0 && <p>{`${hours} ${hours === 1 ? "Hour" : "Hours"}`}</p>}
-        {minutes !== 0 && (
-          <p>{`${minutes} ${minutes === 1 ? "Minute" : "Minutes"}`}</p>
-        )}
-        {seconds !== 0 && (
-          <p>{`${seconds} ${seconds === 1 ? "Second" : "Seconds"}`}</p>
-        )}
+        {days !== 0 && `${days} ${days === 1 ? "Day" : "Days"}`}
+        {hours !== 0 && ` ${hours} ${hours === 1 ? "Hour" : "Hours"}`}
+        {minutes !== 0 && ` ${minutes} ${minutes === 1 ? "Minute" : "Minutes"}`}
+        {seconds !== 0 && ` ${seconds} ${seconds === 1 ? "Second" : "Seconds"}`}
       </span>
     </div>
   );

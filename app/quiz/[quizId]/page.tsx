@@ -5,7 +5,7 @@ import { Database, Tables } from "@/types/supabase";
 import React from "react";
 
 import QuizForm from "@/components/QuizForm";
-import Chat from "@/components/chat";
+
 
 type Props = {
   quizId: Tables<"quiz">["id"];
@@ -45,11 +45,12 @@ export function generateMetadata() {
 
 export default async function Page({ params }: { params: Props }) {
   const { quizId } = params;
+  let parentQuizId: string | undefined;
 
   const cookieStore = cookies();
   const supabase = createClient<Database>(cookieStore);
 
-  let userData;
+  let userData, score;
 
   {
     const { data, error } = await supabase.auth.getUser();
@@ -57,12 +58,26 @@ export default async function Page({ params }: { params: Props }) {
       redirect("/");
     }
   }
+
+  {
+    const { data, error } = await supabase
+      .from("quiz")
+      .select("parent_id")
+      .eq("id", quizId);
+    if (error) {
+      throw new Error("Error fetching quiz" + error.message);
+    }
+    if (data![0].parent_id !== null) {
+      parentQuizId = data![0].parent_id;
+    }
+  }
+
   const fetchQuiz = async () => {
     try {
       let { data, error } = await supabase
         .from("questions")
         .select("*")
-        .eq("quiz_id", quizId);
+        .eq("quiz_id", parentQuizId ? parentQuizId : quizId);
       return data!;
     } catch (error: any) {
       throw new Error("Error fetching quiz" + error.message);
@@ -76,9 +91,10 @@ export default async function Page({ params }: { params: Props }) {
       .from("quiz")
       .select("results, scores")
       .eq("id", quizId);
-    const { results, scores } = data![0];
+    const { results, scores } = data?.[0] ?? {};
     if (scores !== null) {
       userData = results as quizData;
+      score = scores as number;
     }
   }
 
@@ -92,24 +108,21 @@ export default async function Page({ params }: { params: Props }) {
     };
   });
 
-  // let modifiedQuizData:modifiedQuizData = quizData.map((data, index) => (
-  //   if(data.data === undefined) throw new Error("Error fetching quiz");
-  //   return(
-  //     ...data.data,
-  //     userAnswer: "",
-  //     id: index,
-  //   )
-  // ));
-
   let data = {
     defaultValues: modifiedQuizData,
   };
 
   return (
     <>
-      {/* <div className="flex flex-col items-center justify-center"> */}
-      <QuizForm quizData={data} quizId={quizId} saveData={userData!} />
-      {/* </div> */}
+      <div className="h-screen">
+        <QuizForm
+          quizData={data}
+          quizId={quizId}
+          saveData={userData!}
+          score={score!}
+        />
+      </div>
+
     </>
   );
 }
