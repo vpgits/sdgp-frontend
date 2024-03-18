@@ -6,9 +6,6 @@ import { LuBrainCircuit } from "react-icons/lu";
 import { IoIosNotifications } from "react-icons/io";
 import { revalidatePath } from "next/cache";
 import WelcomeBanner from "./welcomeBanner";
-import MiniDocument from "./MiniDocuments";
-import MiniHistory from "./MiniHistory";
-import MiniNotifications from "./MiniNotifications";
 
 export default function Dashboard({ userData }: { userData: any }) {
   const user = userData;
