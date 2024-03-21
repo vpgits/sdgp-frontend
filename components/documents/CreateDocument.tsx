@@ -1,7 +1,4 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/JWqPM32ZeTV
- */
+// CreateDocument.tsx
 import {
   CardTitle,
   CardDescription,
@@ -15,15 +12,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import { SubmitButton } from "./AlertDemo";
-import { cookies } from "next/headers";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client"; // Change import
 import create from "@/lib/actions/addDocumentForm";
 
-export default async function Component() {
-  const cookieStore = cookies();
-  const supabase = await createClient(cookieStore);
+export default async function CreateDocument() {
+  const supabase = createClient(); // Change initialization
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
     redirect("/login");

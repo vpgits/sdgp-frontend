@@ -1,4 +1,5 @@
-import CreateQuizForm from "@/components/CreateQuizForm";
+
+import CreateQuizForm from "@/components/quiz/CreateQuizForm";
 import { createClient } from "@/utils/supabase/actions";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

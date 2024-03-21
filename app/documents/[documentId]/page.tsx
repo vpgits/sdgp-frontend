@@ -1,3 +1,4 @@
+import MiniHistory from "@/components/documents/document/MiniquizHistory";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Database } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/server";
@@ -56,16 +57,16 @@ export default async function page({ params }: Props) {
 
     return (
       <div className="flex flex-col m-5">
-        <h1>Details</h1>
-        <Card className="m-5 p-5 flex flex-auto justify-center text-justify flex-col">
+        <h1 className="text-xl">Document Details</h1>
+        <Card className="m-2 p-5 flex flex-auto justify-center text-justify flex-col">
           <CardTitle>{documentData?.data?.[0]?.title ?? "Untitled"}</CardTitle>
           <CardContent>
             <p>System Title: {document.title}</p>
             <p>Summary: {document.summary}</p>
           </CardContent>
         </Card>
-        <h1>Quiz History</h1>
-        <pre>{JSON.stringify(quizData?.data, null, 2)}</pre>
+        <h1 className="text-xl">Quiz History</h1>
+        <MiniHistory />
       </div>
     );
   } catch (error: any) {

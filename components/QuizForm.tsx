@@ -12,6 +12,7 @@ import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import { useRouter } from "next/navigation";
 
 const zodMCQSchema = z.object({
   defaultValues: z.array(
@@ -123,6 +124,7 @@ export default function QuizForm(props: {
   const [userData, setUserData] = useState(null);
   const time: Date = new Date();
   const initialTime: Date = time;
+  const router = useRouter();
   time.setSeconds(time.getSeconds() + 45 * quizData.defaultValues.length);
 
   const form = useForm<z.infer<typeof zodMCQSchema>>({
@@ -171,7 +173,7 @@ export default function QuizForm(props: {
 
   return (
     <>
-      <div className=" top-14 fixed w-full rounded-full text-center bg-white dark:bg-slate-950 py-1 flex flex-auto items-center justify-evenly gap-x-5">
+      <div className=" fixed top-14 z-50  w-full rounded-full text-center bg-white dark:bg-slate-950 py-1 flex flex-auto items-center justify-evenly gap-x-5">
         {!saveData && (
           <Timer
             form={form}
@@ -193,13 +195,21 @@ export default function QuizForm(props: {
                 Share
               </Button>
               <Button onClick={downloadPDF}>Download</Button>
-              <Link href={"/documents"}><Button>Back</Button></Link>
+              <Button
+                onClick={() => {
+                  router.push(`/quiz/${quizId}/scoreboard`);
+                }}
+              >
+                ScoreCard
+              </Button>
             </div>
           </>
         )}
       </div>
 
-      {submitted && <Chat quizData={userData!} />}
+      {(formState.isSubmitted || saveData) && (userData! || saveData!) && (
+        <Chat quizData={userData! || saveData!} />
+      )}
       <form
         onSubmit={handleSubmit(handleSubmitQuiz)}
         className="pb-5"

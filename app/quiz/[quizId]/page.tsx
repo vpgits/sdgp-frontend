@@ -5,8 +5,7 @@ import { Database, Tables } from "@/types/supabase";
 import React from "react";
 
 import QuizForm from "@/components/QuizForm";
-import Chat from "@/components/chat";
-import { revalidatePath } from "next/cache";
+
 
 type Props = {
   quizId: Tables<"quiz">["id"];
@@ -109,23 +108,21 @@ export default async function Page({ params }: { params: Props }) {
     };
   });
 
-
   let data = {
     defaultValues: modifiedQuizData,
   };
 
-  revalidatePath(`/quiz/${quizId}`);
-
   return (
     <>
-      {/* <div className="flex flex-col items-center justify-center"> */}
-      <QuizForm
-        quizData={data}
-        quizId={quizId}
-        saveData={userData!}
-        score={score!}
-      />
-      {/* </div> */}
+      <div className="h-screen">
+        <QuizForm
+          quizData={data}
+          quizId={quizId}
+          saveData={userData!}
+          score={score!}
+        />
+      </div>
+
     </>
   );
 }

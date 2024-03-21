@@ -57,6 +57,7 @@ export function CustomTableRow(props: { document: Document }) {
   const [toastMessage, setToastMessage] = useState("");
   const router = useRouter();
   const [quizReady, isQuizReady] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const supabase = createClient<Database>();
 
   useEffect(() => {
@@ -77,23 +78,71 @@ export function CustomTableRow(props: { document: Document }) {
   }, [document.id, supabase]);
 
   const handleQuiz = async (documentId: string) => {
-    let quizId;
-    // try {
-    //   const quizUrl = new URL(`api/documents/quiz`, window.location.origin);
-    //   quizUrl.search = new URLSearchParams({ documentId }).toString();
-
-    //   const response = await fetch(quizUrl.toString());
-    //   if (!response.ok) {
-    //     throw new Error(`HTTP error! status: ${response.status}`);
-    //   }
-    //   const data = await response.json();
-    //   quizId = data.quizId;
-    // } catch (error: any) {
-    //   throw new Error(error.message);
-    // }
-    // router.push(`/quiz/${quizId}`);
     router.push(`/documents/${documentId}/quiz`);
   };
+
+  const fetchProcessStatus = async () => {
+    const interval = setInterval(async () => {
+      if (!isProcessing) {
+        clearInterval(interval);
+        return;
+      }
+      try {
+        const response = await fetch(
+          `/api/documents/preprocess/status?taskId=${taskId}`
+        );
+        const { data } = await response.json();
+        const task_status = data.task_status;
+        const task_result = data.task_result;
+
+        setToastMessage(task_result.status);
+
+        if (task_status === "SUCCESS") {
+          setIsProcessing(false);
+          setIsSuccess(true);
+          clearInterval(interval);
+        }
+      } catch (error: any) {
+        toast.error(`Failed to fetch task :${error.message}`);
+        clearInterval(interval);
+        return;
+      }
+    }, 1000);
+  };
+
+  useEffect(() => {
+    if (isProcessing) {
+      fetchProcessStatus();
+    }
+  }, [isProcessing]);
+
+  useEffect(() => {
+    if (!isProcessing && !isSuccess) return;
+
+    const rapidQuizPromise = () =>
+      new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          if (isSuccess) {
+            resolve("Document processed successfully");
+            setTimeout(() => {
+              toast.dismiss();
+              isQuizReady(true);
+            }, 2000);
+          } else if (!isProcessing) {
+            reject();
+          }
+        }, 1000); // Adjust the timeout duration as needed
+
+        return () => clearTimeout(timeout);
+      });
+
+    toast.promise(rapidQuizPromise(), {
+      loading: toastMessage,
+      success: "Document processed successfully",
+      error: "Failed to process the document",
+    });
+  }, [isProcessing, isSuccess, toastMessage]);
+
   const handleProcess = async (documentId: string) => {
     try {
       const preprocessUrl = new URL(
@@ -120,71 +169,6 @@ export function CustomTableRow(props: { document: Document }) {
     }
   };
 
-  // useEffect(() => {
-  //   if (!isProcessing) return;
-  //   const interval = setInterval(async () => {
-  //     try {
-  //       const response = await fetch(
-  //         `/api/documents/preprocess/status?taskId=${taskId}`
-  //       );
-  //       const { data } = await response.json();
-  //       const task_status = data.task_status;
-  //       const task_result = data.task_result;
-  //       if (task_result.status !== toastMessage && task_status !== "SUCCESS") {
-  //         setToastMessage(task_result.status);
-  //         toast(task_result.status);
-  //       }
-  //       if (task_status === "SUCCESS" && isProcessing) {
-  //         setIsProcessing(false);
-  //         toast.success(task_result.message);
-  //         clearInterval(interval);
-  //         return;
-  //       }
-  //     } catch (error: any) {
-  //       toast.error(`Failed to fetch task :${error.message}`);
-  //       clearInterval(interval);
-  //       return;
-  //     }
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, [isProcessing, toastMessage, taskId]);
-
-  const fetchProcessStatus = async () => {
-    return new Promise((resolve, reject) => {
-      const interval = setInterval(async () => {
-        try {
-          const response = await fetch(
-            `/api/documents/preprocess/status?taskId=${taskId}`
-          );
-          const { data } = await response.json();
-          const task_status = data.task_status;
-          const task_result = data.task_result;
-          setToastMessage(task_result.status);
-
-          if (task_status === "SUCCESS" && isProcessing) {
-            setIsProcessing(false);
-            resolve(task_result.message);
-          }
-        } catch (error: any) {
-          toast.error(`Failed to fetch task :${error.message}`);
-          reject(error.message);
-        }
-      }, 1000);
-      return () => clearInterval(interval);
-    });
-  };
-
-  useEffect(() => {
-    if (!isProcessing) {
-      return;
-    }
-    toast.promise(fetchProcessStatus(), {
-      loading: toastMessage,
-      success: "Document processed successfully",
-      error: "Failed to process the document",
-    });
-  });
-
   return (
     <TableRow key={document.id} className="">
       <TableCell className="">
@@ -203,15 +187,18 @@ export function CustomTableRow(props: { document: Document }) {
 
       <TableCell className="lg: max-w-36 xs:flex flex-col">
         <Button
-          className={`mx-2 my-2 min-w-24`}
-          onClick={() => handleProcess(document.id)}
+          className={`mx-2 my-2 w-28`}
+          onClick={() => {
+            handleProcess(document.id);
+          }}
           disabled={isProcessing}
         >
-          Process
+          {isProcessing ? "Processing" : "Process"}
         </Button>
+
         <Button
           onClick={() => handleQuiz(document.id)}
-          className={`mx-2 my-2 min-w-24 `}
+          className={`mx-2 my-2 min-w-28 `}
           disabled={!quizReady}
         >
           Quiz

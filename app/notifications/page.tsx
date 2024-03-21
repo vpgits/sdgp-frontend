@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { Tables, Database } from "@/types/supabase";
-import MiniDocument from "@/components/dashboard/MiniDocuments";
+
 
 export function generateMetadata() {
   return {

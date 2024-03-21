@@ -23,8 +23,13 @@ export async function POST(request: Request) {
     refresh_token = data?.session?.refresh_token;
   }
   const body = await request.json();
-  const documentId: string = body.documentId;
-  const defaultModel: boolean = body.defaultModel;
+  const documentId = body.documentId;
+  let defaultModel = body.defaultModel;
+  if (defaultModel === "default") {
+    defaultModel = true;
+  } else {
+    defaultModel = false;
+  }
   try {
     {
       const { data, error } = await supabase
@@ -33,8 +38,8 @@ export async function POST(request: Request) {
           {
             document_id: documentId,
             user_id: userId,
-            default_model: defaultModel,
-            generating:true
+            default_model: defaultModel || true,
+            generating: true,
           },
         ])
         .select();
@@ -60,7 +65,7 @@ export async function POST(request: Request) {
       }
     );
     if (!res.ok) {
-      throw new Error("Failed to submit quiz");
+      throw new Error("Failed to submit quiz " + res.body);
     }
     const data = await res.json();
     console.log(data);
