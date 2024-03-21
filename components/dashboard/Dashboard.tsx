@@ -20,8 +20,8 @@ export default function Dashboard({ userData }: { userData: any }) {
         <div className=" font-semibold flex flex-auto justify-center flex-col gap-y-5 ">
           <Link href="/documents">
             <div className=" flex flex-auto flex-row items-center gap-x-5 w-full text-5xl">
-              <Button className="text-6xl h-20 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
-                <LuBrainCircuit className="text-5xl" />
+              <Button className="text-6xl md:text-8xl h-20 md:h-24 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
+                <LuBrainCircuit className="text-5xl md:text-7xl" />
               </Button>
               <p className="text-gray-700 text-2xl  dark:text-white">
                 My Documents
@@ -30,16 +30,16 @@ export default function Dashboard({ userData }: { userData: any }) {
           </Link>
           <Link href="/history">
             <div className="flex flex-auto flex-row items-center gap-x-5 w-full text-5xl">
-              <Button className="text-6xl h-20 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
-                <FaHistory className="text-5xl" />
+              <Button className="text-6xl md:text-8xl h-20 md:h-24 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
+                <FaHistory className="text-5xl md:text-7xl" />
               </Button>
               <p className="text-gray-700 text-2xl  dark:text-white">History</p>
             </div>
           </Link>
           <Link href="/notifications">
             <div className="flex flex-auto flex-row items-center gap-x-5 w-full text-5xl">
-              <Button className="text-6xl h-20 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
-                <IoIosNotifications className="text-5xl" />
+              <Button className="text-6xl md:text-8xl h-20 md:h-24 hover:bg-white hover:text-black hover:shadow-lg   dark:hover:bg-black dark:hover:text-white dark:bg-white">
+                <IoIosNotifications className="text-5xl md:text-7xl" />
               </Button>
               <p className="text-gray-700 text-2xl  dark:text-white">
                 Notification

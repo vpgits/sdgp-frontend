@@ -89,7 +89,7 @@ export default function Chat(props: { quizData: quizData }) {
           />
         </DrawerTrigger>
         <DrawerContent className="text-small md:text-base bottom-4  dark:bg-slate-950 bg-slate-200 rounded-lg h-full m-5 top-10 ">
-          <DrawerHeader className="max-h-72  ">
+          <DrawerHeader className="max-h-72 rounded-md border m-2">
             <Questions
               quizData={quizData}
               handleInitialChat={handleInitialChat}
