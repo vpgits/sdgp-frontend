@@ -330,7 +330,7 @@ export default function CreateQuizForm() {
   return (
     <>
       <div
-        className={`mb-10 w-full flex flex-auto items-center justify-center flex-col`}
+        className={` w-full max-h-fit flex flex-auto items-center justify-center flex-col mb-10`}
       >
         <LLMState />
         <Toaster />
@@ -338,10 +338,7 @@ export default function CreateQuizForm() {
           defaultValue="normal"
           className="w-[350px] flex flex-auto items-center flex-col"
         >
-          <TabsList
-            className="flex flex-auto flex-row  mx-5"
-            aria-disabled={isGenerating || isRapidGenerating}
-          >
+          <TabsList className="flex flex-auto flex-row gap-x-2 mx-5">
             <TabsTrigger
               value="normal"
               disabled={isGenerating || isRapidGenerating}
@@ -380,8 +377,8 @@ export default function CreateQuizForm() {
               </Card>
             }
           </TabsContent>
-          <TabsContent value="rapid">
-            <Card className="mx-5 max-w-md flex flex-auto flex-col items-center justify-center pt-10 pb-5 mb-12">
+          <TabsContent value="rapid" className="mb-10">
+            <Card className="mx-5 max-w-md flex flex-auto flex-col items-center justify-center py-5">
               <CardHeader>
                 <CardTitle>Create Quiz</CardTitle>
                 <CardDescription>
@@ -395,7 +392,7 @@ export default function CreateQuizForm() {
                   setTaskId={setTaskId}
                   setIsRapidGenerating={setIsRapidGenerating}
                   setQuizId={setQuizId}
-                  isGenerating={isGenerating}
+                  isRapidGenerating={isRapidGenerating}
                   toast={toast}
                 />
               </CardContent>

@@ -164,7 +164,7 @@ export default function QuizForm(props: {
         }
       });
       score = (score * 10) / data.defaultValues.length;
-      setMark(score);
+      setMark(Math.round(score));
       setUserData(data);
       handleFormUpload(data, quizId, score);
       setSubmitted(true);
@@ -277,7 +277,7 @@ export function ShadCNMCQComponent({
         {answers.map((answer, answerIndex) => (
           <div
             key={`answer-${answerIndex}`}
-            className={`border-2 border-black dark:border-gray-600 gap-y-2  w-full flex items-center p-3 my-2 rounded-lg  ${
+            className={`border-2 border-black dark:border-gray-600 gap-y-2  w-full flex items-center p-3   my-2 rounded-lg  ${
               (formState.isSubmitted || save) && userAnswer == answer
                 ? userAnswer === field.correct_answer
                   ? "bg-green-500 bg-opacity-70"
@@ -302,7 +302,7 @@ export function ShadCNMCQComponent({
             />
             <Label
               htmlFor={`defaultValues.${index}.answer-${answerIndex}`}
-              className={`w-full hover:cursor-pointer text-justify`}
+              className={`w-full hover:cursor-pointer text-justify h-4`}
             >
               <span>{answer}</span>
             </Label>

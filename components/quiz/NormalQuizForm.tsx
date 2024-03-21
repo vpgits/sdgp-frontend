@@ -120,7 +120,7 @@ export default function NormalForm({
           className=" w-full py-2 px-3 border border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-black dark:text-white"
           disabled={isGenerating}
         >
-          <option value="default" className="bg-inherit w-full" >
+          <option value="default" className="bg-inherit w-full">
             QuizzifyMe Model
           </option>
           <option value="openai" className="bg-inherit w-full">
@@ -138,7 +138,7 @@ export default function NormalForm({
         disabled={isGenerating}
         className="px-6 py-2 text-base font-medium text-white bg-black border border-transparent rounded-lg shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:bg-gray-400 disabled:cursor-not-allowed dark:text-white dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-500"
       >
-        Generate
+        {isGenerating ? "Generating..." : "Generate"}
       </button>
     </form>
   );

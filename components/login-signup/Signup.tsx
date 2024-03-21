@@ -213,7 +213,7 @@ export default function SignupLogin({
       </div>
 
       <div className="hidden lg:block">
-        <Image src={signupPic} width={300} alt="login" priority />
+        <Image src={signupPic} width={300} alt="login"  />
       </div>
     </div>
   );

@@ -96,7 +96,7 @@ export default function ContactPage() {
                 <div className="space-y-1">
                   <h4 className="font-semibold">Call us</h4>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Contact our support team: (123) bambal b
+                    Contact our support team: (123) 4567890
                   </p>
                 </div>
               </div>
@@ -114,7 +114,7 @@ export default function ContactPage() {
                 <div className="space-y-1">
                   <h4 className="font-semibold">Headquarters</h4>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    123 Street, PALITHA, HELL
+                    123, Main Street Colombo.
                   </p>
                 </div>
               </div>

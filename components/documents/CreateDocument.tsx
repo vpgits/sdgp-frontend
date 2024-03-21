@@ -13,11 +13,13 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "./AlertDemo";
-import { createClient } from "@/utils/supabase/client"; // Change import
+import { createClient } from "@/utils/supabase/server";
 import create from "@/lib/actions/addDocumentForm";
+import { cookies } from "next/headers";
 
 export default async function CreateDocument() {
-  const supabase = createClient(); // Change initialization
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
     redirect("/login");

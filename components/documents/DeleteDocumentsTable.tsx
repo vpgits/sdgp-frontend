@@ -39,7 +39,7 @@ export default function DeleteDocumentsTable() {
   return (
     <>
       <Toaster />
-      <Table className="">
+      <Table className="-z-50">
         <TableHeader>
           <TableRow className="items-center justify-center">
             <TableHead>File Name</TableHead>
@@ -113,7 +113,7 @@ export function CustomTableRow(props: { document: Tables<"documents"> }) {
   };
 
   return (
-    <TableRow key={document.id} className="">
+    <TableRow key={document.id} className=" -z-10">
       <TableCell className="">{document.title}</TableCell>
       <TableCell className="hidden lg:table-cell">
         {document.file_type}

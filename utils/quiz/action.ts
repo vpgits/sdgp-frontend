@@ -22,7 +22,7 @@ export async function handleFormUpload(
     try {
       let { data, error } = await supabase
         .from("quiz")
-        .update({ results: userData, scores: score })
+        .update({ results: userData, scores: Math.round(score) })
         .eq("id", quizId)
         .select();
       console.log(data, error);

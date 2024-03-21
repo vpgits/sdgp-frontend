@@ -32,7 +32,6 @@ export default function Home() {
               alt="landing"
               width={800}
               height={600}
-              priority
               sizes="(max-width: 768px) 100vw,50vw"
             />
           </div>

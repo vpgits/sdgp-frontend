@@ -10,7 +10,11 @@ type Summary = {
   title: string;
 };
 
-export async function generateMetadata({ params }: { params: { quizId: string } }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: { quizId: string };
+}) {
   const { quizId } = params;
   const cookieStore = cookies();
   const supabase = createClient<Database>(cookieStore);
@@ -46,21 +50,37 @@ export default async function Page({ params }: { params: { quizId: string } }) {
       redirect("/login");
     }
   }
+  const fetchParentId = async () => {
+    try {
+      let { data, error } = await supabase
+        .from("quiz")
+        .select("parent_id")
+        .eq("id", quizId);
+      if (data![0]?.parent_id) {
+        return data![0]?.parent_id;
+      } else {
+        return quizId;
+      }
+    } catch (error: any) {
+      throw new Error("Error fetching quiz" + error.message);
+    }
+  };
   const fetchQuiz = async () => {
+    let parentId = await fetchParentId();
     try {
       let { data, error } = await supabase
         .from("share")
         .select("id, summary")
-        .eq("id", quizId);
+        .eq("id", parentId);
       return data;
     } catch (error: any) {
       throw new Error("Error fetching quiz" + error.message);
     }
   };
   let quizData = await fetchQuiz();
-  if (!quizData![0]) {
-    redirect("/");
-  }
+  // if (!quizData![0]) {
+  //   redirect("/");
+  // }
   const summary = quizData![0]?.summary as Summary;
 
   return (

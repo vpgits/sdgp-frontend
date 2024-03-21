@@ -16,14 +16,16 @@ export function generateMetadata() {
 export default async function Page() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  let { data: user, error } = await supabase.from("user").select();
-  if (!user) {
-    redirect("/login");
+  {
+    const { data: user, error } = await supabase.auth.getUser();
+    if (error || !user) {
+      redirect("/login");
+    }
   }
 
   return (
     <div className="grid min-h-screen w-full overflow-hidden bg-gray-100/40 lg:grid-cols-[280px_1fr] dark:bg-gray-800/40">
-      <div className="hidden border-r bg-white lg:block dark:bg-gray-950">
+      <div className=" border-r bg-white lg:block dark:bg-gray-950">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-[60px] items-center border-b px-6">
             <Link className="flex items-center gap-2 font-semibold" href="#">
@@ -62,7 +64,7 @@ export default async function Page() {
         </header>
         <main>
           <Tabs />
-          <div className=" flex flex-1 item-center justify-center lg:hidden">
+          <div className=" flex flex-1 item-center justify-center mb-5 lg:hidden">
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
               href="#"

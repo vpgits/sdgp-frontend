@@ -8,6 +8,7 @@ import Image from "next/image";
 export default function QuizShare(params: { quizId: string }) {
   const { quizId } = params;
   const [qrCodeData, setQrCodeData] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const generateQRCode = async () => {
@@ -24,15 +25,16 @@ export default function QuizShare(params: { quizId: string }) {
   return (
     <>
       <div className="flex justify-center p-2">
-        {qrCodeData && <Image src={qrCodeData} alt="QR Code" />}
+        {qrCodeData && <Image src={qrCodeData} alt="QR Code" height={200} width={200} />}
       </div>
       <Button
         className="hover:bg-white hover:text-black hover:dark:bg-black hover:dark:text-white"
         onClick={() => {
+          setLoading(true);
           createNewQuiz(quizId);
         }}
       >
-        Start
+        {loading ? "Creating Quiz..." : "Start"}
       </Button>
     </>
   );

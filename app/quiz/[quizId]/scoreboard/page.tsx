@@ -41,60 +41,76 @@ export default async function Component({ params }: { params: Props }) {
 
   async function fetchScores() {
     let scoreData = [];
-
+    let id: String;
     const { data: data1, error: error1 } = await supabase
       .from("quiz")
-      .select(`scores, user_id`)
+      .select(`parent_id`)
       .eq("id", quizId)
-      .order("scores", { ascending: false });
-
-    if (data1) {
-      scoreData.push(...data1);
+      .single();
+    if (data1!.parent_id) {
+      id = data1!.parent_id;
+    } else {
+      id = quizId;
     }
 
     const { data: data2, error: error2 } = await supabase
       .from("quiz")
-      .select(`scores, user_id`)
-      .eq("parent_id", quizId)
+      .select(`scores, user_id, parent_id`)
+      .eq("parent_id", id)
       .order("scores", { ascending: false })
       .range(0, 9);
-
-    if (data2) {
-      scoreData.push(...data2);
+    if (data2 != null) {
+      scoreData.push(...data2!);
     }
-
+    const { data: data3, error: error3 } = await supabase
+      .from("quiz")
+      .select(`scores, user_id, parent_id`)
+      .eq("id", id)
+      .single();
+    scoreData.push(data3);
     return scoreData;
   }
-  async function mapUsernames() {
-    const userIds = scores.map((score) => score.user_id);
-    const users = await fetchUsers(userIds);
+
+  async function mapUsernames(scores: any[]) {
+    const userIdsSet = new Set(scores.map((score) => score!.user_id));
+    const users = await fetchUsers(userIdsSet);
 
     return scores.map((score) => {
-      const user = users.find((user) => user.id === score.user_id);
+      const user = users.find((user: any) => user.id === score!.user_id);
       return {
         user_id: user!,
-        scores: score.scores,
+        scores: score!.scores,
       };
     });
   }
-
-  async function fetchUsers(userIds: string[]) {
+  const fetchUser = async (userId: string) => {
     const { data, error } = await supabase
       .from("user")
       .select(`email, id, raw_user_meta_data`)
-      .in("id", userIds);
-
+      .eq("id", userId)
+      .single();
     if (error) {
-      console.error("Error fetching users:", error);
-      return [];
+      console.log(error);
     }
-
     return data;
+  };
+
+  async function fetchUsers(userIds: Set<string>) {
+    const userData: any[] = [];
+    const userIdsArray = Array.from(userIds); // Convert Set to Array
+
+    for (const userId of userIdsArray) {
+      // Iterate over the Array
+      const data = await fetchUser(userId);
+
+      userData.push(data);
+    }
+    return userData;
   }
+
   let scores = await fetchScores();
-  scores = scores.filter((score) => score!.scores != null);
-  scores = scores.sort((a, b) => b.scores! - a.scores!);
-  const scoreBoardData = await mapUsernames();
+  scores = scores.sort((a, b) => b!.scores! - a!.scores!);
+  const scoreBoardData = await mapUsernames(scores!);
 
   return (
     <div className="flex h-full justify-center items-center">
@@ -109,37 +125,43 @@ export default async function Component({ params }: { params: Props }) {
         </div>
         <CardContent className="p-0 min">
           <div className="flex flex-col gap-2 ">
-            {scoreBoardData.length > 0 ? (
+            {scoreBoardData && scoreBoardData.length > 0 ? (
               scoreBoardData.map((participant, index) => (
-                <p
-                  className="flex items-center justify-center gap-4"
-                  key={index}
-                >
-                  {index + 1}
-                  <span className="flex items-center gap-4 ">
+                <div className="flex items-center w-full" key={index}>
+                  {/* Number */}
+                  <span className="mr-2">{index + 1}</span>
+
+                  {/* Profile Picture */}
+                  <div className="mr-2">
                     {participant.user_id.raw_user_meta_data ? (
-                      <Image
-                        alt="Avatar"
-                        height="40"
-                        src={
-                          (
-                            participant.user_id
-                              .raw_user_meta_data as RawUserMetaData
-                          ).picture
-                        }
-                        width="40"
-                      />
+                      <div className="rounded-full overflow-hidden">
+                        <Image
+                          alt="Avatar"
+                          height="40"
+                          src={
+                            (
+                              participant.user_id
+                                .raw_user_meta_data as RawUserMetaData
+                            ).picture
+                          }
+                          width="40"
+                        />
+                      </div>
                     ) : (
                       <AvatarIcon />
                     )}
-                    <span className="font-semibold">
-                      {participant.user_id.email}
-                    </span>
+                  </div>
+
+                  {/* Email */}
+                  <span className="flex-grow mr-2">
+                    {participant.user_id.email}
                   </span>
-                  <span className="font-semibold">
-                    {Number(participant.scores).toFixed(2)}
+
+                  {/* Score */}
+                  <span className="ml-auto">
+                    {Math.round(participant.scores)}
                   </span>
-                </p>
+                </div>
               ))
             ) : (
               <div className="text-center">

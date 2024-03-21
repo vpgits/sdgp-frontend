@@ -12,16 +12,25 @@ import {
 import { AvatarDemo } from "../Avatar/page";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { handleChangeUserData } from "./action";
+import { redirect } from "next/navigation";
 
 export default async function Tab() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   const defaultValues = null;
-  const { data: user, error } = await supabase.from("user").select("*");
+
+  const { data: user1, error: error1 } = await supabase.auth.getUser();
+  if (error1 || !user1) {
+    redirect("/login");
+  }
+  const { data: user2, error: error2 } = await supabase
+    .from("user")
+    .select("*")
+    .eq("id", user1?.user.id)
+    .single();
   const {
     id,
     created_at,
@@ -33,11 +42,11 @@ export default async function Tab() {
     phone,
     city,
     state,
-  } = user![0];
+  } = user2!;
 
   return (
     <div>
-      <div className="flex flex-row items-center justify-center mt-10">
+      <div className="flex flex-col items-center justify-center m-5">
         <div className="flex flex-col">
           <div className="rounded-full h-[100px] w-[100px] overflow-hidden">
             {raw_user_meta_data ? (
@@ -52,7 +61,7 @@ export default async function Tab() {
             )}
           </div>
         </div>
-        <div className="grid items-center justify-center mt-5 text-sm ml-10 md:ml-20">
+        <div className="grid items-center justify-center mt-5 text-sm  md:ml-20">
           <Image src={hello} alt="hello" className="w-20" priority />
           <h1 className=" text-xl md:text-3xl text-gray-500 dark:text-gray-">
             User

@@ -13,14 +13,14 @@ export default function RapidQuizForm({
   setTaskId,
   setIsRapidGenerating,
   setQuizId,
-  isGenerating,
+  isRapidGenerating,
   toast,
 }: {
   form: ReturnType<typeof useForm<z.infer<typeof rapidFormZodSchema>>>;
   setTaskId: Dispatch<SetStateAction<string>>;
   setIsRapidGenerating: Dispatch<SetStateAction<boolean>>;
   setQuizId: Dispatch<SetStateAction<string>>;
-  isGenerating: boolean;
+  isRapidGenerating: boolean;
   toast: any;
 }) {
   const { register, handleSubmit, control } = form;
@@ -49,7 +49,7 @@ export default function RapidQuizForm({
   return (
     <form
       onSubmit={handleSubmit(handleRapidSubmission)}
-      className="space-y-4  items-center flex flex-auto flex-col"
+      className="space-y-4  items-center flex flex-auto flex-col h-full"
     >
       <div>
         <label htmlFor="documentId">Document ID</label>
@@ -70,7 +70,7 @@ export default function RapidQuizForm({
           {...register("defaultModel")}
           id="defaultModel"
           className=" w-full py-2 px-3 border border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-black dark:text-white"
-          disabled={isGenerating}
+          disabled={isRapidGenerating}
         >
           <option value="default" className="bg-inherit w-full">
             QuizzifyMe Model
@@ -86,10 +86,10 @@ export default function RapidQuizForm({
       </div>
       <button
         type="submit"
-        disabled={isGenerating}
+        disabled={isRapidGenerating}
         className={`px-6 py-2 text-base font-medium text-white bg-black border border-transparent rounded-lg shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:bg-gray-400 disabled:cursor-not-allowed dark:text-white dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-500`}
       >
-        Generate
+        {isRapidGenerating ? "Generating..." : "Generate"}
       </button>
     </form>
   );

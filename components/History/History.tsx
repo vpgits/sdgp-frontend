@@ -11,7 +11,7 @@ export default function Historypage() {
       <header className="flex items-center justify-between px-6">
         <h1 className="text-2xl font-bold">History</h1>
       </header>
-      <div className="flex flex-auto flex-col md:flex-row justify-center gap-x-48 md:mx-20 my-5 mx-5 gap-y-5 h-full items-center">
+      <div className="flex flex-auto flex-col md:flex-row justify-center gap-x-48 md:mx-20 my-5 mx-5 gap-y-5 items-center">
         <MiniDocument />
         <MiniHistory />
       </div>
