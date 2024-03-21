@@ -1,5 +1,5 @@
 import Image from "next/image";
-import landingimage from "../public/landing.png";
+import landingimage from "../public/landing.avif";
 import Footer from "@/components/footer";
 import Feedback from "@/components/Feedback";
 import Faq from "@/components/Faq";

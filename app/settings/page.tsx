@@ -5,8 +5,8 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import DocumentsTable from "@/components/documents/DocumentsTable";
 import LogOut from "@/components/LogOut";
+import DeleteDocumentsTable from "@/components/documents/DeleteDocumentsTable";
 
 type Document = {
   id: string;
@@ -48,29 +48,31 @@ export default async function Page() {
   revalidatePath("/documents");
 
   return (
-    
     <div className="w-full p-8">
       <header className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">My Documents</h1>
+
         <Link href="/documents/add">
           <Button>Add Documents</Button>
         </Link>
       </header>
+      <p className="mb-2 text-small">
+        This portal is to be used only to delete existing documents.
+      </p>
       <div className="border shadow-sm rounded-lg flex flex-auto">
-        <DocumentsTable documentData={documentData} />
+        <DeleteDocumentsTable  />
       </div>
       <div className=" flex flex-1 item-center justify-center mt-10">
-          <Link
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="/profile"
-            >
-              <PackageIcon className="h-4 w-4" />
-              User Documents
-            </Link>
-            <LogOut /> 
-            </div>
+        <Link
+          className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+          href="/profile"
+        >
+          <PackageIcon className="h-4 w-4" />
+          Back to settings
+        </Link>
+        <LogOut />
+      </div>
     </div>
-    
   );
 }
 function PackageIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {

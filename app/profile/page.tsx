@@ -6,8 +6,6 @@ import { redirect } from "next/navigation";
 import LogOut from "@/components/LogOut";
 import Tabs from "@/components/Tabs/Tabs";
 
-
-
 export function generateMetadata() {
   return {
     title: "Profile | Quizzifyme",
@@ -23,14 +21,6 @@ export default async function Page() {
     redirect("/login");
   }
 
-  let sessionData = null;
-  if (
-    (user as any)[0]?.id === "eafe255e-27c0-457b-a6e1-cc321a174389" ||
-    (user as any)[0]?.id === "7aacc2d5-2086-4fea-a3e7-e8a82ad5c71b"
-  ) {
-    sessionData = await supabase.auth.getSession();
-  }
-
   return (
     <div className="grid min-h-screen w-full overflow-hidden bg-gray-100/40 lg:grid-cols-[280px_1fr] dark:bg-gray-800/40">
       <div className="hidden border-r bg-white lg:block dark:bg-gray-950">
@@ -44,7 +34,7 @@ export default async function Page() {
           <nav className="grid items-start px-4 text-sm font-medium">
             <Link
               className="flex items-center gap-3 rounded-lg bg-gray-100 px-3 py-2 text-gray-900  transition-all hover:text-gray-900 dark:bg-gray-950 dark:text-gray-50 dark:hover:text-gray-50"
-              href="#"
+              href="/profile"
             >
               <UserIcon className="h-4 w-4" />
               Edit Profile
@@ -56,7 +46,7 @@ export default async function Page() {
               <PackageIcon className="h-4 w-4" />
               User Documents
             </Link>
-           <LogOut />
+            <LogOut />
           </nav>
         </div>
       </div>
@@ -71,21 +61,17 @@ export default async function Page() {
           </div>
         </header>
         <main>
-        
-           
-            
-          <Tabs/>
-         <div className=" flex flex-1 item-center justify-center lg:hidden">
-          <Link
+          <Tabs />
+          <div className=" flex flex-1 item-center justify-center lg:hidden">
+            <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
               href="#"
             >
               <PackageIcon className="h-4 w-4" />
               User Documents
             </Link>
-            <LogOut /> 
-            </div>
-          
+            <LogOut />
+          </div>
         </main>
       </div>
     </div>
