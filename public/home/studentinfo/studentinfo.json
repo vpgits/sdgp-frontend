@@ -11,27 +11,27 @@
     "name": "Geenodh Gamage",
     "title": "HCI Expert and Team Leader",
     "text": "Geenodh Gamage, our HCI Expert and Team Leader, brings a wealth of experience in UI/UX usability. Geenodh ensures our project stays on track, fostering collaboration and guiding our vision to create user-centric designs that elevate our product.",
-    "image": "/home/feedback/student2.png"
+    "image": "/home/studentinfo/student2.avif"
   },
   {
     "num": "3",
     "name": "Anuda Gunarathna",
     "title": "Frontend Developer (React)",
     "text": "Anuda Gunarathna, our talented Frontend Developer well-versed in React, crafts seamless user experiences, translating complex ideas into intuitive interfaces that delight our users.",
-    "image": "/home/feedback/student3.png"
+    "image": "/home/studentinfo/student3.avif"
   },
   {
     "num": "4",
     "name": "Gimindu Athapaththu",
-    "title": "Frontend Developer (React)",
+    "title": "Frontend Developer (React and novice full stack) ",
     "text": "Gimindu Athapaththu, our skilled Frontend Developer well-versed in React, crafts seamless user experiences, translating complex ideas into intuitive interfaces that delight our users.",
-    "image": "/home/feedback/student4.png"
+    "image": "/home/studentinfo/student4.avif"
   },
   {
     "num": "5",
     "name": "Avisha Dilhara",
     "title": "Machine Learning Enthusiast (Novice Full Stack)",
     "text": "Avisha Dilhara, our Machine Learning Enthusiast with a passion for machine learning and a solid foundation in full-stack development, is eager to dive deep into all aspects of our project, contributing fresh perspectives and innovative solutions.",
-    "image": "/home/feedback/student5.png"
+    "image": "/home/studentinfo/student5.avif"
   }
 ]

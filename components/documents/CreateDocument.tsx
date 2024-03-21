@@ -1,3 +1,4 @@
+// CreateDocument.tsx
 import {
   CardTitle,
   CardDescription,
@@ -12,13 +13,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "./AlertDemo";
-import { cookies } from "next/headers";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client"; // Change import
 import create from "@/lib/actions/addDocumentForm";
 
-export default async function Component() {
-  const cookieStore = cookies();
-  const supabase = await createClient(cookieStore);
+export default async function CreateDocument() {
+  const supabase = createClient(); // Change initialization
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
     redirect("/login");

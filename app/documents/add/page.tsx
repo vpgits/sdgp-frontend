@@ -1,12 +1,14 @@
+// AddDocument.tsx
 import AddDocumentCard from "@/components/documents/CreateDocument";
 import React from "react";
 
-export function generateMetadata() {
-  return {
-    title: "Add Document | QuizzifyMe",
-    description: "Add a document",
-  };
-}
+// Remove the export of generateMetadata
+// export function generateMetadata() {
+//   return {
+//     title: "Add Document | QuizzifyMe",
+//     description: "Add a document",
+//   };
+// }
 
 export default function AddDocument() {
   return (

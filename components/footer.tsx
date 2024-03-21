@@ -74,9 +74,14 @@ const Footer = () => {
         </div>
         <div className="space-y-4 text-center">
           <h3 className="text-lg font-semibold  mt-10 ">Contact</h3>
-          <p className="text-sm">123 Main Street, City, Country</p>
+          <p className="text-sm">123 Main Street, Colombo, Sri Lanks</p>
           <p className="text-sm">Phone: +1 (123) 456-7890</p>
-          <p className="text-sm">Email: info@example.com</p>
+          <p className="text-sm">
+            Email:{" "}
+            <a href="mailto:quizzifyme.cs06@gmail.com">
+              quizzifyme.cs06@gmail.com
+            </a>
+          </p>
           <div className="flex">
             <Image
               src={wa}
