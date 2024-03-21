@@ -56,7 +56,8 @@ export default async function Component({ params }: { params: Props }) {
       .from("quiz")
       .select(`scores, user_id`)
       .eq("parent_id", quizId)
-      .order("scores", { ascending: false });
+      .order("scores", { ascending: false })
+      .range(0, 9);
 
     if (data2) {
       scoreData.push(...data2);
@@ -97,7 +98,7 @@ export default async function Component({ params }: { params: Props }) {
 
   return (
     <div className="flex h-full justify-center items-center">
-      <Card className="w-full max-w-3xl border-4 p-4 m-4 min-h-96 flex flex-auto items-center flex-col justify-center">
+      <Card className="w-full max-w-3xl border-4 md:p-4 m-4 min-h-96 flex flex-auto items-center flex-col justify-center">
         <div className="flex justify-center">
           <CardHeader className="text-center">
             <CardTitle>Quiz Leaderboard</CardTitle>
@@ -110,9 +111,12 @@ export default async function Component({ params }: { params: Props }) {
           <div className="flex flex-col gap-2 ">
             {scoreBoardData.length > 0 ? (
               scoreBoardData.map((participant, index) => (
-                <div className="flex items-center gap-4" key={index}>
-                  <div className="w-8">{index + 1}</div>
-                  <div className="flex items-center gap-4 ">
+                <p
+                  className="flex items-center justify-center gap-4"
+                  key={index}
+                >
+                  {index + 1}
+                  <span className="flex items-center gap-4 ">
                     {participant.user_id.raw_user_meta_data ? (
                       <Image
                         alt="Avatar"
@@ -128,14 +132,14 @@ export default async function Component({ params }: { params: Props }) {
                     ) : (
                       <AvatarIcon />
                     )}
-                    <div className="font-semibold">
+                    <span className="font-semibold">
                       {participant.user_id.email}
-                    </div>
-                  </div>
-                  <div className="ml-auto font-semibold">
+                    </span>
+                  </span>
+                  <span className="font-semibold">
                     {Number(participant.scores).toFixed(2)}
-                  </div>
-                </div>
+                  </span>
+                </p>
               ))
             ) : (
               <div className="text-center">
