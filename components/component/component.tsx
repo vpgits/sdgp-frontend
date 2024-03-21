@@ -5,6 +5,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
+import Image from "next/image"
 
 export function Component() {
   return (
@@ -62,7 +63,7 @@ export function Component() {
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
           <div className="flex flex-col md:flex-row items-start gap-4 md:gap-8">
             <div className="flex flex-col items-center md:items-start gap-2 md:gap-1">
-              <img
+              <Image
                 alt="Avatar"
                 className="rounded-full"
                 height="200"
@@ -132,7 +133,7 @@ export function Component() {
 }
 
 
-function Package2Icon(props) {
+function Package2Icon(props:any) {
   return (
     <svg
       {...props}
@@ -154,7 +155,7 @@ function Package2Icon(props) {
 }
 
 
-function UserIcon(props) {
+function UserIcon(props:any) {
   return (
     <svg
       {...props}
@@ -175,7 +176,7 @@ function UserIcon(props) {
 }
 
 
-function MapPinIcon(props) {
+function MapPinIcon(props:any) {
   return (
     <svg
       {...props}
@@ -196,7 +197,7 @@ function MapPinIcon(props) {
 }
 
 
-function CreditCardIcon(props) {
+function CreditCardIcon(props:any) {
   return (
     <svg
       {...props}
@@ -217,7 +218,7 @@ function CreditCardIcon(props) {
 }
 
 
-function PackageIcon(props) {
+function PackageIcon(props:any) {
   return (
     <svg
       {...props}

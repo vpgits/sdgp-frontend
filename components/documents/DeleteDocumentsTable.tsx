@@ -34,7 +34,7 @@ export default function DeleteDocumentsTable() {
 
   useEffect(() => {
     fetchData();
-  }, [supabase]);
+  }, []);
 
   return (
     <>
