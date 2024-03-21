@@ -54,9 +54,11 @@ export default function Component() {
               </CardHeader>
               <CardContent>
                 <ul className="list-disc list-inside space-y-2">
-                  <li>Feature 1</li>
-                  <li>Feature 2</li>
-                  <li>Feature 3</li>
+                  <li>200 responses per month</li>
+                  <li>20,000 character input</li>
+                  <li>Basic chat support</li>
+                  <li>Exports</li>
+                  <li>1 user</li>
                 </ul>
               </CardContent>
               <CardFooter>
@@ -70,11 +72,11 @@ export default function Component() {
               </CardHeader>
               <CardContent>
                 <ul className="list-disc list-inside space-y-2">
-                  <li>Feature 1</li>
-                  <li>Feature 2</li>
-                  <li>Feature 3</li>
-                  <li>Feature 4</li>
-                  <li>Feature 5</li>
+                  <li>Unlimited responses per month</li>
+                  <li>Up to 3 users</li>
+                  <li>Exports</li>
+                  <li>Priority chat support</li>
+               
                 </ul>
               </CardContent>
               <CardFooter>
@@ -89,8 +91,7 @@ export default function Component() {
               <CardContent>
                 <ul className="list-disc list-inside space-y-2">
                   <li>All Pro Features</li>
-                  <li>Feature 6</li>
-                  <li>Feature 7</li>
+                  <li>Custom users</li>
                   <li>24/7 Support</li>
                 </ul>
               </CardContent>
