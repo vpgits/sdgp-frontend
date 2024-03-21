@@ -1,91 +1,158 @@
-import React from 'react';
+import React from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import hello from "@/public/hello.png";
+import Image from "next/image";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { AvatarDemo } from "../Avatar/page";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { createClient } from '@supabase/supabase-js'; // Import Supabase client
+import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
+import { handleChangeUserData } from "./action";
 
-// Add the import statement for the Record type
-// Remove the import statement for Record from 'react'
-// import { Record } from 'react';
-
-const supabaseUrl = 'https://mokzgwuuykjeipsyzuwe.supabase.co'; // Replace with your Superbase project URL
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1va3pnd3V1eWtqZWlwc3l6dXdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTg3NjgzMzMsImV4cCI6MjAxNDM0NDMzM30.qhyjj2Z880nhSpMUTsBW5U6tv51rRoy7fXEUJzirU8A'; // Replace with your Superbase public API key
-const supabase = createClient(supabaseUrl, supabaseKey); // Initialize Supabase client
-
-export const Tab = () => {
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    
-    // Extract form data
-    const formData = new FormData(event.currentTarget);
-
-    // Use Record type to define data
-    const data: Record<string, string> = Object.fromEntries(
-      Array.from(formData.entries()).map(([key, value]) => [key, value.toString()])
-    );
-
-    // Insert data into Superbase database
-    const { data: insertedData, error } = await supabase.from('your_table_name').insert([data]);
-
-    if (error) {
-      console.error('Error inserting data:', error.message);
-    } else {
-      console.log('Data inserted successfully:', insertedData);
-      // Optionally, reset the form
-      event.currentTarget.reset();
-    }
-  };
-  
+export default async function Tab() {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const defaultValues = null;
+  const { data: user, error } = await supabase.from("user").select("*");
+  const { id, created_at, fname,lname, email, raw_user_meta_data, address, phone,city,state } =
+    user![0];
 
   return (
-    <Tabs defaultValue="account" className="w-[400px]">
-      <TabsList className="grid w-full grid-cols-2">
-        <form onSubmit={handleSubmit}> {/* Attach handleSubmit to the form's onSubmit event */}
-          <TabsTrigger value="account">Account</TabsTrigger>
-        </form>
-        <TabsTrigger value="password">Password</TabsTrigger>
-      </TabsList>
-      <TabsContent value="account">
-        <Card>
-          <CardHeader>
-            <CardTitle>Account</CardTitle>
-            <CardDescription>
-              Make changes to your account here. Click save when you're done.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <form onSubmit={handleSubmit}> {/* Attach handleSubmit to form's onSubmit event */}
-              <div className="space-y-1">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" name="name" defaultValue="Pedro Duarte" /> {/* Add name attribute to Input fields */}
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="username">Username</Label>
-                <Input id="username" name="username" defaultValue="@peduarte" /> {/* Add name attribute to Input fields */}
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="email">E-Mail</Label>
-                <Input id="email" name="email" defaultValue="peduarte@gmail.com" /> {/* Add name attribute to Input fields */}
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="phone">Phone</Label>
-                <Input id="phone" name="phone" defaultValue="+94123456789" /> {/* Add name attribute to Input fields */}
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="address">Address</Label>
-                <Input id="address" name="address" defaultValue="1/2,peduarte,peduarte" /> {/* Add name attribute to Input fields */}
-              </div>
-              <Button type="submit">Save changes</Button> {/* Change Button type to "submit" */}
-            </form>
-          </CardContent>
-        </Card>
-      </TabsContent>
-      <TabsContent value="password">
-        {/* Password content */}
-      </TabsContent>
-    </Tabs>
-  )
+      <div>
+    <div className="flex flex-row items-center justify-center mt-10">
+    <div className="flex flex-col">
+    <AvatarDemo/>
+   
+    <Button className="mt-10" size="sm" variant="outline">
+      edit profile
+    </Button>
+    </div>
+    <div className="grid items-center justify-center mt-5 text-sm ml-10 md:ml-20">
+    <Image
+              src={hello}
+              alt="hello"
+              className="w-20"
+              priority
+            />
+      <h1 className=" text-xl md:text-3xl text-gray-500 dark:text-gray-">User</h1>
+      <p className=" 400 font-semibold  text-2xl md:text-4xl">
+        {fname}
+      </p>
+      <p className=" 400 font-semibold  text-2xl md:text-4xl">
+        {lname}
+      </p>
+        </div>
+
+    </div>
+        
+      
+    <div className=" flex flex-col  mt-5 p-10 md:ml-20 md:mr-20">
+       <h1 className="text-2xl font-bold md:text-4xl ">Change Profile</h1>
+      <form
+        action={handleChangeUserData}
+        className="flex flex-auto flex-col justify-center  border  border-black dark:border-slate-400 rounded-lg p-10 mt-10 md:p-20"
+      >
+        {" "}
+        {/* Attach handleSubmit to form's onSubmit event */}
+        <div className="space-y-1 ">
+          <Input
+            id="id"
+            name="id"
+            defaultValue={id}
+            readOnly
+            hidden
+            className="hidden"
+          />{" "}
+          {/* Add name attribute to Input fields */}
+        </div>
+        <div className=" flex flex-row"><div className="space-y-1">
+          <Label htmlFor="name">First Name</Label>
+          <Input
+            id="fname"
+            name="fname"
+            placeholder="John"
+            defaultValue={fname}
+            required
+          />
+        </div>
+        <div className="space-y-1 ml-10">
+          <Label htmlFor="name">Last Name</Label>
+          <Input
+            id="lname"
+            name="lname"
+            placeholder="Doe"
+            defaultValue={lname}
+            required
+          />
+          {/* Add name attribute to Input fields */}
+        </div></div>
+        <div className="space-y-1 mt-10  md:mt-15 float-left">
+          <Label htmlFor="phone">Email</Label>
+          <Input
+            id="email"
+            name="email"
+            placeholder="sample@sampple.com"
+            defaultValue={email}
+            required
+          />{" "}
+          {/* Add name attribute to Input fields */}
+        </div>
+        
+        <div className="space-y-1 mt-10  md:mt-15">
+          <Label htmlFor="phone">Contact Number</Label>
+          <Input
+            id="phone"
+            name="phone"
+            placeholder="0123456789"
+            defaultValue={phone}
+            required
+          />{" "}
+          {/* Add name attribute to Input fields */}
+        </div>
+        <div className="space-y-1 mt-10  md:mt-15">
+          <Label htmlFor="address">Address</Label>
+          <Input
+            id="address"
+            name="address"
+            placeholder="1234 Main St" 
+            defaultValue={address}
+            required
+          />{" "}
+          {/* Add name attribute to Input fields */}
+        </div>
+        <div className=" flex flex-row"><div className="space-y-1 mt-5 md:mt-10">
+          <Label htmlFor="name">City</Label>
+          <Input
+            id="city"
+            name="city"
+            placeholder="Colombo"
+            defaultValue={city}
+            required
+          />
+        </div>
+        <div className="space-y-1 ml-10 mt-5 md:mt-10">
+          <Label htmlFor="name">State</Label>
+          <Input
+            id="state"
+            name="state"
+            placeholder="Western Province"
+            defaultValue={state}
+            required
+          />
+          {/* Add name attribute to Input fields */}
+        </div></div>
+        <Button  className="mt-10  md:mt-15"  type="submit">Save changes</Button>{" "}
+        {/* Change Button type to "submit" */}
+      </form>
+    </div>
+    </div>
+  );
 }

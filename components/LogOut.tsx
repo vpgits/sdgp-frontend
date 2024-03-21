@@ -17,13 +17,13 @@ export default function LogOut() {
   };
   return (
     <div
-      className="flex items-center gap-3 rounded-lg px-20 absolute bottom-2 left-0  text-red-500 transition-all hover:text-red-900 dark:text-red-400 dark:hover:text-red-50 hover:cursor-pointer"
+    className="flex items-center gap-3 rounded-lg  ml-3 text-red-500 transition-all hover:text-red-900 dark:text-red-400 dark:hover:text-red-50 hover:cursor-pointer"
       style={{
         order: 1,
       }}
       onClick={handleLogOut}
     >
-      <LogOutIcon className="h-4 w-4" />
+      <LogOutIcon className="h-4 w-4 ml-1" />
       Log Out
     </div>
   );

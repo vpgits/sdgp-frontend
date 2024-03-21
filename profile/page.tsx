@@ -1,12 +1,13 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { JSX, SVGProps } from "react";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import LogOut from "@/components/LogOut";
-import Tabs from "@/components/Tabs/Tabs";
-
-
+import { Tab } from "@/components/Tabs/Tabs";
+import { AvatarDemo } from "@/components/Avatar/page";
 
 export function generateMetadata() {
   return {
@@ -47,16 +48,16 @@ export default async function Page() {
               href="#"
             >
               <UserIcon className="h-4 w-4" />
-              Edit Profile
+              Profile
             </Link>
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="/settings"
+              href="#"
             >
               <PackageIcon className="h-4 w-4" />
-              User Documents
+              Setting
             </Link>
-           <LogOut />
+            <LogOut />
           </nav>
         </div>
       </div>
@@ -70,22 +71,31 @@ export default async function Page() {
             <h1 className="font-semibold text-lg">My Account</h1>
           </div>
         </header>
-        <main>
-        
-           
-            
-          <Tabs/>
-         <div className=" flex flex-1 item-center justify-center lg:hidden">
-          <Link
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="#"
-            >
-              <PackageIcon className="h-4 w-4" />
-              User Documents
-            </Link>
-            <LogOut /> 
+        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+          <div className="flex flex-col md:flex-row items-start gap-4 md:gap-8">
+            <div className="flex flex-col items-center md:items-start gap-2 md:gap-1">
+              <div className="float-center"><AvatarDemo/></div>
+             
+              <Button size="sm" variant="outline">
+                edit profile
+              </Button>
             </div>
-          
+            <div className="grid gap-2 text-sm">
+              <div className="grid gap-1 text-xl font-semibold">
+                <div>John Doe</div>
+                <div className="text-base text-gray-500 dark:text-gray-400">
+                  johndoe@example.com
+                </div>
+              </div>
+              <div className="grid gap-1 md:grid-cols-2">
+                <div>
+                  <h2 className="font-semibold text-sm">Member since</h2>
+                  <p>January 1, 2022</p>
+                </div>
+              </div>
+              <Tab/>
+            </div>
+          </div>
         </main>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import logo from "../public/logo-max.avif";
+import logo from "../public/logo-max.png";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import wa from "../public/whatsapp.png";

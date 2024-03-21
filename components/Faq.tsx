@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import faq from "../public/FAQ.avif";
+import faq from "../public/FAQ.png";
 import {
   Accordion,
   AccordionContent,

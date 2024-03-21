@@ -19,9 +19,5 @@ export default async function Page() {
   if (error || !data?.user) {
     redirect("/login");
   }
-  return (
-    <div className="flex flex-auto h-full justify-center">
-      <Dashboard userData={data?.user} />
-    </div>
-  );
+  return <Dashboard userData={data.user} />;
 }
