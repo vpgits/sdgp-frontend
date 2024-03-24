@@ -44,7 +44,6 @@ export default async function MiniHistory() {
         .from("quiz")
         .select("summary")
         .eq("id", parent_id).single();
-        console.log(parent_id, error)
       if (error) {
         throw new Error("Error fetching quiz" + error.message);
       }
