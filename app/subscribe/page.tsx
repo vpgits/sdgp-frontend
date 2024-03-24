@@ -32,7 +32,7 @@ export default function Component() {
           <div className="flex flex-col items-center space-y-4 text-center">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                Join Our Qiuzme
+                Join Quizzifyme Premium
               </h1>
               <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
                 Get access to premium features and enhance your productivity.
@@ -76,7 +76,6 @@ export default function Component() {
                   <li>Up to 3 users</li>
                   <li>Exports</li>
                   <li>Priority chat support</li>
-               
                 </ul>
               </CardContent>
               <CardFooter>

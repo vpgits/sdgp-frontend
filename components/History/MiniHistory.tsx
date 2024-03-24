@@ -35,17 +35,21 @@ export default async function MiniHistory() {
       let quizData: any;
       if (q.parent_id !== null) {
         parent_id = q.parent_id;
-
-        const { data, error } = await supabase
-          .from("quiz")
-          .select("summary")
-          .eq("id", parent_id);
-        if (error) {
-          throw new Error("Error fetching quiz" + error.message);
-        }
-        quizData = data[0].summary!;
-        q.summary = quizData;
+      } else {
+        parent_id = q.id;
       }
+
+
+      const { data, error } = await supabase
+        .from("quiz")
+        .select("summary")
+        .eq("id", parent_id).single();
+        console.log(parent_id, error)
+      if (error) {
+        throw new Error("Error fetching quiz" + error.message);
+      }
+      quizData = data.summary!;
+      q.summary = quizData;
     })
   );
   return (
