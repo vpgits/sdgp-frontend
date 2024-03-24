@@ -2,14 +2,14 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import signupPic from "../../public/login.avif";
 import { signup, Login } from "@/app/login/action";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import { Toaster, toast } from "sonner";
 
 export default function SignupLogin({
   nonce,
@@ -22,6 +22,42 @@ export default function SignupLogin({
   const [isLoggginIn, setIsLoggingIn] = useState(false);
   const supabase = createClient();
   const router = useRouter();
+
+  const signUpHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const signUpData = {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+    };
+    console.log(signUpData);
+    const { data, errorData } = await signup(formData);
+    if (errorData) {
+      console.error(errorData);
+      toast.error("Signup failed: " + errorData.message);
+    } else {
+      console.log(data);
+      toast.success("Signup successful");
+      setLogin(true);
+    }
+  };
+
+  const signInHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    // console.log(formData);
+    const { data, errorData } = await Login(formData);
+    if (errorData) {
+      console.error(errorData);
+      toast.error("SignIn failed: " + errorData.message);
+    } else {
+      toast.success("SignIn successful");
+      router.push("/dashboard");
+      router.refresh();
+    }
+  };
 
   const handleSignInWithGoogle = useCallback(
     async (response: any) => {
@@ -52,11 +88,16 @@ export default function SignupLogin({
 
   return (
     <div className="flex flex-auto items-center justify-center h-full">
+      <Toaster />
       <div className="lg:mx-24">
         {login ? (
           <div className="min-h-full flex items-center ">
             <div className="mx-auto w-[350px] space-y-6">
-              <form action={Login}>
+              <form
+                onSubmit={(e) => {
+                  signInHandler(e);
+                }}
+              >
                 <div className="space-y-2 text-center">
                   <h1 className="text-3xl font-bold">Login</h1>
                   <p className="text-gray-500 dark:text-gray-400">
@@ -163,7 +204,11 @@ export default function SignupLogin({
         ) : (
           <div className="flex items-center justify-center py-12 lg:mr-24">
             <div className="mx-auto w-[350px] space-y-6">
-              <form action={signup}>
+              <form
+                onSubmit={(e) => {
+                  signUpHandler(e);
+                }}
+              >
                 <div className="space-y-2 text-center">
                   <h1 className="text-3xl font-bold">Sign Up</h1>
                   <p className="text-gray-500 dark:text-gray-400">
@@ -213,7 +258,7 @@ export default function SignupLogin({
       </div>
 
       <div className="hidden lg:block">
-        <Image src={signupPic} width={300} alt="login"  />
+        <Image src={signupPic} width={300} alt="login" />
       </div>
     </div>
   );

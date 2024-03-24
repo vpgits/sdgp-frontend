@@ -96,7 +96,7 @@ export default function ContactPage() {
                 <div className="space-y-1">
                   <h4 className="font-semibold">Call us</h4>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Contact our support team: (123) 4567890
+                    Contact our support team: +94 (11) 5 555 555
                   </p>
                 </div>
               </div>
@@ -114,7 +114,7 @@ export default function ContactPage() {
                 <div className="space-y-1">
                   <h4 className="font-semibold">Headquarters</h4>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    123, Main Street Colombo.
+                    1 Raymond Rd, Nugegoda 10250, Sri Lanka
                   </p>
                 </div>
               </div>

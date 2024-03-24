@@ -32,8 +32,8 @@ export default function Header() {
         }, 100);
       }}
     >
-      <div className="flex items-center justify-center px-5 py-4   dark:bg-slate-950 text-black bg-white dark:text-white ">
-        <div className="w-10/12 flex flex-auto items-center justify-between">
+      <div className="flex items-center justify-center px-5 py-4 mx-1   dark:bg-slate-950 rounded-b-full rounded-r-full rounded-l-full shadow-2xl text-black md:mx-5   shadow-slate-600 dark:shadow-bg-slate-800  bg-slate-100  dark:text-white ">
+        <div className="md:w-10/12 w-screen flex flex-auto items-center justify-between">
           <Link className="flex justify-start" href="/">
             <GlobeIcon className="h-6 w-6" />
             <h1 className="ml-2 text-lg font-semibold">Quizzifyme</h1>
@@ -126,12 +126,12 @@ export default function Header() {
                 </Link>
                 {!loggedIn ? (
                   <Link href="/login">
-                    <Button className="hidden md:inline-flex">Login</Button>
+                    <Button className="md:hidden ">Login</Button>
                   </Link>
                 ) : (
                   // <MiniLogOut />
                   <Link href={"/subscribe"}>
-                    <Button>Subscribe</Button>
+                    <Button className="md:hidden ">Subscribe</Button>
                   </Link>
                 )}
               </div>
