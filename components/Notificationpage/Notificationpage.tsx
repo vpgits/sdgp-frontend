@@ -11,7 +11,7 @@ export default function Notificationpage(params: {
     <div className="flex flex-col">
       <main className="flex-1 overflow-y-auto p-6">
         <div className="flex flex-auto justify-between">
-          <h1 className="text-2xl font-bold">Notifications</h1>
+          <h1 className="text-2xl font-bold mx-auto -mt-6">Notifications</h1>
           {/* <Button variant="outline">Mark All as Read</Button> */}
         </div>
 
