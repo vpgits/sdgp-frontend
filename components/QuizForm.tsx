@@ -173,7 +173,7 @@ export default function QuizForm(props: {
 
   return (
     <>
-      <div className=" fixed top-14 z-50  w-full rounded-full text-center bg-white dark:bg-slate-950 py-1 flex flex-auto items-center justify-evenly gap-x-5">
+      <div className=" fixed  z-50 md:mt-2 w-full md:w-1/2 bottom-2 border  h-14 border-black text-center bg-slate-100  md:p-2 md:rounded-full md:mx-5 dark:bg-slate-950 rounded-2xl  shadow-2xl  flex flex-auto items-center justify-evenly gap-x-5">
         {!saveData && (
           <Timer
             form={form}
@@ -191,14 +191,18 @@ export default function QuizForm(props: {
                 onClick={() => {
                   handleShare(quizId);
                 }}
+                className="w-16"
               >
                 Share
               </Button>
-              <Button onClick={downloadPDF}>Download</Button>
+              <Button onClick={downloadPDF} className="w-20">
+                Download
+              </Button>
               <Button
                 onClick={() => {
                   router.push(`/quiz/${quizId}/scoreboard`);
                 }}
+                className="w-22"
               >
                 ScoreCard
               </Button>
@@ -210,36 +214,39 @@ export default function QuizForm(props: {
       {(formState.isSubmitted || saveData) && (userData! || saveData!) && (
         <Chat quizData={userData! || saveData!} />
       )}
-      <form
-        onSubmit={handleSubmit(handleSubmitQuiz)}
-        className="pb-5"
-        ref={pdfRef}
-      >
-        {fields.map((field, index) => (
-          <div
-            className="flex flex-auto flex-col md:mx-16 mx-5 my-1 px-5 dark:bg-slate-950"
-            key={field.id}
-          >
-            <ShadCNMCQComponent
-              field={field as any}
-              index={index as number}
-              form={form}
-              save={saveData ? true : false}
-            />
-          </div>
-        ))}
-        {!form.formState.isSubmitted && !saveData && (
-          <div className="flex justify-center gap-x-10">
-            <Button type="submit" disabled={formState.isSubmitted}>
-              Submit
-            </Button>
-            {/* <Button type="reset" disabled={formState.isSubmitted}>
+
+      <div className="">
+        <form
+          onSubmit={handleSubmit(handleSubmitQuiz)}
+          className="pb-20"
+          ref={pdfRef}
+        >
+          {fields.map((field, index) => (
+            <div
+              className="flex flex-auto flex-col md:mx-16 mx-5 my-1 px-5 dark:bg-slate-950"
+              key={field.id}
+            >
+              <ShadCNMCQComponent
+                field={field as any}
+                index={index as number}
+                form={form}
+                save={saveData ? true : false}
+              />
+            </div>
+          ))}
+          {!form.formState.isSubmitted && !saveData && (
+            <div className="flex justify-center gap-x-10">
+              <Button type="submit" disabled={formState.isSubmitted}>
+                Submit
+              </Button>
+              {/* <Button type="reset" disabled={formState.isSubmitted}>
               Clear All
             </Button> */}
-            {/* <Button disabled={!formState.isSubmitted} onClick={() => window.print()}> */}
-          </div>
-        )}
-      </form>
+              {/* <Button disabled={!formState.isSubmitted} onClick={() => window.print()}> */}
+            </div>
+          )}
+        </form>
+      </div>
     </>
   );
 }
@@ -302,7 +309,7 @@ export function ShadCNMCQComponent({
             />
             <Label
               htmlFor={`defaultValues.${index}.answer-${answerIndex}`}
-              className={`w-full hover:cursor-pointer text-justify h-4`}
+              className={`w-full hover:cursor-pointer justify-start`}
             >
               <span>{answer}</span>
             </Label>

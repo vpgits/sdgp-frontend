@@ -6,7 +6,6 @@ import React from "react";
 
 import QuizForm from "@/components/QuizForm";
 
-
 type Props = {
   quizId: Tables<"quiz">["id"];
 };
@@ -89,9 +88,9 @@ export default async function Page({ params }: { params: Props }) {
   {
     const { data } = await supabase
       .from("quiz")
-      .select("results, scores")
+      .select("results, scores, summary")
       .eq("id", quizId);
-    const { results, scores } = data?.[0] ?? {};
+    const { results, scores, summary } = data?.[0] ?? {};
     if (scores !== null) {
       userData = results as quizData;
       score = scores as number;
@@ -114,7 +113,7 @@ export default async function Page({ params }: { params: Props }) {
 
   return (
     <>
-      <div className="h-screen">
+      <div className="h-screen flex flex-auto  justify-center">
         <QuizForm
           quizData={data}
           quizId={quizId}
@@ -122,7 +121,6 @@ export default async function Page({ params }: { params: Props }) {
           score={score!}
         />
       </div>
-
     </>
   );
 }

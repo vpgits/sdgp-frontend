@@ -71,7 +71,7 @@ export default function Chat(props: { quizData: quizData }) {
   return (
     <>
       <Drawer>
-        <DrawerTrigger className="rounded-full border  dark:bg-white bg-black text-black dark:text-white h-14 w-14 fixed bottom-0 right-0 m-4 z-10 flex justify-center items-center transition-all duration-300">
+        <DrawerTrigger className="rounded-full border  dark:bg-white bg-black text-black dark:text-white h-14 w-14 fixed lg:bottom-0 lg:right-0 bottom-12 right-0  m-4 z-10 flex justify-center items-center transition-all duration-300">
           <IoChatbubbleEllipsesOutline
             onClick={() => {
               setChatting(true);
