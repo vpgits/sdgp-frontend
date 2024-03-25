@@ -10,6 +10,7 @@ export default function QuizShare(params: { quizId: string }) {
   const [qrCodeData, setQrCodeData] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+  
   useEffect(() => {
     const generateQRCode = async () => {
       try {
