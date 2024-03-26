@@ -32,7 +32,7 @@ export default function Header() {
         }, 100);
       }}
     >
-      <div className="flex items-center justify-center px-5 py-4 mx-1   dark:bg-slate-950 rounded-b-full rounded-r-full rounded-l-full shadow-2xl text-black md:mx-5   shadow-slate-600 dark:shadow-bg-slate-800  bg-slate-100  dark:text-white ">
+      <div className="flex items-center justify-center px-5 py-4 mx-1   dark:bg-slate-950 rounded-b-full rounded-r-full rounded-l-full shadow-2xl text-black md:mx-5   shadow-slate-600 dark:shadow-slate-900  bg-slate-100  dark:text-white ">
         <div className="md:w-10/12 w-screen flex flex-auto items-center justify-between">
           <Link className="flex justify-start" href="/">
             <GlobeIcon className="h-6 w-6" />
