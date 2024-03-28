@@ -51,7 +51,7 @@ export function accordion() {
             that might interfere the question generation pipeline.
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem value="item-4">
+        <AccordionItem value="item-5">
           <AccordionTrigger>
             How does this application actually work?
           </AccordionTrigger>
