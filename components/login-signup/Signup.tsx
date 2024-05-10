@@ -55,7 +55,6 @@ export default function SignupLogin({
     } else {
       toast.success("SignIn successful");
       router.push("/dashboard");
-      router.refresh();
     }
   };
 

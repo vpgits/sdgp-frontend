@@ -1,27 +1,15 @@
 "use client";
-
-import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
+import { logOut } from "@/app/login/action";
 import React, { SVGProps } from "react";
 
 export default function LogOut() {
-  const router = useRouter();
-  const handleLogOut = async () => {
-    const supabase = createClient();
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error("Error logging out:", error);
-      return;
-    }
-    router.push("/login");
-  };
   return (
     <div
-    className="flex items-center gap-3 rounded-lg  ml-3 text-red-500 transition-all hover:text-red-900 dark:text-red-400 dark:hover:text-red-50 hover:cursor-pointer"
+      className="flex items-center gap-3 rounded-lg  ml-3 text-red-500 transition-all hover:text-red-900 dark:text-red-400 dark:hover:text-red-50 hover:cursor-pointer"
       style={{
         order: 1,
       }}
-      onClick={handleLogOut}
+      onClick={logOut}
     >
       <LogOutIcon className="h-4 w-4 ml-1" />
       Log Out
