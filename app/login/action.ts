@@ -23,6 +23,8 @@ export async function Login(formData: FormData) {
 
   if (error) {
     console.error(error);
+  } else {
+    revalidatePath("/", "layout");
   }
   let errorData = JSON.parse(JSON.stringify(error));
   return { data, errorData };
@@ -43,7 +45,24 @@ export async function signup(formData: FormData) {
 
   if (error) {
     console.error(error);
+  } else {
+    revalidatePath("/", "layout");
   }
   let errorData = JSON.parse(JSON.stringify(error));
   return { data, errorData };
+}
+
+export async function logOut() {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error(error);
+  } else {
+    revalidatePath("/", "layout");
+  }
+  let errorData = JSON.parse(JSON.stringify(error));
+  return { errorData };
 }

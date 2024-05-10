@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { ModeToggle } from "./ModeToggle";
 import Link from "next/link";
 import { GlobeIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
@@ -68,16 +68,19 @@ export default function Header() {
             </Link>
           </nav>
           <div className="hidden md:flex flex-end">
-            {!loggedIn ? (
-              <Link href="/login">
-                <Button className="hidden md:inline-flex">Login</Button>
-              </Link>
-            ) : (
-              // <MiniLogOut />
-              <Link href={"/subscribe"}>
-                <Button>Subscribe</Button>
-              </Link>
-            )}
+            <Suspense fallback={<div>Loading ...</div>}>
+              {" "}
+              {!loggedIn ? (
+                <Link href="/login">
+                  <Button className="hidden md:inline-flex">Login</Button>
+                </Link>
+              ) : (
+                // <MiniLogOut />
+                <Link href={"/subscribe"}>
+                  <Button>Subscribe</Button>
+                </Link>
+              )}
+            </Suspense>
             <ModeToggle />
           </div>
           <div className="flex w-8/12 flex-col md:hidden">
@@ -124,16 +127,19 @@ export default function Header() {
                 >
                   Contact Us
                 </Link>
-                {!loggedIn ? (
-                  <Link href="/login">
-                    <Button className="md:hidden ">Login</Button>
-                  </Link>
-                ) : (
-                  // <MiniLogOut />
-                  <Link href={"/subscribe"}>
-                    <Button className="md:hidden ">Subscribe</Button>
-                  </Link>
-                )}
+                <Suspense fallback={<div>Loading ...</div>}>
+                  {" "}
+                  {!loggedIn ? (
+                    <Link href="/login">
+                      <Button className="md:hidden ">Login</Button>
+                    </Link>
+                  ) : (
+                    // <MiniLogOut />
+                    <Link href={"/subscribe"}>
+                      <Button className="md:hidden ">Subscribe</Button>
+                    </Link>
+                  )}
+                </Suspense>
               </div>
             </div>
           </div>
